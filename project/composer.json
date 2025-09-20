@@ -26,11 +26,16 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\Core\\": "src/Core/",
+            "App\\Infrastructure\\": "src/Infrastructure/",
+            "App\\UI\\": "src/UI/"
         }
     },
-    "autoload-dev": {
+    "autoload": {
         "psr-4": {
+            "App\\Core\\": "src/Core/",
+            "App\\Infrastructure\\": "src/Infrastructure/",
+            "App\\UI\\": "src/UI/",
             "App\\Tests\\": "tests/"
         }
     },

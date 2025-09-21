@@ -10,7 +10,7 @@ use App\Core\Shared\Model\Id;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class QuizQuestion implements Entity
+class QuizQuestion implements Entity
 {
     use EntityTrait;
 

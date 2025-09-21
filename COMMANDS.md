@@ -18,6 +18,7 @@ docker exec easy_learn_php bin/console doctrine:migrations:diff
 docker exec easy_learn_php bin/console doctrine:migrations:migrate
 ```
 
+
 # Code analysis
 
 ## phpstan:

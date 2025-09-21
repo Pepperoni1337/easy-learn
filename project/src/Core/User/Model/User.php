@@ -10,7 +10,7 @@ use App\Core\Shared\Model\Id;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class User implements Entity
+class User implements Entity
 {
     use EntityTrait;
 

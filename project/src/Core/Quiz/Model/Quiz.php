@@ -10,12 +10,45 @@ use App\Core\Shared\Model\Id;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class Quiz implements Entity
+class Quiz implements Entity
 {
     use EntityTrait;
 
-    public function __construct()
-    {
+    public const TITLE = 'title';
+    public const DESCRIPTION = 'description';
+
+    #[ORM\Column]
+    private string $title;
+
+    #[ORM\Column]
+    private string $description;
+
+    public function __construct(
+        string $title,
+        string $description,
+    ) {
         $this->id = Id::new();
+        $this->title = $title;
+        $this->description = $description;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
 }

@@ -6,5 +6,4 @@ namespace App\UI\Api\QuizSession;
 
 final class NewQuizSessionInput
 {
-
 }

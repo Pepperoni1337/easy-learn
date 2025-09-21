@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 final class Quiz implements Entity
 {
-use EntityTrait;
+    use EntityTrait;
 
     public function __construct()
     {

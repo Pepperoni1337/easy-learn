@@ -6,7 +6,8 @@ namespace App\UI\Api\QuizSession;
 
 final class NewQuizSessionAction
 {
-    public function __invoke(NewQuizSessionInput $input): QuizSessionOutput {
+    public function __invoke(NewQuizSessionInput $input): QuizSessionOutput
+    {
 
         return new QuizSessionOutput();
     }

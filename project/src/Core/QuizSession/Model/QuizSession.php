@@ -38,7 +38,7 @@ final class QuizSession implements Entity
     private QuizQuestion $currentQuestion;
 
     /**
-     * @var Collection<QuizQuestion>
+     * @var Collection<QuizQuestion> $answeredQuestions
      */
     #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
     private Collection $answeredQuestions;

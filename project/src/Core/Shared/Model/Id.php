@@ -10,19 +10,23 @@ final class Id
 {
     private Uuid $uuid;
 
-    public static function new(): self {
+    public static function new(): self
+    {
         return new self(Uuid::v7());
     }
 
-    public static function fromString(string $uuid): self {
+    public static function fromString(string $uuid): self
+    {
         return new self(Uuid::fromString($uuid));
     }
 
-    public function equals(self $other): bool {
+    public function equals(self $other): bool
+    {
         return $this->uuid->jsonSerialize() === $other->uuid->jsonSerialize();
     }
 
-    public function toString(): string {
+    public function toString(): string
+    {
         return $this->uuid->jsonSerialize();
     }
 

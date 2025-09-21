@@ -27,7 +27,7 @@ final class Id
     }
 
     private function __construct(
-        $uuid,
+        Uuid $uuid,
     ) {
         $this->uuid = $uuid;
     }

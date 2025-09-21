@@ -8,7 +8,6 @@ final class NewQuizSessionAction
 {
     public function __invoke(NewQuizSessionInput $input): QuizSessionOutput {
 
-
-
+        return new QuizSessionOutput();
     }
 }

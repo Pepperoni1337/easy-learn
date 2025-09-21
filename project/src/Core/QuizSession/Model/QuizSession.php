@@ -37,6 +37,9 @@ final class QuizSession implements Entity
     #[ORM\ManyToOne(targetEntity: QuizQuestion::class)]
     private QuizQuestion $currentQuestion;
 
+    /**
+     * @var Collection<QuizQuestion>
+     */
     #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
     private Collection $answeredQuestions;
 
@@ -94,6 +97,9 @@ final class QuizSession implements Entity
         $this->currentQuestion = $currentQuestion;
     }
 
+    /**
+     * @return Collection<QuizQuestion>
+     */
     public function getAnsweredQuestions(): Collection
     {
         return $this->answeredQuestions;

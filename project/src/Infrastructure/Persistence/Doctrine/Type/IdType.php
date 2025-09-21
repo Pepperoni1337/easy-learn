@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistance\Doctrine\Type;
+namespace App\Infrastructure\Persistence\Doctrine\Type;
 
 use App\Core\Shared\Model\Id;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-class IdType extends Type
+final class IdType extends Type
 {
     public const NAME = 'id';
 

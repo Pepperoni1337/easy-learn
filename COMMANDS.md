@@ -1,21 +1,29 @@
+# Docker
+
+## vlez do kontejneru
+
+``` CLI
+docker exec -it easy_learn_php sh
+```
+
 # Symfony
 
 ## Clear cache
 
 ``` CLI
-docker exec easy_learn_php bin/console cache:clear
+bin/console cache:clear
 ```
 
 ## Doctrine create migration
 
 ``` CLI
-docker exec easy_learn_php bin/console doctrine:migrations:diff
+bin/console doctrine:migrations:diff
 ```
 
 ## Doctrine migrate all migrations
 
 ``` CLI
-docker exec easy_learn_php bin/console doctrine:migrations:migrate
+bin/console doctrine:migrations:migrate
 ```
 
 
@@ -24,18 +32,26 @@ docker exec easy_learn_php bin/console doctrine:migrations:migrate
 ## phpstan:
 
 ``` CLI
-docker exec easy_learn_php vendor/bin/phpstan analyse src
+vendor/bin/phpstan analyse src
 ```
 
 ## phpcs:
 
 ``` CLI
-docker exec easy_learn_php vendor/bin/phpcs src
+vendor/bin/phpcs src
 ```
 ## phpcbf:
 
 ``` CLI
-docker exec easy_learn_php vendor/bin/phpcbf src
+vendor/bin/phpcbf src
 ```
 
 
+# Easy admin
+``` CLI
+bin/console make:admin:dashboard
+```
+
+``` CLI
+bin/console make:admin:crud
+```

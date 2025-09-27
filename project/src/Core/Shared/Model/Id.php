@@ -30,6 +30,11 @@ final class Id
         return $this->uuid->jsonSerialize();
     }
 
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+
     private function __construct(
         Uuid $uuid,
     ) {

@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Type;
 
 final class IdType extends Type
 {
-    public const NAME = 'id';
+    public const NAME = 'uuid_id';
 
     public function getSQLDeclaration(array $column, AbstractPlatform $platform)
     {
@@ -19,7 +19,7 @@ final class IdType extends Type
 
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Id
     {
-        return $value === null ? null : ID::fromString($value);
+        return $value === null ? null : Id::fromString($value);
     }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
@@ -30,5 +30,10 @@ final class IdType extends Type
     public function getName(): string
     {
         return self::NAME;
+    }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
     }
 }

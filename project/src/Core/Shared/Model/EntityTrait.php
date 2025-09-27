@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait EntityTrait
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'id', unique: true)]
+    #[ORM\Column(type: 'uuid_id', unique: true)]
     private Id $id;
 
     public function getId(): Id

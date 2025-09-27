@@ -4,6 +4,8 @@ namespace App\UI\Http\Admin;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Model\QuizQuestion;
+use App\Core\QuizSession\Model\QuizSession;
+use App\Core\User\Model\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -25,13 +27,16 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Moje Admin sekce');
+            ->setTitle('Quick learn administrace');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Kvízy', 'fas fa-user', Quiz::class);
-        yield MenuItem::linkToCrud('Otázky', 'fas fa-user', QuizQuestion::class);
+        yield MenuItem::linkToCrud('Uživatelé', 'fas fa-user', User::class);
+        yield MenuItem::linkToCrud('Kvízy', 'fa-solid fa-list-ol', Quiz::class);
+        yield MenuItem::linkToCrud('Otázky', 'fa-solid fa-question', QuizQuestion::class);
+        yield MenuItem::linkToCrud('Rozehrané kvízy', 'fa-solid fa-puzzle-piece', QuizSession::class);
+
     }
 }

@@ -1,18 +1,21 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\UI\Http\Admin\Quiz;
 
-use App\Core\Quiz\Model\QuizQuestion;
+use App\Core\Quiz\Model\Quiz;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class QuizQuestionCrudController extends AbstractCrudController
+class QuizCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return QuizQuestion::class;
+        return Quiz::class;
+    }
+
+
+    public function createEntity(string $entityFqcn)
+    {
+        return new Quiz('', '');
     }
 
     /*

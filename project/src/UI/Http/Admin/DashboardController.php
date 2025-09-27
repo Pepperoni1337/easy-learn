@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\UI\Http\Admin;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Model\QuizQuestion;

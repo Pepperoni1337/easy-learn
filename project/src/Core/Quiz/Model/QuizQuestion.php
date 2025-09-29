@@ -8,6 +8,7 @@ use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class QuizQuestion implements Entity
@@ -18,24 +19,21 @@ class QuizQuestion implements Entity
     public const QUESTION = 'question';
     public const ANSWER = 'answer';
 
-    #[ORM\ManyToOne(targetEntity: Quiz::class)]
-    private Quiz $quiz;
+    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist'])]
+    #[Assert\NotBlank]
+    private ?Quiz $quiz;
 
     #[ORM\Column]
-    private string $question;
+    #[Assert\NotBlank]
+    private ?string $question;
 
     #[ORM\Column]
-    private string $answer;
+    #[Assert\NotBlank]
+    private ?string $answer;
 
     public function __construct(
-        Quiz $quiz,
-        string $question,
-        string $answer,
     ) {
         $this->id = Id::new();
-        $this->quiz = $quiz;
-        $this->question = $question;
-        $this->answer = $answer;
     }
 
     public function getQuiz(): Quiz
@@ -66,5 +64,10 @@ class QuizQuestion implements Entity
     public function setAnswer(string $answer): void
     {
         $this->answer = $answer;
+    }
+
+    public function __toString(): string
+    {
+        return $this->question;
     }
 }

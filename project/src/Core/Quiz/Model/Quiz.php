@@ -7,7 +7,10 @@ namespace App\Core\Quiz\Model;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class Quiz implements Entity
@@ -16,20 +19,26 @@ class Quiz implements Entity
 
     public const TITLE = 'title';
     public const DESCRIPTION = 'description';
+    public const QUESTIONS = 'questions';
 
     #[ORM\Column]
-    private string $title;
+    #[Assert\NotBlank(message: 'Please enter a title')]
+    private ?string $title;
 
     #[ORM\Column]
-    private string $description;
+    #[Assert\NotBlank]
+    private ?string $description;
+
+    /**
+     * @var Collection<QuizQuestion> $questions
+     */
+    #[ORM\OneToMany(targetEntity: QuizQuestion::class, mappedBy: QuizQuestion::QUIZ, cascade: ['persist'])]
+    private Collection $questions;
 
     public function __construct(
-        string $title,
-        string $description,
     ) {
         $this->id = Id::new();
-        $this->title = $title;
-        $this->description = $description;
+        $this->questions = new ArrayCollection();
     }
 
     public function getTitle(): string
@@ -50,5 +59,25 @@ class Quiz implements Entity
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(QuizQuestion $question): void
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setQuiz($this);
+        }
+    }
+
+    public function removeQuestion(QuizQuestion $question): void
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+        }
     }
 }

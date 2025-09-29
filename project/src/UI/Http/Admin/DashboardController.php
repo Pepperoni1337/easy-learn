@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Attribute\Route;
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/', name: 'admin')]
     public function index(): Response
     {
         return $this->render('@EasyAdmin/layout.html.twig', [

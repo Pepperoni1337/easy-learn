@@ -28,7 +28,7 @@ class QuizSession implements Entity
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist'])]
     private User $owner;
 
     #[ORM\Column(enumType: QuizSessionStatus::class)]
@@ -46,13 +46,12 @@ class QuizSession implements Entity
     public function __construct(
         Quiz $quiz,
         User $owner,
-        QuizSessionStatus $status,
         QuizQuestion $currentQuestion,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
         $this->owner = $owner;
-        $this->status = $status;
+        $this->status = QuizSessionStatus::IN_PROGRESS;
         $this->currentQuestion = $currentQuestion;
         $this->answeredQuestions = new ArrayCollection();
     }

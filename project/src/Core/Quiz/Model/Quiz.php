@@ -10,6 +10,7 @@ use App\Core\Shared\Model\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Random\RandomException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
@@ -79,5 +80,13 @@ class Quiz implements Entity
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
         }
+    }
+
+    /**
+     * @throws RandomException
+     */
+    public function getRandomQuestion(): QuizQuestion
+    {
+        return $this->questions->get(random_int(0, $this->questions->count() - 1));
     }
 }

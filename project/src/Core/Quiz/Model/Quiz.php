@@ -10,7 +10,6 @@ use App\Core\Shared\Model\Id;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Random\RandomException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
@@ -36,8 +35,8 @@ class Quiz implements Entity
     #[ORM\OneToMany(targetEntity: QuizQuestion::class, mappedBy: QuizQuestion::QUIZ, cascade: ['persist'])]
     private Collection $questions;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         $this->id = Id::new();
         $this->questions = new ArrayCollection();
     }
@@ -82,9 +81,6 @@ class Quiz implements Entity
         }
     }
 
-    /**
-     * @throws RandomException
-     */
     public function getRandomQuestion(): QuizQuestion
     {
         return $this->questions->get(random_int(0, $this->questions->count() - 1));

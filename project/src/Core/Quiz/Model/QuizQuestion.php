@@ -31,8 +31,8 @@ class QuizQuestion implements Entity
     #[Assert\NotBlank]
     private ?string $answer;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         $this->id = Id::new();
     }
 

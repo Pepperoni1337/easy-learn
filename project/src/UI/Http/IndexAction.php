@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/')]
 final class IndexAction extends AbstractController
 {
-use WithEntityManager;
+    use WithEntityManager;
 
     public function __invoke(): Response
     {

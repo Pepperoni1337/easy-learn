@@ -11,7 +11,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -36,6 +35,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Kvízy', 'fa-solid fa-list-ol', Quiz::class);
         yield MenuItem::linkToCrud('Otázky', 'fa-solid fa-question', QuizQuestion::class);
         yield MenuItem::linkToCrud('Rozehrané kvízy', 'fa-solid fa-puzzle-piece', QuizSession::class);
-
     }
 }

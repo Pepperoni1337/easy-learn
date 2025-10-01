@@ -38,22 +38,22 @@ class QuizSession implements Entity
     private QuizQuestion $currentQuestion;
 
     /**
-     * @var Collection<QuizQuestion> $answeredQuestions
+     * @var Collection<QuizQuestion> $remainingQuestions
      */
     #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
-    private Collection $answeredQuestions;
+    private Collection $remainingQuestions;
 
     public function __construct(
         Quiz $quiz,
         User $owner,
-        QuizQuestion $currentQuestion,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
         $this->owner = $owner;
         $this->status = QuizSessionStatus::IN_PROGRESS;
-        $this->currentQuestion = $currentQuestion;
-        $this->answeredQuestions = new ArrayCollection();
+        $remainingQuestions = $quiz->getQuestions();
+        $this->remainingQuestions = $remainingQuestions;
+        $this->currentQuestion = $remainingQuestions->get(random_int(0, $remainingQuestions->count() - 1));
     }
 
     public function getQuiz(): Quiz
@@ -99,15 +99,34 @@ class QuizSession implements Entity
     /**
      * @return Collection<QuizQuestion>
      */
-    public function getAnsweredQuestions(): Collection
+    public function getRemainingQuestions(): Collection
     {
-        return $this->answeredQuestions;
+        return $this->remainingQuestions;
     }
 
-    public function addAnsweredQuestion(QuizQuestion $question): void
+    /**
+     * @param Collection<QuizQuestion> $remainingQuestions
+     */
+    public function setRemainingQuestions(Collection $remainingQuestions): void
     {
-        if (!$this->answeredQuestions->contains($question)) {
-            $this->answeredQuestions->add($question);
+        $this->remainingQuestions = $remainingQuestions;
+    }
+
+    public function removeRemainingQuestion(QuizQuestion $question): void
+    {
+        if ($this->remainingQuestions->contains($question)) {
+            $this->remainingQuestions->removeElement($question);
         }
+    }
+
+    public function getRandomRemainingQuestion(): ?QuizQuestion
+    {
+        $remainingQuestions = $this->remainingQuestions;
+
+        if ($remainingQuestions->isEmpty()) {
+            return null;
+        }
+
+        return $remainingQuestions->get(random_int(0, $remainingQuestions->count() - 1));
     }
 }

@@ -22,7 +22,6 @@ final class StartSessionAction extends AbstractController
         $quizSession = new QuizSession(
             $quiz,
             new User(),
-            $quiz->getRandomQuestion(),
         );
 
         $this->entityManager->persist($quizSession);

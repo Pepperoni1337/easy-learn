@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quiz Question{% endblock %}
+{% block title %}{{ 'quiz.question_title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Question</h2>
+                        <h2>{{ 'quiz.question_heading'|trans }}</h2>
                     </div>
                     <div class="card-body">
                         {% for label, messages in app.flashes %}
@@ -23,10 +23,10 @@
 
                         <form action="{{ path('app_quiz_session_answer_question', {'quizSession': quizSession.id}) }}" method="POST">
                             <div class="mb-3">
-                                <label for="answer" class="form-label">Your Answer</label>
+                                <label for="answer" class="form-label">{{ 'label.your_answer'|trans }}</label>
                                 <input type="text" class="form-control" id="answer" name="answer">
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit Answer</button>
+                            <button type="submit" class="btn btn-primary">{{ 'button.submit_answer'|trans }}</button>
                         </form>
                     </div>
                 </div>

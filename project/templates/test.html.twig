@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Test
+    {{ 'test.title'|trans }}
 {% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Test</h1>
+        <h1>{{ 'test.heading'|trans }}</h1>
     </div>
 {% endblock %}

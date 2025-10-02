@@ -1,0 +1,42 @@
+# Czech translations for all templates
+# Base template
+base:
+  welcome: 'Vítejte!'
+
+# Index page
+page:
+  title: 'Kvízy'
+
+section:
+  available_quizzes: 'Dostupné kvízy'
+  sessions_in_progress: 'Rozpracované relace'
+  finished_sessions: 'Dokončené relace'
+
+message:
+  no_quizzes: 'Momentálně nejsou k dispozici žádné kvízy.'
+  no_active_sessions: 'Nemáte žádné aktivní kvízové relace.'
+  no_finished_sessions: 'Nemáte žádné dokončené kvízové relace.'
+
+button:
+  start_quiz: 'Začít kvíz'
+  continue_quiz: 'Pokračovat v kvízu'
+  completed: 'Dokončeno'
+  submit_answer: 'Odeslat odpověď'
+
+label:
+  status: 'Stav:'
+  in_progress: 'Probíhá'
+  finished: 'Dokončeno'
+  remaining: 'Zbývá:'
+  questions: 'Otázky:'
+  your_answer: 'Vaše odpověď'
+
+# Test page
+test:
+  title: 'Test'
+  heading: 'Test'
+
+# Quiz session
+quiz:
+  question_title: 'Otázka kvízu'
+  question_heading: 'Otázka'

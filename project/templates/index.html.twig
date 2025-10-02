@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Quizzes{% endblock %}
+{% block title %}{{ 'page.title'|trans }}{% endblock %}
 
 {% block body %}
     <div class="container">
-        <h1>Available Quizzes</h1>
+        <h1>{{ 'section.available_quizzes'|trans }}</h1>
 
         {% if quizzes is empty %}
-            <p>No quizzes available at the moment.</p>
+            <p>{{ 'message.no_quizzes'|trans }}</p>
         {% else %}
             <div class="row">
                 {% for quiz in quizzes %}
@@ -16,8 +16,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ quiz.title }}</h5>
                                 <p class="card-text">{{ quiz.description }}</p>
-                                <p class="card-text"><small class="text-muted">Questions: {{ quiz.questions|length }}</small></p>
-                                <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id}) }}" class="btn btn-primary">Start Quiz</a>
+                                <p class="card-text"><small class="text-muted">{{ 'label.questions'|trans }} {{ quiz.questions|length }}</small></p>
+                                <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id}) }}" class="btn btn-primary">{{ 'button.start_quiz'|trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -25,10 +25,10 @@
             </div>
         {% endif %}
 
-        <h2 class="mt-5">Sessions In Progress</h2>
+        <h2 class="mt-5">{{ 'section.sessions_in_progress'|trans }}</h2>
 
         {% if sessionsInProgress is empty %}
-            <p>You don't have any active quiz sessions.</p>
+            <p>{{ 'message.no_active_sessions'|trans }}</p>
         {% else %}
             <div class="row">
                 {% for session in sessionsInProgress %}
@@ -37,14 +37,14 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ session.quiz.title }}</h5>
                                 <p class="card-text">
-                                    Status: <span class="badge bg-warning">In Progress</span>
+                                    {{ 'label.status'|trans }} <span class="badge bg-warning">{{ 'label.in_progress'|trans }}</span>
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        Remaining: {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
+                                        {{ 'label.remaining'|trans }} {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
                                     </small>
                                 </p>
-                                <a href="{{ path('app_quiz_session_get_question', {'quizSession': session.id}) }}" class="btn btn-success">Continue Quiz</a>
+                                <a href="{{ path('app_quiz_session_get_question', {'quizSession': session.id}) }}" class="btn btn-success">{{ 'button.continue_quiz'|trans }}</a>
                             </div>
                         </div>
                     </div>
@@ -52,10 +52,10 @@
             </div>
         {% endif %}
 
-        <h2 class="mt-5">Finished Sessions</h2>
+        <h2 class="mt-5">{{ 'section.finished_sessions'|trans }}</h2>
 
         {% if finishedSessions is empty %}
-            <p>You don't have any finished quiz sessions.</p>
+            <p>{{ 'message.no_finished_sessions'|trans }}</p>
         {% else %}
             <div class="row">
                 {% for session in finishedSessions %}
@@ -64,14 +64,14 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ session.quiz.title }}</h5>
                                 <p class="card-text">
-                                    Status: <span class="badge bg-success">Finished</span>
+                                    {{ 'label.status'|trans }} <span class="badge bg-success">{{ 'label.finished'|trans }}</span>
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        Remaining: {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
+                                        {{ 'label.remaining'|trans }} {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
                                     </small>
                                 </p>
-                                <button class="btn btn-secondary" disabled>Completed</button>
+                                <button class="btn btn-secondary" disabled>{{ 'button.completed'|trans }}</button>
                             </div>
                         </div>
                     </div>

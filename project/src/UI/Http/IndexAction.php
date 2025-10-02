@@ -6,6 +6,7 @@ namespace App\UI\Http;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\Shared\Traits\WithEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,12 @@ final class IndexAction extends AbstractController
             'index.html.twig',
             [
                 'quizzes' => $this->getRepository(Quiz::class)->findAll(),
-                'quizSessions' => $this->getRepository(QuizSession::class)->findAll(),
+                'finishedSessions' => $this->getRepository(QuizSession::class)->findBy([
+                    QuizSession::STATUS => QuizSessionStatus::FINISHED,
+                ]),
+                'sessionsInProgress' => $this->getRepository(QuizSession::class)->findBy([
+                    QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
+                ]),
             ]
         );
     }

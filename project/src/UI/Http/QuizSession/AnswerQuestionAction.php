@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Http\QuizSession;
 
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\Shared\Traits\WithEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,20 @@ final class AnswerQuestionAction extends AbstractController
             : sprintf('Špatně, správná odpověď byla "%s".', $correctAnswer);
 
 
-        $this->resolveAnswer($quizSession, $isAnswerCorrect);
+        if ($isAnswerCorrect) {
+            $quizSession->removeRemainingQuestion($quizSession->getCurrentQuestion());
+        }
+
+        $nextQuestion = $quizSession->getRandomRemainingQuestion();
+
+        if ($nextQuestion === null) {
+            $quizSession->setStatus(QuizSessionStatus::FINISHED);
+            $this->entityManager->flush();
+            dd('konec');
+        }
+
+        $quizSession->setCurrentQuestion($quizSession->getRandomRemainingQuestion());
+        $this->entityManager->flush();
 
         $this->addFlash(
             $type,
@@ -43,21 +57,5 @@ final class AnswerQuestionAction extends AbstractController
                 'quizSession' => $quizSession->getId(),
             ],
         );
-    }
-
-    private function resolveAnswer(QuizSession $quizSession, bool $isAnswerCorrect): void
-    {
-        if ($isAnswerCorrect) {
-            $quizSession->removeRemainingQuestion($quizSession->getCurrentQuestion());
-        }
-
-        $nextQuestion = $quizSession->getRandomRemainingQuestion();
-
-        if ($nextQuestion === null) {
-            dd('konec');
-        }
-
-        $quizSession->setCurrentQuestion($quizSession->getRandomRemainingQuestion());
-        $this->entityManager->flush();
     }
 }

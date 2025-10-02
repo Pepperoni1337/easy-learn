@@ -10,7 +10,6 @@ use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use App\Core\User\Model\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,8 +21,8 @@ class QuizSession implements Entity
     public const QUIZ = 'quiz';
     public const OWNER = 'owner';
     public const STATUS = 'status';
-    public const CURRENT_QUESTION = 'current_question';
-    public const ANSWERED_QUESTIONS = 'answered_questions';
+    public const CURRENT_QUESTION = 'currentQuestion';
+    public const REMAINING_QUESTIONS = 'remainingQuestions';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -53,7 +52,7 @@ class QuizSession implements Entity
         $this->status = QuizSessionStatus::IN_PROGRESS;
         $remainingQuestions = $quiz->getQuestions();
         $this->remainingQuestions = $remainingQuestions;
-        $this->currentQuestion = $remainingQuestions->get(random_int(0, $remainingQuestions->count() - 1));
+        $this->currentQuestion = $this->getRandomRemainingQuestion();
     }
 
     public function getQuiz(): Quiz
@@ -121,12 +120,13 @@ class QuizSession implements Entity
 
     public function getRandomRemainingQuestion(): ?QuizQuestion
     {
-        $remainingQuestions = $this->remainingQuestions;
-
-        if ($remainingQuestions->isEmpty()) {
+        if ($this->remainingQuestions->isEmpty()) {
             return null;
         }
 
-        return $remainingQuestions->get(random_int(0, $remainingQuestions->count() - 1));
+        $keys = $this->remainingQuestions->getKeys();
+        $randomKey = $keys[array_rand($keys)];
+
+        return $this->remainingQuestions->get($randomKey);
     }
 }

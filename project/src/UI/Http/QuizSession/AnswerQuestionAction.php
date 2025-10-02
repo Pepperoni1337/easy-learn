@@ -19,20 +19,13 @@ final class AnswerQuestionAction extends AbstractController
 
     public function __invoke(QuizSession $quizSession, Request $request): Response
     {
-        $answer = $request->get('answer');
+        $givenAnswer = (string) $request->get('answer', '');
+        $currentQuestion = $quizSession->getCurrentQuestion();
+        $correctAnswer = $currentQuestion->getAnswer();
+        $isCorrect = ($correctAnswer === $givenAnswer);
 
-        $correctAnswer = $quizSession->getCurrentQuestion()->getAnswer();
-        $isAnswerCorrect = $correctAnswer === $answer;
-
-        $type = $isAnswerCorrect ? 'success' : 'danger';
-
-        $message = $isAnswerCorrect
-            ? sprintf('Správně, odpověď skutečně byla "%s".', $correctAnswer)
-            : sprintf('Špatně, správná odpověď byla "%s".', $correctAnswer);
-
-
-        if ($isAnswerCorrect) {
-            $quizSession->removeRemainingQuestion($quizSession->getCurrentQuestion());
+        if ($isCorrect) {
+            $quizSession->removeRemainingQuestion($currentQuestion);
         }
 
         $nextQuestion = $quizSession->getRandomRemainingQuestion();
@@ -49,19 +42,18 @@ final class AnswerQuestionAction extends AbstractController
             return $this->redirectToRoute('app_index');
         }
 
-        $quizSession->setCurrentQuestion($quizSession->getRandomRemainingQuestion());
+        $quizSession->setCurrentQuestion($nextQuestion);
         $this->entityManager->flush();
 
         $this->addFlash(
-            $type,
-            $message,
+            $isCorrect ? 'success' : 'danger',
+            $isCorrect
+                ? sprintf('Správně, odpověď skutečně byla "%s".', $correctAnswer)
+                : sprintf('Špatně, správná odpověď byla "%s".', $correctAnswer)
         );
 
-        return $this->redirectToRoute(
-            'app_quiz_session_get_question',
-            [
-                'quizSession' => $quizSession->getId(),
-            ],
-        );
+        return $this->redirectToRoute('app_quiz_session_get_question', [
+            'quizSession' => $quizSession->getId(),
+        ]);
     }
 }

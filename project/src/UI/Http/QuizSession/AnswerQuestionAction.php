@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Http\QuizSession;
 
+use App\Core\Quiz\Service\QuizSessionManager;
 use App\Core\QuizSession\Model\QuizSession;
-use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\Shared\Traits\WithEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,40 +17,33 @@ final class AnswerQuestionAction extends AbstractController
 {
     use WithEntityManager;
 
+    public function __construct(
+        private readonly QuizSessionManager $manager,
+    ) {}
+
     public function __invoke(QuizSession $quizSession, Request $request): Response
     {
-        $givenAnswer = (string) $request->get('answer', '');
-        $currentQuestion = $quizSession->getCurrentQuestion();
-        $correctAnswer = $currentQuestion->getAnswer();
-        $isCorrect = ($correctAnswer === $givenAnswer);
+        $result = $this->manager->submitAnswer(
+            $quizSession,
+            (string) $request->get('answer', '')
+        );
 
-        if ($isCorrect) {
-            $quizSession->removeRemainingQuestion($currentQuestion);
-        }
+        // Flash zpráva podle výsledku:
+        $this->addFlash(
+            $result->isCorrect ? 'success' : 'danger',
+            $result->isCorrect
+                ? sprintf('Správně, odpověď skutečně byla "%s".', $result->correctAnswer)
+                : sprintf('Špatně, správná odpověď byla "%s".', $result->correctAnswer)
+        );
 
-        $nextQuestion = $quizSession->getRandomRemainingQuestion();
-
-        if ($nextQuestion === null) {
-            $quizSession->setStatus(QuizSessionStatus::FINISHED);
-            $this->entityManager->flush();
-
+        if ($result->isFinished) {
             $this->addFlash(
                 'success',
-                sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle()),
+                sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle())
             );
 
             return $this->redirectToRoute('app_index');
         }
-
-        $quizSession->setCurrentQuestion($nextQuestion);
-        $this->entityManager->flush();
-
-        $this->addFlash(
-            $isCorrect ? 'success' : 'danger',
-            $isCorrect
-                ? sprintf('Správně, odpověď skutečně byla "%s".', $correctAnswer)
-                : sprintf('Špatně, správná odpověď byla "%s".', $correctAnswer)
-        );
 
         return $this->redirectToRoute('app_quiz_session_get_question', [
             'quizSession' => $quizSession->getId(),

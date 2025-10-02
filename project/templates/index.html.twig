@@ -4,6 +4,14 @@
 
 {% block body %}
     <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <h1>{{ 'section.available_quizzes'|trans }}</h1>
 
         {% if quizzes is empty %}

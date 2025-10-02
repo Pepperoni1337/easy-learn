@@ -40,7 +40,13 @@ final class AnswerQuestionAction extends AbstractController
         if ($nextQuestion === null) {
             $quizSession->setStatus(QuizSessionStatus::FINISHED);
             $this->entityManager->flush();
-            dd('konec');
+
+            $this->addFlash(
+                'success',
+                sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle()),
+            );
+
+            return $this->redirectToRoute('app_index');
         }
 
         $quizSession->setCurrentQuestion($quizSession->getRandomRemainingQuestion());

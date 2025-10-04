@@ -61,6 +61,11 @@ class QuizSessionLevel implements Entity
         return CollectionUtil::getRandomElement($this->remainingQuestions);
     }
 
+    public function isFinished(): bool
+    {
+        return $this->remainingQuestions->isEmpty();
+    }
+
     public function hasRemainingQuestions(): bool
     {
         return !$this->remainingQuestions->isEmpty();

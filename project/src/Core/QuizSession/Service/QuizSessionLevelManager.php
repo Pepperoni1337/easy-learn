@@ -25,7 +25,6 @@ final class QuizSessionLevelManager
         return new LevelAnswerResult(
             isCorrect: $isCorrect,
             correctAnswer: $correctAnswer,
-            isLevelFinished: !$sessionLevel->hasRemainingQuestions(),
         );
     }
 }

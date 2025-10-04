@@ -30,7 +30,7 @@ final class QuizSessionManager
             $givenAnswer,
         );
 
-        $levelFinished = $levelResult->isLevelFinished;
+        $levelFinished = $currentLevel->isFinished();
 
         $lastLevelNumber = $currentLevel->getLevel();
 

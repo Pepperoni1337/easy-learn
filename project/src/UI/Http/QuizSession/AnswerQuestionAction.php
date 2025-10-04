@@ -19,7 +19,8 @@ final class AnswerQuestionAction extends AbstractController
 
     public function __construct(
         private readonly QuizSessionManager $manager,
-    ) {}
+    ) {
+    }
 
     public function __invoke(QuizSession $quizSession, Request $request): Response
     {
@@ -28,6 +29,8 @@ final class AnswerQuestionAction extends AbstractController
             (string) $request->get('answer', '')
         );
 
+        $this->entityManager->flush();
+
         $this->addFlash(
             $result->isCorrect ? 'success' : 'danger',
             $result->isCorrect
@@ -35,7 +38,14 @@ final class AnswerQuestionAction extends AbstractController
                 : sprintf('Špatně, správná odpověď byla "%s".', $result->correctAnswer)
         );
 
-        if ($result->isFinished) {
+        if ($result->isLevelFinished) {
+            $this->addFlash(
+                'success',
+                sprintf('Úroveň %s úspěšně dokončena', $result->lastLevelNumber)
+            );
+        }
+
+        if ($result->nextQuestion === null) {
             $this->addFlash(
                 'success',
                 sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle())

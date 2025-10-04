@@ -22,7 +22,6 @@ class QuizSession implements Entity
     public const QUIZ = 'quiz';
     public const OWNER = 'owner';
     public const STATUS = 'status';
-    public const CURRENT_LEVEL = 'level';
     public const REMAINING_LEVELS = 'remainingLevels';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
@@ -34,10 +33,7 @@ class QuizSession implements Entity
     #[ORM\Column(enumType: QuizSessionStatus::class)]
     private QuizSessionStatus $status;
 
-    #[ORM\OneToOne(targetEntity: QuizSessionLevel::class, cascade: ['persist'])]
-    private ?QuizSessionLevel $currentLevel = null;
-
-    #[ORM\OneToMany(targetEntity: QuizSessionLevel::class, mappedBy: QuizSessionLevel::QUIZ_SESSION, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: QuizSessionLevel::class, mappedBy: QuizSessionLevel::QUIZ_SESSION, cascade: ['persist'], orphanRemoval: true)]
     private Collection $remainingLevels;
 
     public function __construct(
@@ -82,19 +78,13 @@ class QuizSession implements Entity
         $this->status = $status;
     }
 
-    public function getCurrentLevel(): QuizSessionLevel
+    public function getCurrentLevel(): ?QuizSessionLevel
     {
-        return $this->currentLevel;
-    }
+        if ($this->remainingLevels->isEmpty()) {
+            return null;
+        }
 
-    public function setCurrentLevel(QuizSessionLevel $currentLevel): void
-    {
-        $this->currentLevel = $currentLevel;
-    }
-
-    public function getRemainingLevels(): Collection
-    {
-        return $this->remainingLevels;
+        return $this->remainingLevels->first();
     }
 
     public function setRemainingLevels(Collection $remainingLevels): void
@@ -102,15 +92,15 @@ class QuizSession implements Entity
         $this->remainingLevels = $remainingLevels;
     }
 
-    public function addLevel(QuizSessionLevel $level): void
+    public function removeRemainingLevel(QuizSessionLevel $level): void
     {
-        if (!$this->remainingLevels->contains($level)) {
-            $this->remainingLevels->add($level);
+        if ($this->remainingLevels->contains($level)) {
+            $this->remainingLevels->removeElement($level);
         }
     }
 
-    public function getCurrentQuestion(): QuizQuestion
+    public function getCurrentQuestion(): ?QuizQuestion
     {
-        return $this->currentLevel->getCurrentQuestion();
+        return $this->getCurrentLevel()?->getCurrentQuestion();
     }
 }

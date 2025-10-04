@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Core\Quiz\Model;
 
-final class AnswerResult
+final class SessionAnswerResult
 {
     public function __construct(
         public readonly bool $isCorrect,
         public readonly string $correctAnswer,
-        public readonly bool $isFinished,
+        public readonly bool $isLevelFinished,
+        public readonly int $lastLevelNumber,
         public readonly ?QuizQuestion $nextQuestion
     ) {
-
     }
 }

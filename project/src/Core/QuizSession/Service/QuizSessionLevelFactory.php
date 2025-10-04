@@ -6,7 +6,6 @@ namespace App\Core\QuizSession\Service;
 
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
-use App\Core\QuizSession\Model\QuizSessionLevelStatus;
 use Doctrine\Common\Collections\Collection;
 
 final class QuizSessionLevelFactory
@@ -19,7 +18,6 @@ final class QuizSessionLevelFactory
         return new QuizSessionLevel(
             $session,
             $levelNumber,
-            QuizSessionLevelStatus::IN_PROGRESS,
             $questions,
         );
     }

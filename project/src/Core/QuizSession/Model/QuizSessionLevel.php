@@ -17,23 +17,16 @@ class QuizSessionLevel implements Entity
 {
     use EntityTrait;
 
-    public const QUIZ_SESSION = 'quiz_session';
+    public const QUIZ_SESSION = 'quizSession';
     public const LEVEL = 'level';
-    public const STATUS = 'status';
-    public const CURRENT_QUESTION = 'currentQuestion';
     public const REMAINING_QUESTIONS = 'remainingQuestions';
 
-    #[ORM\ManyToOne(targetEntity: QuizSession::class, inversedBy: QuizSession::CURRENT_LEVEL)]
+    #[ORM\ManyToOne(targetEntity: QuizSession::class, inversedBy: QuizSession::REMAINING_LEVELS)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private QuizSession $quizSession;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $level;
-
-    #[ORM\Column(enumType: QuizSessionLevelStatus::class)]
-    private QuizSessionLevelStatus $status;
-
-    #[ORM\ManyToOne(targetEntity: QuizQuestion::class)]
-    private QuizQuestion $currentQuestion;
 
     /**
      * @var Collection<QuizQuestion> $remainingQuestions
@@ -44,14 +37,11 @@ class QuizSessionLevel implements Entity
     public function __construct(
         QuizSession $quizSession,
         int $level,
-        QuizSessionLevelStatus $status,
         Collection $remainingQuestions,
     ) {
         $this->id = Id::new();
         $this->quizSession = $quizSession;
         $this->level = $level;
-        $this->status = $status;
-        $this->currentQuestion = $remainingQuestions->first();
         $this->remainingQuestions = $remainingQuestions;
     }
 
@@ -65,24 +55,13 @@ class QuizSessionLevel implements Entity
         return $this->level;
     }
 
-    public function getStatus(): QuizSessionLevelStatus
+    public function getCurrentQuestion(): ?QuizQuestion
     {
-        return $this->status;
-    }
+        if ($this->remainingQuestions->isEmpty()) {
+            return null;
+        }
 
-    public function setStatus(QuizSessionLevelStatus $status): void
-    {
-        $this->status = $status;
-    }
-
-    public function getCurrentQuestion(): QuizQuestion
-    {
-        return $this->currentQuestion;
-    }
-
-    public function setCurrentQuestion(QuizQuestion $currentQuestion): void
-    {
-        $this->currentQuestion = $currentQuestion;
+        return $this->remainingQuestions->first();
     }
 
     public function getRemainingQuestions(): Collection
@@ -90,7 +69,7 @@ class QuizSessionLevel implements Entity
         return $this->remainingQuestions;
     }
 
-    public function removeQuestion(QuizQuestion $question): void
+    public function removeRemainingQuestion(QuizQuestion $question): void
     {
         if ($this->remainingQuestions->contains($question)) {
             $this->remainingQuestions->removeElement($question);

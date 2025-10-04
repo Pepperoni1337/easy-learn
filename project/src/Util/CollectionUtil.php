@@ -13,12 +13,13 @@ final class CollectionUtil
     {
         $result = new ArrayCollection();
 
-        $i = 0;
+        $i = 1;
         foreach ($collection as $element) {
             $result->add($element);
-            if ($i++ >= $n) {
+            if ($i >= $n) {
                 return $result;
             }
+            $i++;
         }
 
         return $result;

@@ -32,31 +32,33 @@ final class QuizSessionFactory
         $levels = $this->createLevels($session);
 
         $session->setRemainingLevels($levels);
-        $session->setCurrentLevel($levels->first());
 
         return $session;
     }
 
-    private function createLevels(QuizSession $session): Collection {
+    private function createLevels(QuizSession $session): Collection
+    {
         $allQuestions = $session->getQuiz()->getQuestions();
         $result = new ArrayCollection();
 
+        $level = 1;
         foreach ($this->leveQuestionCount as $count) {
-            if ($allQuestions->count() < $count) {
+            if ($allQuestions->count() > $count) {
                 $result->add(
                     $this->levelFactory->createLevel(
                         session: $session,
-                        levelNumber: 1,
+                        levelNumber: $level,
                         questions: CollectionUtil::firstElements($allQuestions, $count),
                     )
                 );
+                $level++;
             }
         }
 
         $result->add(
             $this->levelFactory->createLevel(
                 session: $session,
-                levelNumber: 1,
+                levelNumber: $level,
                 questions: $allQuestions,
             )
         );

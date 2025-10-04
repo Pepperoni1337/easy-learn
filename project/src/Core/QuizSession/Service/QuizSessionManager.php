@@ -22,11 +22,7 @@ final class QuizSessionManager
         QuizQuestion $question,
         string $givenAnswer,
     ): SessionAnswerResult {
-        $currentLevel = $session->getCurrentLevel();
-
-        if ($currentLevel === null) {
-            throw new RuntimeException('No current level');
-        }
+        $currentLevel = $session->getCurrentLevel() ?? throw new RuntimeException('No current level');
 
         $levelResult = $this->levelManager->submitAnswer(
             $currentLevel,

@@ -11,7 +11,7 @@ final class SessionAnswerResult
         public readonly string $correctAnswer,
         public readonly bool $isLevelFinished,
         public readonly int $lastLevelNumber,
-        public readonly ?QuizQuestion $nextQuestion
+        public readonly bool $isQuizFinished,
     ) {
     }
 }

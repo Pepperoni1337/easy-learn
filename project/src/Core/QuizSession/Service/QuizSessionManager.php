@@ -34,7 +34,9 @@ final class QuizSessionManager
             $session->removeRemainingLevel($currentLevel);
         }
 
-        if ($session->getCurrentLevel() === null) {
+        $finished = $session->getCurrentLevel() === null;
+
+        if ($finished) {
             $session->setStatus(QuizSessionStatus::FINISHED);
         }
 
@@ -43,7 +45,7 @@ final class QuizSessionManager
             correctAnswer: $levelResult->correctAnswer,
             isLevelFinished: $levelFinished,
             lastLevelNumber: $lastLevelNumber,
-            nextQuestion: $session->getCurrentQuestion(),
+            isQuizFinished: $finished,
         );
     }
 }

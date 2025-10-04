@@ -45,7 +45,7 @@ final class AnswerQuestionAction extends AbstractController
             );
         }
 
-        if ($result->nextQuestion === null) {
+        if ($result->isQuizFinished) {
             $this->addFlash(
                 'success',
                 sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle())

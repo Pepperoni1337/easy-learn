@@ -26,7 +26,7 @@ final class QuizSessionManager
 
         $levelResult = $this->levelManager->submitAnswer($currentLevel, $givenAnswer);
 
-        $levelFinished = $levelResult->nextQuestion === null;
+        $levelFinished = $levelResult->isLevelFinished;
 
         $lastLevelNumber = $currentLevel->getLevel();
 

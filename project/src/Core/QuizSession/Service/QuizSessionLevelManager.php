@@ -20,12 +20,10 @@ final class QuizSessionLevelManager
             $sessionLevel->removeRemainingQuestion($current);
         }
 
-        $next = $sessionLevel->getCurrentQuestion();
-
         return new LevelAnswerResult(
             isCorrect: $isCorrect,
             correctAnswer: $correctAnswer,
-            nextQuestion: $next
+            isLevelFinished:  $sessionLevel->getCurrentQuestion() === null,
         );
     }
 }

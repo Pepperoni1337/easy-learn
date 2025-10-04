@@ -9,7 +9,7 @@ final class LevelAnswerResult
     public function __construct(
         public readonly bool $isCorrect,
         public readonly string $correctAnswer,
-        public readonly ?QuizQuestion $nextQuestion
+        public readonly bool $isLevelFinished,
     ) {
     }
 }

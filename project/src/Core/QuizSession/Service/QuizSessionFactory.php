@@ -48,7 +48,7 @@ final class QuizSessionFactory
                     $this->levelFactory->createLevel(
                         session: $session,
                         levelNumber: $level,
-                        questions: CollectionUtil::firstElements($allQuestions, $count),
+                        questions: CollectionUtil::sliceFromStart($allQuestions, $count),
                     )
                 );
                 $level++;

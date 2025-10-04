@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 
 final class CollectionUtil
 {
-    public static function firstElements(Collection $collection, int $n): Collection
+    public static function sliceFromStart(Collection $collection, int $n): Collection
     {
         $result = new ArrayCollection();
 

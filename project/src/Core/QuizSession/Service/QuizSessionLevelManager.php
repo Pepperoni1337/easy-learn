@@ -5,25 +5,27 @@ declare(strict_types=1);
 namespace App\Core\QuizSession\Service;
 
 use App\Core\Quiz\Model\LevelAnswerResult;
+use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\QuizSessionLevel;
-use RuntimeException;
 
 final class QuizSessionLevelManager
 {
-    public function submitAnswer(QuizSessionLevel $sessionLevel, string $givenAnswer): LevelAnswerResult
-    {
-        $current = $sessionLevel->getCurrentQuestion() ?? throw new RuntimeException('Current question is null');
-        $correctAnswer = $current->getAnswer();
+    public function submitAnswer(
+        QuizSessionLevel $sessionLevel,
+        QuizQuestion $question,
+        string $givenAnswer
+    ): LevelAnswerResult {
+        $correctAnswer = $question->getAnswer();
         $isCorrect = ($correctAnswer === $givenAnswer);
 
         if ($isCorrect) {
-            $sessionLevel->removeRemainingQuestion($current);
+            $sessionLevel->removeRemainingQuestion($question);
         }
 
         return new LevelAnswerResult(
             isCorrect: $isCorrect,
             correctAnswer: $correctAnswer,
-            isLevelFinished:  $sessionLevel->getCurrentQuestion() === null,
+            isLevelFinished: !$sessionLevel->hasRemainingQuestions(),
         );
     }
 }

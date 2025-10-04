@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use App\Util\CollectionUtil;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -57,11 +58,12 @@ class QuizSessionLevel implements Entity
 
     public function getCurrentQuestion(): ?QuizQuestion
     {
-        if ($this->remainingQuestions->isEmpty()) {
-            return null;
-        }
+        return CollectionUtil::getRandomElement($this->remainingQuestions);
+    }
 
-        return $this->remainingQuestions->first();
+    public function hasRemainingQuestions(): bool
+    {
+        return !$this->remainingQuestions->isEmpty();
     }
 
     public function getRemainingQuestions(): Collection

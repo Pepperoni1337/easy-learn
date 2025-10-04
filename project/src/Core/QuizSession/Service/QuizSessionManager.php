@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\QuizSession\Service;
 
+use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\Quiz\Model\SessionAnswerResult;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionStatus;
@@ -16,15 +17,22 @@ final class QuizSessionManager
     ) {
     }
 
-    public function submitAnswer(QuizSession $session, string $givenAnswer): SessionAnswerResult
-    {
+    public function submitAnswer(
+        QuizSession $session,
+        QuizQuestion $question,
+        string $givenAnswer,
+    ): SessionAnswerResult {
         $currentLevel = $session->getCurrentLevel();
 
         if ($currentLevel === null) {
             throw new RuntimeException('No current level');
         }
 
-        $levelResult = $this->levelManager->submitAnswer($currentLevel, $givenAnswer);
+        $levelResult = $this->levelManager->submitAnswer(
+            $currentLevel,
+            $question,
+            $givenAnswer,
+        );
 
         $levelFinished = $levelResult->isLevelFinished;
 

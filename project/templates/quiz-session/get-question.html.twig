@@ -21,7 +21,7 @@
 
                         <h4 class="mb-4">{{ question.question }}</h4>
 
-                        <form action="{{ path('app_quiz_session_answer_question', {'quizSession': quizSession.id}) }}" method="POST">
+                        <form action="{{ path('app_quiz_session_answer_question', {'quizSession': quizSession.id, 'question': question.id}) }}" method="POST">
                             <div class="mb-3">
                                 <label for="answer" class="form-label">{{ 'label.your_answer'|trans }}</label>
                                 <input type="text" class="form-control" id="answer" name="answer">

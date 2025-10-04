@@ -24,4 +24,21 @@ final class CollectionUtil
 
         return $result;
     }
+
+    /**
+     * @template T
+     * @param Collection<int, T> $collection
+     * @return T|null
+     */
+    public static function getRandomElement(Collection $collection): mixed
+    {
+        if ($collection->isEmpty()) {
+            return null;
+        }
+
+        $array = $collection->toArray();
+        $randomKey = array_rand($array);
+
+        return $array[$randomKey];
+    }
 }

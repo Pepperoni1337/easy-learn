@@ -10,6 +10,7 @@ use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use App\Core\User\Model\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,8 +22,8 @@ class QuizSession implements Entity
     public const QUIZ = 'quiz';
     public const OWNER = 'owner';
     public const STATUS = 'status';
-    public const CURRENT_QUESTION = 'currentQuestion';
-    public const REMAINING_QUESTIONS = 'remainingQuestions';
+    public const CURRENT_LEVEL = 'level';
+    public const REMAINING_LEVELS = 'remainingLevels';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -33,26 +34,22 @@ class QuizSession implements Entity
     #[ORM\Column(enumType: QuizSessionStatus::class)]
     private QuizSessionStatus $status;
 
-    #[ORM\ManyToOne(targetEntity: QuizQuestion::class)]
-    private QuizQuestion $currentQuestion;
+    #[ORM\OneToOne(targetEntity: QuizSessionLevel::class, cascade: ['persist'])]
+    private ?QuizSessionLevel $currentLevel = null;
 
-    /**
-     * @var Collection<QuizQuestion> $remainingQuestions
-     */
-    #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
-    private Collection $remainingQuestions;
+    #[ORM\OneToMany(targetEntity: QuizSessionLevel::class, mappedBy: QuizSessionLevel::QUIZ_SESSION, cascade: ['persist'])]
+    private Collection $remainingLevels;
 
     public function __construct(
         Quiz $quiz,
         User $owner,
+        QuizSessionStatus $status,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
         $this->owner = $owner;
-        $this->status = QuizSessionStatus::IN_PROGRESS;
-        $remainingQuestions = $quiz->getQuestions();
-        $this->remainingQuestions = $remainingQuestions;
-        $this->currentQuestion = $this->getRandomRemainingQuestion();
+        $this->status = $status;
+        $this->remainingLevels = new ArrayCollection();
     }
 
     public function getQuiz(): Quiz
@@ -85,48 +82,35 @@ class QuizSession implements Entity
         $this->status = $status;
     }
 
+    public function getCurrentLevel(): QuizSessionLevel
+    {
+        return $this->currentLevel;
+    }
+
+    public function setCurrentLevel(QuizSessionLevel $currentLevel): void
+    {
+        $this->currentLevel = $currentLevel;
+    }
+
+    public function getRemainingLevels(): Collection
+    {
+        return $this->remainingLevels;
+    }
+
+    public function setRemainingLevels(Collection $remainingLevels): void
+    {
+        $this->remainingLevels = $remainingLevels;
+    }
+
+    public function addLevel(QuizSessionLevel $level): void
+    {
+        if (!$this->remainingLevels->contains($level)) {
+            $this->remainingLevels->add($level);
+        }
+    }
+
     public function getCurrentQuestion(): QuizQuestion
     {
-        return $this->currentQuestion;
-    }
-
-    public function setCurrentQuestion(QuizQuestion $currentQuestion): void
-    {
-        $this->currentQuestion = $currentQuestion;
-    }
-
-    /**
-     * @return Collection<QuizQuestion>
-     */
-    public function getRemainingQuestions(): Collection
-    {
-        return $this->remainingQuestions;
-    }
-
-    /**
-     * @param Collection<QuizQuestion> $remainingQuestions
-     */
-    public function setRemainingQuestions(Collection $remainingQuestions): void
-    {
-        $this->remainingQuestions = $remainingQuestions;
-    }
-
-    public function removeRemainingQuestion(QuizQuestion $question): void
-    {
-        if ($this->remainingQuestions->contains($question)) {
-            $this->remainingQuestions->removeElement($question);
-        }
-    }
-
-    public function getRandomRemainingQuestion(): ?QuizQuestion
-    {
-        if ($this->remainingQuestions->isEmpty()) {
-            return null;
-        }
-
-        $keys = $this->remainingQuestions->getKeys();
-        $randomKey = $keys[array_rand($keys)];
-
-        return $this->remainingQuestions->get($randomKey);
+        return $this->currentLevel->getCurrentQuestion();
     }
 }

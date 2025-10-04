@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Http\QuizSession;
 
-use App\Core\Quiz\Service\QuizSessionManager;
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Service\QuizSessionManager;
 use App\Core\Shared\Traits\WithEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +28,6 @@ final class AnswerQuestionAction extends AbstractController
             (string) $request->get('answer', '')
         );
 
-        // Flash zpráva podle výsledku:
         $this->addFlash(
             $result->isCorrect ? 'success' : 'danger',
             $result->isCorrect

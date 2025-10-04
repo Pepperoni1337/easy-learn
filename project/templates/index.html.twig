@@ -49,7 +49,7 @@
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        {{ 'label.remaining'|trans }} {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
+                                        {{ 'label.remaining'|trans }}  {{ session.quiz.questions|length }}
                                     </small>
                                 </p>
                                 <a href="{{ path('app_quiz_session_get_question', {'quizSession': session.id}) }}" class="btn btn-success">{{ 'button.continue_quiz'|trans }}</a>
@@ -76,7 +76,7 @@
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        {{ 'label.remaining'|trans }} {{ session.remainingQuestions|length }} / {{ session.quiz.questions|length }}
+                                        {{ 'label.remaining'|trans }} {{ session.quiz.questions|length }}
                                     </small>
                                 </p>
                                 <button class="btn btn-secondary" disabled>{{ 'button.completed'|trans }}</button>

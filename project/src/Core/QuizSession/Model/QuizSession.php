@@ -10,11 +10,14 @@ use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use App\Core\User\Model\User;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\HasLifecycleCallbacks]
 class QuizSession implements Entity
 {
     use EntityTrait;
@@ -23,6 +26,8 @@ class QuizSession implements Entity
     public const OWNER = 'owner';
     public const STATUS = 'status';
     public const REMAINING_LEVELS = 'remainingLevels';
+    public const CREATED_AT = 'createdAt';
+    public const UPDATED_AT = 'updatedAt';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -36,6 +41,12 @@ class QuizSession implements Entity
     #[ORM\OneToMany(targetEntity: QuizSessionLevel::class, mappedBy: QuizSessionLevel::QUIZ_SESSION, cascade: ['persist'], orphanRemoval: true)]
     private Collection $remainingLevels;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private DateTimeImmutable $updatedAt;
+
     public function __construct(
         Quiz $quiz,
         User $owner,
@@ -46,6 +57,7 @@ class QuizSession implements Entity
         $this->owner = $owner;
         $this->status = $status;
         $this->remainingLevels = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getQuiz(): Quiz
@@ -102,5 +114,22 @@ class QuizSession implements Entity
     public function getCurrentQuestion(): ?QuizQuestion
     {
         return $this->getCurrentLevel()?->getCurrentQuestion();
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate]
+    #[ORM\PrePersist]
+    public function updateTimestamp(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

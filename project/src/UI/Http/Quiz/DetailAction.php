@@ -26,7 +26,9 @@ final class DetailAction extends AbstractController
             'sessionsInProgress' => $sessionRepository->findBy([
                 QuizSession::QUIZ => $quiz,
                 QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
-            ]),
+            ],
+            [QuizSession::SCORE => 'DESC'],
+            ),
             'finishedSessions' => $sessionRepository->findBy([
                 QuizSession::QUIZ => $quiz,
                 QuizSession::STATUS => QuizSessionStatus::FINISHED,

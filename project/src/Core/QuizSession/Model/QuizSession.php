@@ -26,6 +26,7 @@ class QuizSession implements Entity
     public const OWNER = 'owner';
     public const STATUS = 'status';
     public const REMAINING_LEVELS = 'remainingLevels';
+    public const SCORE = 'score';
     public const CREATED_AT = 'createdAt';
     public const UPDATED_AT = 'updatedAt';
 
@@ -40,6 +41,9 @@ class QuizSession implements Entity
 
     #[ORM\OneToMany(targetEntity: QuizSessionLevel::class, mappedBy: QuizSessionLevel::QUIZ_SESSION, cascade: ['persist'], orphanRemoval: true)]
     private Collection $remainingLevels;
+
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $score = 0;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeImmutable $createdAt;
@@ -114,6 +118,16 @@ class QuizSession implements Entity
     public function getCurrentQuestion(): ?QuizQuestion
     {
         return $this->getCurrentLevel()?->getCurrentQuestion();
+    }
+
+    public function getScore(): int
+    {
+        return $this->score;
+    }
+
+    public function addScore(int $points): void
+    {
+        $this->score += $points;
     }
 
     public function getCreatedAt(): DateTimeImmutable

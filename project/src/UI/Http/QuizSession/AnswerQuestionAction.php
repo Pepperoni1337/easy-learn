@@ -28,7 +28,6 @@ final class AnswerQuestionAction extends AbstractController
         QuizQuestion $question,
         Request $request,
     ): Response {
-        //validace $qestion je v current levelu
 
         $result = $this->manager->submitAnswer(
             $quizSession,
@@ -58,7 +57,9 @@ final class AnswerQuestionAction extends AbstractController
                 sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle())
             );
 
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_quiz_detail', [
+                'quiz' => $quizSession->getQuiz()->getId(),
+            ]);
         }
 
         return $this->redirectToRoute('app_quiz_session_get_question', [

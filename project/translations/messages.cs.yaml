@@ -37,6 +37,7 @@ label:
   your_answer: 'Vaše odpověď'
   answer: 'Odpověď'
   created_at: 'Vytvořeno'
+  score: 'Skóre'
 
 # Test page
 test:
@@ -51,4 +52,4 @@ quiz:
   detail_heading: 'Detail kvízu'
   questions_list: 'Seznam otázek'
   sessions_in_progress: 'Rozehrané relace'
-  finished_question: 'dokončené relace'
+  finished_question: 'Nejlepší výsledky'

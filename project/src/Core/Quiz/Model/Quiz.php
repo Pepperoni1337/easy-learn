@@ -80,28 +80,4 @@ class Quiz implements Entity
             $this->questions->removeElement($question);
         }
     }
-
-    public function getRandomQuestion(Collection $answeredQuestion): ?QuizQuestion
-    {
-        $remainingQuestions = $this->questions->filter(
-            function (QuizQuestion $question) use ($answeredQuestion) {
-                return !$answeredQuestion->contains($question);
-            }
-        );
-
-        // If there are no remaining questions, return null
-        if ($remainingQuestions->isEmpty()) {
-            return null;
-        }
-
-        // Get a random index within the range of remaining questions
-        $randomIndex = rand(0, $remainingQuestions->count() - 1);
-
-        // Return the question at the random index
-        $result =  $remainingQuestions->slice($randomIndex, 1);
-
-        foreach ($result as $question) {
-            return $question;
-        }
-    }
 }

@@ -18,4 +18,9 @@ class User implements Entity
     {
         $this->id = Id::new();
     }
+
+    public function getEmail(): string
+    {
+        return 'ahoj';
+    }
 }

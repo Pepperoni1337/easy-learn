@@ -16,12 +16,17 @@ message:
   no_quizzes: 'Momentálně nejsou k dispozici žádné kvízy.'
   no_active_sessions: 'Nemáte žádné aktivní kvízové relace.'
   no_finished_sessions: 'Nemáte žádné dokončené kvízové relace.'
+  no_questions: 'Tento kvíz nemá žádné otázky.'
+  no_sessions: 'Tento kvíz nemá žádné relace.'
 
 button:
   start_quiz: 'Začít kvíz'
   continue_quiz: 'Pokračovat v kvízu'
   completed: 'Dokončeno'
   submit_answer: 'Odeslat odpověď'
+  return: 'Zpět'
+  create_quiz: 'Vytvořit kvíz'
+  view_details: 'Zobrazit detail'
 
 label:
   status: 'Stav:'
@@ -30,6 +35,8 @@ label:
   remaining: 'Zbývá:'
   questions: 'Otázky:'
   your_answer: 'Vaše odpověď'
+  answer: 'Odpověď'
+  created_at: 'Vytvořeno'
 
 # Test page
 test:
@@ -40,3 +47,8 @@ test:
 quiz:
   question_title: 'Otázka kvízu'
   question_heading: 'Otázka'
+  detail_title: 'Detail kvízu'
+  detail_heading: 'Detail kvízu'
+  questions_list: 'Seznam otázek'
+  sessions_in_progress: 'Rozehrané relace'
+  finished_question: 'dokončené relace'

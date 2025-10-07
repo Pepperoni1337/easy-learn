@@ -25,7 +25,10 @@
                                 <h5 class="card-title">{{ quiz.title }}</h5>
                                 <p class="card-text">{{ quiz.description }}</p>
                                 <p class="card-text"><small class="text-muted">{{ 'label.questions'|trans }} {{ quiz.questions|length }}</small></p>
-                                <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id}) }}" class="btn btn-primary">{{ 'button.start_quiz'|trans }}</a>
+                                <div class="d-flex">
+                                    <a href="{{ path('app_quiz_detail', {'quiz': quiz.id}) }}" class="btn btn-info me-2">{{ 'button.view_details'|trans }}</a>
+                                    <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id}) }}" class="btn btn-primary">{{ 'button.start_quiz'|trans }}</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Core\QuizSession\Service;
 
-use App\Core\Quiz\Model\LevelAnswerResult;
 use App\Core\Quiz\Model\QuizQuestion;
+use App\Core\QuizSession\Model\LevelAnswerResult;
 use App\Core\QuizSession\Model\QuizSessionLevel;
 
 final class QuizSessionLevelManager

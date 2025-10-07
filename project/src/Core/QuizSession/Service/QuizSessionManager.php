@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Core\QuizSession\Service;
 
 use App\Core\Quiz\Model\QuizQuestion;
-use App\Core\Quiz\Model\SessionAnswerResult;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionStatus;
+use App\Core\QuizSession\Model\SessionAnswerResult;
 use RuntimeException;
 
 final class QuizSessionManager

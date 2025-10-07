@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Quiz\Model;
+namespace App\Core\QuizSession\Model;
 
 final class LevelAnswerResult
 {

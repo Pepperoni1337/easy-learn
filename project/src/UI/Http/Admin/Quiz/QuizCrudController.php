@@ -25,6 +25,8 @@ class QuizCrudController extends AbstractCrudController
     {
         yield FormField::addTab('Základní nastavení');
         yield TextField::new(Quiz::TITLE);
+        yield TextField::new(Quiz::SHARE_TOKEN)
+            ->setDisabled();
         yield TextareaField::new(Quiz::DESCRIPTION);
         yield FormField::addTab('Odpovědi');
         yield CollectionField::new('questions')

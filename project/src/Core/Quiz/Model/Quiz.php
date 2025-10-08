@@ -7,6 +7,7 @@ namespace App\Core\Quiz\Model;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use App\Util\RandomUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,7 @@ class Quiz implements Entity
     public const TITLE = 'title';
     public const DESCRIPTION = 'description';
     public const QUESTIONS = 'questions';
+    public const SHARE_TOKEN = 'shareToken';
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Please enter a title')]
@@ -35,10 +37,14 @@ class Quiz implements Entity
     #[ORM\OneToMany(targetEntity: QuizQuestion::class, mappedBy: QuizQuestion::QUIZ, cascade: ['persist'])]
     private Collection $questions;
 
+    #[ORM\Column(unique: true)]
+    private string $shareToken;
+
     public function __construct()
     {
         $this->id = Id::new();
         $this->questions = new ArrayCollection();
+        $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
     }
 
     public function getTitle(): string
@@ -79,5 +85,10 @@ class Quiz implements Entity
         if ($this->questions->contains($question)) {
             $this->questions->removeElement($question);
         }
+    }
+
+    public function getShareToken(): string
+    {
+        return $this->shareToken;
     }
 }

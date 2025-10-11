@@ -19,22 +19,48 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(unique: true)]
     private string $email;
 
-    public function __construct()
+    #[ORM\Column]
+    private string $password;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
+    public function __construct(string $email, string $password)
     {
         $this->id = Id::new();
+        $this->email = $email;
+        $this->password = $password;
+        $this->roles = ['ROLE_USER'];
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+        return $this;
     }
 
     public function getRoles(): array
     {
-        return [
-            'ROLE_USER',
-            'ROLE_ADMIN',
-        ];
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
     }
 
     public function eraseCredentials(): void
     {
-        // TODO: Implement eraseCredentials() method.
+        // If you store any temporary, sensitive data on the user, clear it here
     }
 
     public function getUserIdentifier(): string
@@ -42,8 +68,13 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
-        return 'abc';
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 }

@@ -19,11 +19,14 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(unique: true)]
     private string $email;
 
+    #[ORM\Column(options: ['default' => 'Noname User'])]
+    private string $nickname;
+
     #[ORM\Column]
     private string $password;
 
     #[ORM\Column(type: 'json')]
-    private array $roles = [];
+    private array $roles;
 
     public function __construct(string $email, string $password)
     {
@@ -31,6 +34,16 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
         $this->password = $password;
         $this->roles = ['ROLE_USER'];
+    }
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 
     public function getEmail(): string
@@ -42,6 +55,26 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->email = $email;
         return $this;
+    }
+
+    public function getNickname(): string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): void
+    {
+        $this->nickname = $nickname;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getRoles(): array
@@ -56,25 +89,5 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): void
     {
         $this->roles = $roles;
-    }
-
-    public function eraseCredentials(): void
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-    }
-
-    public function getUserIdentifier(): string
-    {
-        return $this->email;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
     }
 }

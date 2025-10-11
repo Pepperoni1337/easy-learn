@@ -4,12 +4,26 @@
 
 {% block body %}
 
-{{ 'page.dashboard.createNewQuiz'|trans }}<br>
+{{ 'page.dashboard.welcome'|trans }} {{ user.nickname }}!<br><br>
 
-{{ 'page.dashboard.discoverQuizzes'|trans }}<br>
+{{ 'page.dashboard.createNewQuiz'|trans }}<br><br>
 
-{{ 'page.dashboard.quizSessionsInProgress'|trans }}<br>
+{{ 'page.dashboard.discoverQuizzes'|trans }}<br><br>
 
-{{ 'page.dashboard.finishedQuizSessions'|trans }}<br>
+    {% for quiz in availableQuizzes %}
+    {{ quiz.title }}<br>
+    {% endfor %}<br>
+
+{{ 'page.dashboard.quizSessionsInProgress'|trans }}<br><br>
+
+    {% for quiz in quizSessionsInProgress %}
+        {{ quiz.title }}<br>
+    {% endfor %}<br>
+
+{{ 'page.dashboard.finishedQuizSessions'|trans }}<br><br>
+
+    {% for quiz in finishedQuizSessions %}
+        {{ quiz.title }}<br>
+    {% endfor %}<br>
 
 {% endblock %}

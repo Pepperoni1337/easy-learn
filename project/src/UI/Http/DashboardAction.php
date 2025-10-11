@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\Shared\Traits\WithEntityManager;
+use App\Core\User\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,14 +20,21 @@ final class DashboardAction extends AbstractController
 
     public function __invoke(): Response
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User is not logged in.');
+        }
+
         return $this->render(
             'dashboard.html.twig',
             [
-                'quizzes' => $this->getRepository(Quiz::class)->findAll(),
-                'finishedSessions' => $this->getRepository(QuizSession::class)->findBy([
+                'user' => UserOutput::fromUser($user),
+                'availableQuizzes' => $this->getRepository(Quiz::class)->findAll(),
+                'finishedQuizSessions' => $this->getRepository(QuizSession::class)->findBy([
                     QuizSession::STATUS => QuizSessionStatus::FINISHED,
                 ]),
-                'sessionsInProgress' => $this->getRepository(QuizSession::class)->findBy([
+                'quizSessionsInProgress' => $this->getRepository(QuizSession::class)->findBy([
                     QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
                 ]),
             ]

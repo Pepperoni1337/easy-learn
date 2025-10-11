@@ -1,4 +1,5 @@
 page.dashboard.title: 'Easy quiz'
+page.dashboard.welcome: 'Vítejte, uživateli'
 page.dashboard.createNewQuiz: 'Vytvořit nový kvíz'
 page.dashboard.discoverQuizzes: 'Objevujte dostupné kvízy'
 page.dashboard.quizSessionsInProgress: 'Rozehrané kvízy'

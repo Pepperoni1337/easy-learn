@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'page.dashboard.title'|trans }}{% endblock %}
+
+{% block body %}
+
+{{ 'page.dashboard.welcome'|trans }} {{ user.nickname }}!<br><br>
+
+    <a href="#">
+        {{ 'page.dashboard.createNewQuiz'|trans }}
+    </a><br><br>
+
+
+{{ 'page.dashboard.discoverQuizzes'|trans }}<br><br>
+
+    {% for quiz in availableQuizzes %}
+        {{ quiz.title }}<br>
+        - {{ quiz.description }}<br>
+        <a href="#">
+            {{ 'page.dashboard.startQuiz'|trans }}
+        </a> <br><br>
+    {% endfor %}<br>
+
+{{ 'page.dashboard.quizSessionsInProgress'|trans }}<br><br>
+
+    {% for quiz in quizSessionsInProgress %}
+        {{ quiz.title }}<br>
+        - {{ quiz.description }}<br>
+        <a href="#">
+            {{ 'page.dashboard.startQuiz'|trans }}
+        </a> <br><br>
+    {% endfor %}<br>
+
+{{ 'page.dashboard.finishedQuizSessions'|trans }}<br><br>
+
+    {% for quiz in finishedQuizSessions %}
+        {{ quiz.title }}<br>
+        - {{ quiz.description }}<br>
+        <a href="#">
+            {{ 'page.dashboard.startQuiz'|trans }}
+        </a> <br><br>
+    {% endfor %}<br>
+
+{% endblock %}

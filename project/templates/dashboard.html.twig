@@ -3,27 +3,142 @@
 {% block title %}{{ 'page.dashboard.title'|trans }}{% endblock %}
 
 {% block body %}
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h2 class="card-title display-5">{{ 'page.dashboard.welcome'|trans }} {{ user.nickname }}!</h2>
+                            <p class="card-text lead">Welcome to your learning dashboard. Here you can create new quizzes, discover quizzes created by others, and track your progress.</p>
+                        </div>
+                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                            <a href="#" class="btn btn-light btn-lg">
+                                <i class="bi bi-plus-circle"></i> {{ 'page.dashboard.createNewQuiz'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-{{ 'page.dashboard.welcome'|trans }} {{ user.nickname }}!<br><br>
+    <!-- Discover Quizzes Section -->
+    <h3 class="section-header">
+        <i class="bi bi-search me-2"></i>
+        {{ 'page.dashboard.discoverQuizzes'|trans }}
+    </h3>
+    <div class="row">
+        {% if availableQuizzes is empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    No quizzes available at the moment. Check back later!
+                </div>
+            </div>
+        {% else %}
+            {% for quiz in availableQuizzes %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.title }}</h5>
+                            <p class="card-text">{{ quiz.description }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-question-circle"></i> 10 questions
+                            </small>
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="bi bi-play-fill"></i> {{ 'page.dashboard.startQuiz'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-{{ 'page.dashboard.createNewQuiz'|trans }}<br><br>
+    <!-- In Progress Quizzes Section -->
+    <h3 class="section-header">
+        <i class="bi bi-hourglass-split me-2"></i>
+        {{ 'page.dashboard.quizSessionsInProgress'|trans }}
+    </h3>
+    <div class="row">
+        {% if quizSessionsInProgress is empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    You don't have any quizzes in progress.
+                </div>
+            </div>
+        {% else %}
+            {% for quiz in quizSessionsInProgress %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-warning">
+                        <div class="card-header bg-warning bg-opacity-25">
+                            <i class="bi bi-hourglass-split me-2"></i>In Progress
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.title }}</h5>
+                            <p class="card-text">{{ quiz.description }}</p>
+                            <div class="progress mt-3">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3"></i> Started 2 days ago
+                            </small>
+                            <a href="#" class="btn btn-warning">
+                                <i class="bi bi-arrow-right-circle"></i> {{ 'page.dashboard.startQuiz'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 
-{{ 'page.dashboard.discoverQuizzes'|trans }}<br><br>
-
-    {% for quiz in availableQuizzes %}
-    {{ quiz.title }}<br>
-    {% endfor %}<br>
-
-{{ 'page.dashboard.quizSessionsInProgress'|trans }}<br><br>
-
-    {% for quiz in quizSessionsInProgress %}
-        {{ quiz.title }}<br>
-    {% endfor %}<br>
-
-{{ 'page.dashboard.finishedQuizSessions'|trans }}<br><br>
-
-    {% for quiz in finishedQuizSessions %}
-        {{ quiz.title }}<br>
-    {% endfor %}<br>
-
+    <!-- Finished Quizzes Section -->
+    <h3 class="section-header">
+        <i class="bi bi-check-circle me-2"></i>
+        {{ 'page.dashboard.finishedQuizSessions'|trans }}
+    </h3>
+    <div class="row">
+        {% if finishedQuizSessions is empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    You haven't completed any quizzes yet.
+                </div>
+            </div>
+        {% else %}
+            {% for quiz in finishedQuizSessions %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-success">
+                        <div class="card-header bg-success bg-opacity-25">
+                            <i class="bi bi-check-circle me-2"></i>Completed
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ quiz.title }}</h5>
+                            <p class="card-text">{{ quiz.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="badge bg-success">Score: 85%</span>
+                                <span class="badge bg-secondary">Time: 15 min</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-calendar3"></i> Completed on May 15, 2023
+                            </small>
+                            <a href="#" class="btn btn-success">
+                                <i class="bi bi-eye"></i> {{ 'page.dashboard.startQuiz'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock %}

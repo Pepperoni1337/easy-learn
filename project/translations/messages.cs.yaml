@@ -4,6 +4,7 @@ page.dashboard.createNewQuiz: 'Vytvořit nový kvíz'
 page.dashboard.discoverQuizzes: 'Objevujte dostupné kvízy'
 page.dashboard.quizSessionsInProgress: 'Rozehrané kvízy'
 page.dashboard.finishedQuizSessions: 'Dokončené kvízy'
+page.dashboard.startQuiz: 'Hrát'
 
 section:
   available_quizzes: 'Dostupné kvízy'

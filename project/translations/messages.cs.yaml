@@ -1,11 +1,8 @@
-# Czech translations for all templates
-# Base template
-base:
-  welcome: 'Vítejte!'
-
-# Index page
-page:
-  title: 'Kvízy'
+page.dashboard.title: 'Easy quiz'
+page.dashboard.createNewQuiz: 'Vytvořit nový kvíz'
+page.dashboard.discoverQuizzes: 'Objevujte dostupné kvízy'
+page.dashboard.quizSessionsInProgress: 'Rozehrané kvízy'
+page.dashboard.finishedQuizSessions: 'Dokončené kvízy'
 
 section:
   available_quizzes: 'Dostupné kvízy'

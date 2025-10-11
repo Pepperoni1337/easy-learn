@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/', name: 'app_index')]
-final class IndexAction extends AbstractController
+final class DashboardAction extends AbstractController
 {
     use WithEntityManager;
 
     public function __invoke(): Response
     {
         return $this->render(
-            'index.html.twig',
+            'dashboard.html.twig',
             [
                 'quizzes' => $this->getRepository(Quiz::class)->findAll(),
                 'finishedSessions' => $this->getRepository(QuizSession::class)->findBy([

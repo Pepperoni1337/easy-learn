@@ -5,6 +5,8 @@ page.dashboard.discoverQuizzes: 'Objevujte dostupné kvízy'
 page.dashboard.quizSessionsInProgress: 'Rozehrané kvízy'
 page.dashboard.finishedQuizSessions: 'Dokončené kvízy'
 page.dashboard.startQuiz: 'Hrát'
+page.dashboard.continueQuiz: 'Pokračovat'
+page.quiz.detail.title: 'Detail'
 
 section:
   available_quizzes: 'Dostupné kvízy'

@@ -27,6 +27,7 @@ class QuizSession implements Entity
     public const STATUS = 'status';
     public const REMAINING_LEVELS = 'remainingLevels';
     public const SCORE = 'score';
+    public const NUMBER_OF_LEVELS_AT_START = 'numberOfLevelsAtStart';
     public const CREATED_AT = 'createdAt';
     public const UPDATED_AT = 'updatedAt';
 
@@ -51,6 +52,8 @@ class QuizSession implements Entity
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeImmutable $updatedAt;
 
+    private int $numberOfLevelsAtStart;
+
     public function __construct(
         Quiz $quiz,
         User $owner,
@@ -62,6 +65,7 @@ class QuizSession implements Entity
         $this->status = $status;
         $this->remainingLevels = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+        $this->numberOfLevelsAtStart = $quiz->getQuestions()->count();
     }
 
     public function getQuiz(): Quiz
@@ -128,6 +132,11 @@ class QuizSession implements Entity
     public function addScore(int $points): void
     {
         $this->score += $points;
+    }
+
+    public function getNumberOfLevelsAtStart(): int
+    {
+        return $this->numberOfLevelsAtStart;
     }
 
     public function getCreatedAt(): DateTimeImmutable

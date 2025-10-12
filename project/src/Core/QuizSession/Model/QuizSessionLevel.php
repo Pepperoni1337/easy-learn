@@ -21,6 +21,7 @@ class QuizSessionLevel implements Entity
     public const QUIZ_SESSION = 'quizSession';
     public const LEVEL = 'level';
     public const REMAINING_QUESTIONS = 'remainingQuestions';
+    public const NUMBER_OF_QUESTIONS_AT_START = 'numberOfQuestionsAtStart';
 
     #[ORM\ManyToOne(targetEntity: QuizSession::class, inversedBy: QuizSession::REMAINING_LEVELS)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
@@ -35,6 +36,9 @@ class QuizSessionLevel implements Entity
     #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
     private Collection $remainingQuestions;
 
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $numberOfQuestionsAtStart;
+
     public function __construct(
         QuizSession $quizSession,
         int $level,
@@ -44,6 +48,7 @@ class QuizSessionLevel implements Entity
         $this->quizSession = $quizSession;
         $this->level = $level;
         $this->remainingQuestions = $remainingQuestions;
+        $this->numberOfQuestionsAtStart = $remainingQuestions->count();
     }
 
     public function getQuizSession(): QuizSession
@@ -74,6 +79,11 @@ class QuizSessionLevel implements Entity
     public function getRemainingQuestions(): Collection
     {
         return $this->remainingQuestions;
+    }
+
+    public function getNumberOfQuestionsAtStart(): int
+    {
+        return $this->numberOfQuestionsAtStart;
     }
 
     public function removeRemainingQuestion(QuizQuestion $question): void

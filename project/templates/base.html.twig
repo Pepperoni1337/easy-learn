@@ -44,7 +44,7 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Easy Learn</a>
+                    <a class="navbar-brand" href="{{ path('app_dashboard') }}">Easy Learn</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -52,10 +52,10 @@
                         <ul class="navbar-nav ms-auto">
                             {% if app.user %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/dashboard">Dashboard</a>
+                                    <a class="nav-link" href="{{ path('app_dashboard') }}">Dashboard</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="/logout">Logout</a>
+                                    <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">

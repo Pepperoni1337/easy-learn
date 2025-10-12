@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Http;
+namespace App\UI\Http\Shared;
 
 use App\Core\User\Model\User;
 

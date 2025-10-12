@@ -9,6 +9,10 @@ use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\User\Model\User;
+use App\UI\Http\Shared\QuizOutput;
+use App\UI\Http\Shared\QuizSessionOutput;
+use App\UI\Http\Shared\UserOutput;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,20 +27,35 @@ final class DashboardAction extends AbstractController
         $user = $this->getUser();
 
         if (!$user instanceof User) {
-            throw new \RuntimeException('User is not logged in.');
+            throw new RuntimeException('User is not logged in.');
         }
+
+        $availableQuizzesOutput = array_map(
+            static fn (Quiz $quiz) => QuizOutput::fromQuiz($quiz),
+            $this->getRepository(Quiz::class)->findAll()
+        );
+
+        $finishedQuizSessionsOutput = array_map(
+            static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
+            $this->getRepository(QuizSession::class)->findBy([
+                QuizSession::STATUS => QuizSessionStatus::FINISHED,
+            ])
+        );
+
+        $quizSessionsInProgressOutput = array_map(
+            static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
+            $this->getRepository(QuizSession::class)->findBy([
+                QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
+            ])
+        );
 
         return $this->render(
             'dashboard.html.twig',
             [
                 'user' => UserOutput::fromUser($user),
-                'availableQuizzes' => $this->getRepository(Quiz::class)->findAll(),
-                'finishedQuizSessions' => $this->getRepository(QuizSession::class)->findBy([
-                    QuizSession::STATUS => QuizSessionStatus::FINISHED,
-                ]),
-                'quizSessionsInProgress' => $this->getRepository(QuizSession::class)->findBy([
-                    QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
-                ]),
+                'availableQuizzes' => $availableQuizzesOutput,
+                'finishedQuizSessions' => $finishedQuizSessionsOutput,
+                'quizSessionsInProgress' => $quizSessionsInProgressOutput,
             ]
         );
     }

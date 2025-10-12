@@ -15,16 +15,25 @@ final class QuizSessionOutput
         public readonly QuizOutput $quiz,
         public readonly UserOutput $owner,
         public readonly QuizSessionStatus $status,
+        public readonly int $numberOfLevelsAtStart,
+        public readonly int $currentLevelNumber,
     ) {
     }
 
-    public static function fromQuizSession(QuizSession $quizSession): self
+    public static function fromQuizSession(QuizSession $session): self
     {
         return new self(
-            $quizSession->getId(),
-            QuizOutput::fromQuiz($quizSession->getQuiz()),
-            UserOutput::fromUser($quizSession->getOwner()),
-            $quizSession->getStatus(),
+            id: $session->getId(),
+            quiz: QuizOutput::fromQuiz($session->getQuiz()),
+            owner: UserOutput::fromUser($session->getOwner()),
+            status: $session->getStatus(),
+            numberOfLevelsAtStart: $session->getNumberOfLevelsAtStart(),
+            currentLevelNumber: self::resolveCurrentLevel($session),
         );
+    }
+
+    private static function resolveCurrentLevel(QuizSession $session): int
+    {
+        return 1 + $session->getNumberOfLevelsAtStart() - $session->getRemainingLevels()->count();
     }
 }

@@ -112,6 +112,11 @@ class QuizSession implements Entity
         $this->remainingLevels = $remainingLevels;
     }
 
+    public function getRemainingLevels(): Collection
+    {
+        return $this->remainingLevels;
+    }
+
     public function removeRemainingLevel(QuizSessionLevel $level): void
     {
         if ($this->remainingLevels->contains($level)) {

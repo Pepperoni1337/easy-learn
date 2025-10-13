@@ -14,6 +14,7 @@ final class QuizOutput
         public readonly string $title,
         public readonly string $description,
         public readonly string $shareToken,
+        public readonly int $numberOfQuestions,
     ) {
     }
 
@@ -24,6 +25,7 @@ final class QuizOutput
             $quiz->getTitle(),
             $quiz->getDescription(),
             $quiz->getShareToken(),
+            $quiz->getQuestions()->count(),
         );
     }
 }

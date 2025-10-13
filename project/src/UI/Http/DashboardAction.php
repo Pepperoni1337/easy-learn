@@ -50,7 +50,7 @@ final class DashboardAction extends AbstractController
         );
 
         return $this->render(
-            'dashboard.html.twig',
+            'dashboard-wireframe.html.twig',
             [
                 'user' => UserOutput::fromUser($user),
                 'availableQuizzes' => $availableQuizzesOutput,

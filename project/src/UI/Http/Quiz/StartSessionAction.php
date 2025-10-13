@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Service\QuizSessionFactory;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\User\Model\User;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +25,13 @@ final class StartSessionAction extends AbstractController
 
     public function __invoke(Quiz $quiz): Response
     {
-        $quizSession = $this->quizSessionFactory->createNewSession($quiz, new User());
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new RuntimeException('User is not logged in.');
+        }
+
+        $quizSession = $this->quizSessionFactory->createNewSession($quiz, $user);
 
         $this->entityManager->persist($quizSession);
         $this->entityManager->flush();

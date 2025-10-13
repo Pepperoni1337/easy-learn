@@ -5,8 +5,13 @@ page.dashboard.discoverQuizzes: 'Objevujte dostupné kvízy'
 page.dashboard.quizSessionsInProgress: 'Rozehrané kvízy'
 page.dashboard.finishedQuizSessions: 'Dokončené kvízy'
 page.dashboard.startQuiz: 'Hrát'
-page.dashboard.continueQuiz: 'Pokračovat'
+page.dashboard.quiz.numberOfQuestions: 'Počet otázek'
+page.dashboard.quiz.shareLink: 'Sdílet kvíz'
+page.dashboard.quiz.detailLink: 'Detail'
+
 page.quiz.detail.title: 'Detail'
+page.quiz.detail.quiz.numberOfQuestions: 'Počet otázek'
+page.quiz.detail.quiz.shareLink: 'Sdílet kvíz'
 
 section:
   available_quizzes: 'Dostupné kvízy'

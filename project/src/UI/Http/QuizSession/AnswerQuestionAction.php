@@ -52,12 +52,7 @@ final class AnswerQuestionAction extends AbstractController
         }
 
         if ($result->isQuizFinished) {
-            $this->addFlash(
-                'success',
-                sprintf('Kvíz %s úspěšně dokončen', $quizSession->getQuiz()->getTitle())
-            );
-
-            return $this->redirectToRoute('app_quiz_detail', [
+            return $this->redirectToRoute('app_quiz_session_results', [
                 'quiz' => $quizSession->getQuiz()->getId(),
             ]);
         }

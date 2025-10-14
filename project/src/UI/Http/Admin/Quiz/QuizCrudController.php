@@ -3,11 +3,13 @@
 namespace App\UI\Http\Admin\Quiz;
 
 use App\Core\Quiz\Model\Quiz;
+use App\Core\User\Model\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use RuntimeException;
 
 class QuizCrudController extends AbstractCrudController
 {
@@ -18,7 +20,13 @@ class QuizCrudController extends AbstractCrudController
 
     public function createEntity(string $entityFqcn)
     {
-        return new Quiz('', '');
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new RuntimeException('User is not logged in.');
+        }
+
+        return new Quiz($user);
     }
 
     public function configureFields(string $pageName): iterable
@@ -28,7 +36,7 @@ class QuizCrudController extends AbstractCrudController
         yield TextField::new(Quiz::SHARE_TOKEN)
             ->setDisabled();
         yield TextareaField::new(Quiz::DESCRIPTION);
-        yield FormField::addTab('Odpovědi');
+        yield FormField::addTab('Otázky');
         yield CollectionField::new('questions')
             ->setEntryType(QuizQuestionType::class)
             ->allowAdd()

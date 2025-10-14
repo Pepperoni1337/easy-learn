@@ -3,142 +3,173 @@
 {% block title %}{{ 'page.dashboard.title'|trans }}{% endblock %}
 
 {% block body %}
+<div class="container py-4">
     <!-- Welcome Section -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card bg-primary text-white">
+            <div class="card">
                 <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h2 class="card-title display-5">{{ 'page.dashboard.welcome'|trans }} {{ user.nickname }}!</h2>
-                            <p class="card-text lead">Welcome to your learning dashboard. Here you can create new quizzes, discover quizzes created by others, and track your progress.</p>
-                        </div>
-                        <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                            <a href="#" class="btn btn-light btn-lg">
-                                <i class="bi bi-plus-circle"></i> {{ 'page.dashboard.createNewQuiz'|trans }}
-                            </a>
-                        </div>
+                    <h2 class="card-title">{{ 'page.dashboard.welcome'|trans }} <span class="text-primary">{{ user.nickname }}</span>!</h2>
+                    <div class="mt-3">
+                        <a href="#" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>{{ 'page.dashboard.createNewQuiz'|trans }}
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- My Quizzes Section -->
+    <h3 class="section-header">
+        <i class="bi bi-collection me-2"></i>{{ 'page.dashboard.myQuizzes'|trans }}
+    </h3>
+    <div class="row">
+        {% for quiz in myQuizzes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <i class="bi bi-question-circle me-1"></i>{{ 'page.dashboard.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}
+                            </small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}" class="btn btn-success btn-sm">
+                                <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
+                            </a>
+                            <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-info-circle me-1"></i>{{ 'page.dashboard.quiz.detailLink'|trans }}
+                            </a>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="bi bi-share me-1"></i>{{ 'page.dashboard.quiz.shareLink'|trans }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>You haven't created any quizzes yet.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
     <!-- Discover Quizzes Section -->
-    <h3 class="section-header">
-        <i class="bi bi-search me-2"></i>
-        {{ 'page.dashboard.discoverQuizzes'|trans }}
+    <h3 class="section-header mt-5">
+        <i class="bi bi-search me-2"></i>{{ 'page.dashboard.discoverQuizzes'|trans }}
     </h3>
     <div class="row">
-        {% if availableQuizzes is empty %}
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    No quizzes available at the moment. Check back later!
-                </div>
-            </div>
-        {% else %}
-            {% for quiz in availableQuizzes %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ quiz.title }}</h5>
-                            <p class="card-text">{{ quiz.description }}</p>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
+        {% for quiz in availableQuizzes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <p class="card-text">
                             <small class="text-muted">
-                                <i class="bi bi-question-circle"></i> {{ quiz.numberOfQuestions }} questions
+                                <i class="bi bi-question-circle me-1"></i>{{ 'page.dashboard.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}
                             </small>
-                            <a href="#" class="btn btn-outline-primary">
-                                <i class="bi bi-play-fill"></i> {{ 'page.dashboard.startQuiz'|trans }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}" class="btn btn-success btn-sm">
+                                <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
                             </a>
+                            <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-info-circle me-1"></i>{{ 'page.dashboard.quiz.detailLink'|trans }}
+                            </a>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="bi bi-share me-1"></i>{{ 'page.dashboard.quiz.shareLink'|trans }}
+                            </small>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>No quizzes available for discovery at the moment.
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
-    <!-- In Progress Quizzes Section -->
-    <h3 class="section-header">
-        <i class="bi bi-hourglass-split me-2"></i>
-        {{ 'page.dashboard.quizSessionsInProgress'|trans }}
+    <!-- Quiz Sessions In Progress Section -->
+    <h3 class="section-header mt-5">
+        <i class="bi bi-hourglass-split me-2"></i>{{ 'page.dashboard.quizSessionsInProgress'|trans }}
     </h3>
     <div class="row">
-        {% if quizSessionsInProgress is empty %}
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    You don't have any quizzes in progress.
+        {% for quizSession in quizSessionsInProgress %}
+            {% set quiz = quizSession.quiz %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-warning">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <div class="progress mb-3">
+                            {% set progress = (quizSession.currentLevelNumber / quizSession.numberOfLevelsAtStart) * 100 %}
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ progress }}%;" 
+                                 aria-valuenow="{{ quizSession.currentLevelNumber }}" aria-valuemin="0" aria-valuemax="{{ quizSession.numberOfLevelsAtStart }}">
+                                Level {{ quizSession.currentLevelNumber }} / {{ quizSession.numberOfLevelsAtStart }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ path('app_quiz_session_get_question', {quizSession: quizSession.id}) }}" class="btn btn-warning w-100">
+                            <i class="bi bi-arrow-right-circle me-1"></i>{{ 'page.dashboard.quizSession.continueLink'|trans }}
+                        </a>
+                    </div>
                 </div>
             </div>
         {% else %}
-            {% for quiz in quizSessionsInProgress %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-warning">
-                        <div class="card-header bg-warning bg-opacity-25">
-                            <i class="bi bi-hourglass-split me-2"></i>In Progress
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ quiz.title }}</h5>
-                            <p class="card-text">{{ quiz.description }}</p>
-                            <div class="progress mt-3">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
-                            <small class="text-muted">
-                                <i class="bi bi-calendar3"></i> Started 2 days ago
-                            </small>
-                            <a href="#" class="btn btn-warning">
-                                <i class="bi bi-arrow-right-circle"></i> {{ 'page.dashboard.continueQuiz'|trans }}
-                            </a>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>You don't have any quiz sessions in progress.
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        {% endfor %}
     </div>
 
-    <!-- Finished Quizzes Section -->
-    <h3 class="section-header">
-        <i class="bi bi-check-circle me-2"></i>
-        {{ 'page.dashboard.finishedQuizSessions'|trans }}
+    <!-- Finished Quiz Sessions Section -->
+    <h3 class="section-header mt-5">
+        <i class="bi bi-check-circle me-2"></i>{{ 'page.dashboard.finishedQuizSessions'|trans }}
     </h3>
     <div class="row">
-        {% if finishedQuizSessions is empty %}
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <i class="bi bi-info-circle me-2"></i>
-                    You haven't completed any quizzes yet.
+        {% for quizSession in finishedQuizSessions %}
+            {% set quiz = quizSession.quiz %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-success">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <span class="badge bg-success mb-2">Completed</span>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="#" class="btn btn-outline-success w-100">
+                            <i class="bi bi-arrow-repeat me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
+                        </a>
+                    </div>
                 </div>
             </div>
         {% else %}
-            {% for quiz in finishedQuizSessions %}
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 border-success">
-                        <div class="card-header bg-success bg-opacity-25">
-                            <i class="bi bi-check-circle me-2"></i>Completed
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ quiz.title }}</h5>
-                            <p class="card-text">{{ quiz.description }}</p>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="badge bg-success">Score: 85%</span>
-                                <span class="badge bg-secondary">Time: 15 min</span>
-                            </div>
-                        </div>
-                        <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
-                            <small class="text-muted">
-                                <i class="bi bi-calendar3"></i> Completed on May 15, 2023
-                            </small>
-                            <a href="#" class="btn btn-success">
-                                <i class="bi bi-eye"></i> {{ 'page.dashboard.startQuiz'|trans }}
-                            </a>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>You haven't completed any quizzes yet.
                 </div>
-            {% endfor %}
-        {% endif %}
+            </div>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

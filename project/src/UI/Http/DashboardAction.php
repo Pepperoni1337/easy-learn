@@ -30,6 +30,13 @@ final class DashboardAction extends AbstractController
             throw new RuntimeException('User is not logged in.');
         }
 
+        $myQuizzesOutput = array_map(
+            static fn (Quiz $quiz) => QuizOutput::fromQuiz($quiz),
+            $this->getRepository(Quiz::class)->findBy([
+                Quiz::CREATED_BY => $user,
+            ])
+        );
+
         $availableQuizzesOutput = array_map(
             static fn (Quiz $quiz) => QuizOutput::fromQuiz($quiz),
             $this->getRepository(Quiz::class)->findAll()
@@ -50,9 +57,10 @@ final class DashboardAction extends AbstractController
         );
 
         return $this->render(
-            'dashboard-wireframe.html.twig',
+            'dashboard.html.twig',
             [
                 'user' => UserOutput::fromUser($user),
+                'myQuizzes' => $myQuizzesOutput,
                 'availableQuizzes' => $availableQuizzesOutput,
                 'finishedQuizSessions' => $finishedQuizSessionsOutput,
                 'quizSessionsInProgress' => $quizSessionsInProgressOutput,

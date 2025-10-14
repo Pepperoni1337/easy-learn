@@ -7,6 +7,7 @@ namespace App\Core\Quiz\Model;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use App\Core\User\Model\User;
 use App\Util\RandomUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +23,7 @@ class Quiz implements Entity
     public const DESCRIPTION = 'description';
     public const QUESTIONS = 'questions';
     public const SHARE_TOKEN = 'shareToken';
+    public const CREATED_BY = 'createdBy';
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Please enter a title')]
@@ -40,11 +42,17 @@ class Quiz implements Entity
     #[ORM\Column(unique: true)]
     private string $shareToken;
 
-    public function __construct()
-    {
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(onDelete: 'SET NULL')]
+    private ?User $createdBy;
+
+    public function __construct(
+        User $createdBy,
+    ) {
         $this->id = Id::new();
         $this->questions = new ArrayCollection();
         $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
+        $this->createdBy = $createdBy;
     }
 
     public function getTitle(): string
@@ -90,5 +98,10 @@ class Quiz implements Entity
     public function getShareToken(): string
     {
         return $this->shareToken;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
     }
 }

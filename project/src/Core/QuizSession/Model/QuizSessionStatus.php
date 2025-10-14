@@ -8,4 +8,9 @@ enum QuizSessionStatus: string
 {
     case IN_PROGRESS = 'in_progress';
     case FINISHED = 'finished';
+
+    public function isFinished(): bool
+    {
+        return $this === self::FINISHED;
+    }
 }

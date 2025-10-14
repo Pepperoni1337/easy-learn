@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'quiz.question_title'|trans }}{% endblock %}
+
+
+{% block body %}
+
+    Qratulujeme, úspěšně jste dokončili test.
+
+    výsledky...
+
+
+
+
+    Sdílet na FB:
+
+    pokud už ho člověk hrál:
+    <a href="{{ path('app_quiz_session_start', {quiz: quizSession.quiz.id}) }}">
+        Zkusit znovu test.
+    </a>
+
+
+    else:
+        Troufneš si taky na tento kvíz?
+
+
+    Vytvoř si vlastní kvíz.
+
+
+
+{% endblock %}

@@ -52,7 +52,8 @@ class QuizSession implements Entity
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeImmutable $updatedAt;
 
-    private int $numberOfLevelsAtStart;
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $numberOfLevelsAtStart = 0;
 
     public function __construct(
         Quiz $quiz,
@@ -65,7 +66,6 @@ class QuizSession implements Entity
         $this->status = $status;
         $this->remainingLevels = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
-        $this->numberOfLevelsAtStart = $quiz->getQuestions()->count();
     }
 
     public function getQuiz(): Quiz
@@ -110,6 +110,7 @@ class QuizSession implements Entity
     public function setRemainingLevels(Collection $remainingLevels): void
     {
         $this->remainingLevels = $remainingLevels;
+        $this->numberOfLevelsAtStart = $remainingLevels->count();
     }
 
     public function getRemainingLevels(): Collection

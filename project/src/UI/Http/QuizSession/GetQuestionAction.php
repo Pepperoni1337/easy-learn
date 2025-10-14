@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\UI\Http\QuizSession;
 
 use App\Core\QuizSession\Model\QuizSession;
+use App\UI\Http\Shared\QuizSessionLevelOutput;
+use App\UI\Http\Shared\QuizSessionOutput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -13,11 +15,13 @@ final class GetQuestionAction extends AbstractController
 {
     public function __invoke(QuizSession $quizSession)
     {
+
         return $this->render(
             'quiz-session/get-question.html.twig',
             [
                 'question' => $quizSession->getCurrentQuestion(),
-                'quizSession' => $quizSession,
+                'level' => QuizSessionLevelOutput::fromQuizSessionLevel($quizSession->getCurrentLevel()),
+                'quizSession' => QuizSessionOutput::fromQuizSession($quizSession),
             ],
         );
     }

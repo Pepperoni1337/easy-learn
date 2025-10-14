@@ -7,7 +7,7 @@
     {{ quiz.description }}<br>
     {{ 'page.quiz.detail.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}<br>
     {{ 'page.quiz.detail.quiz.shareLink'|trans }}<br>
-    <a href="#">
+    <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}">
         {{ 'page.dashboard.startQuiz'|trans }}
     </a> <br><br>
 

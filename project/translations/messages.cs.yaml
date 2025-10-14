@@ -8,10 +8,14 @@ page.dashboard.startQuiz: 'Hrát'
 page.dashboard.quiz.numberOfQuestions: 'Počet otázek'
 page.dashboard.quiz.shareLink: 'Sdílet kvíz'
 page.dashboard.quiz.detailLink: 'Detail'
+page.dashboard.quizSession.continueLink: 'Pokračovat'
 
 page.quiz.detail.title: 'Detail'
 page.quiz.detail.quiz.numberOfQuestions: 'Počet otázek'
 page.quiz.detail.quiz.shareLink: 'Sdílet kvíz'
+
+page.getQuestion.currentLevel: 'Aktuální level'
+page.getQuestion.numberOfAnsweredQuestions: 'Uhodnuto'
 
 section:
   available_quizzes: 'Dostupné kvízy'

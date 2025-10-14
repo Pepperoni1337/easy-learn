@@ -8,8 +8,14 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h2>{{ 'quiz.question_heading'|trans }}</h2>
+                        <div>
+                            {{ 'page.getQuestion.currentLevel'|trans }}: {{ quizSession.currentLevelNumber }} / {{ quizSession.numberOfLevelsAtStart }}
+                        </div>
+                        <div>
+                            {{ 'page.getQuestion.numberOfAnsweredQuestions'|trans }}: {{ level.currentQuestionNumber - 1}} / {{ level.numberOfQuestionsAtStart }}
+                        </div>
                     </div>
+
                     <div class="card-body">
                         {% for label, messages in app.flashes %}
                             {% for message in messages %}

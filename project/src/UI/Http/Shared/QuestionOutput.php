@@ -12,9 +12,7 @@ final class QuestionOutput
     public function __construct(
         public readonly Id $id,
         public readonly string $question,
-
-    )
-    {
+    ) {
     }
 
     public static function fromQuestion(QuizQuestion $question): self

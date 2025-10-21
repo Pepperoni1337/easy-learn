@@ -9,6 +9,7 @@ use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use App\Core\Shared\Model\TimeStampsTrait;
 use App\Core\User\Model\User;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,6 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 class QuizSession implements Entity
 {
     use EntityTrait;
+    use TimeStampsTrait;
 
     public const QUIZ = 'quiz';
     public const OWNER = 'owner';
@@ -30,6 +32,7 @@ class QuizSession implements Entity
     public const NUMBER_OF_LEVELS_AT_START = 'numberOfLevelsAtStart';
     public const CREATED_AT = 'createdAt';
     public const UPDATED_AT = 'updatedAt';
+    public const RESULT = 'result';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -46,14 +49,11 @@ class QuizSession implements Entity
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $score = 0;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private DateTimeImmutable $createdAt;
-
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private DateTimeImmutable $updatedAt;
-
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $numberOfLevelsAtStart = 0;
+
+    #[ORM\OneToOne(targetEntity: QuizSessionResult::class, mappedBy: QuizSessionResult::SESSION, cascade: ['persist', 'remove'])]
+    private ?QuizSessionResult $result = null;
 
     public function __construct(
         Quiz $quiz,
@@ -66,6 +66,7 @@ class QuizSession implements Entity
         $this->status = $status;
         $this->remainingLevels = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function getQuiz(): Quiz
@@ -145,20 +146,13 @@ class QuizSession implements Entity
         return $this->numberOfLevelsAtStart;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getResult(): ?QuizSessionResult
     {
-        return $this->createdAt;
+        return $this->result;
     }
 
-    public function getUpdatedAt(): DateTimeImmutable
+    public function setResult(?QuizSessionResult $result): void
     {
-        return $this->updatedAt;
-    }
-
-    #[ORM\PreUpdate]
-    #[ORM\PrePersist]
-    public function updateTimestamp(): void
-    {
-        $this->updatedAt = new DateTimeImmutable();
+        $this->result = $result;
     }
 }

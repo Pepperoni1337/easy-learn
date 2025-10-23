@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\OpenAI;
 
-use App\Util\UrlUtil;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -24,9 +23,16 @@ final readonly class OpenAiApiClient implements HttpClientInterface {
     }
 
     public function request(string $method, string $url, array $options = []): ResponseInterface {
+        $options = array_merge($options, [
+            'headers' => [
+                'Authorization' => 'Bearer '.$this->openAiApiKey,
+                'Content-Type'  => 'application/json',
+            ],
+        ]);
+
         return $this->httpClient->request(
             $method,
-            $this->createUrl($url),
+            $url,
             $options,
         );
     }
@@ -41,16 +47,5 @@ final readonly class OpenAiApiClient implements HttpClientInterface {
         $this->httpClient->withOptions($options);
 
         return $this;
-    }
-
-    private function createUrl(string $path): string {
-        return UrlUtil::createUrl(
-            isHttps: true,
-            host: $this->openAiUrl,
-            path: $path,
-            query: [
-                '_access_token' => $this->openAiApiKey,
-            ],
-        );
     }
 }

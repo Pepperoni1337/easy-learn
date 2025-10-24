@@ -10,14 +10,13 @@ final class PromptService
 {
     public function createPrompt(string $userPrompt): string {
         return StringUtil::concat(
-            'Jsi automat na otázky. ',
-            'Vytvoř sérii otázek a odpovědí na téma, které zadává uživatel.',
-            'Počet otázek musí být cca 2-3, nikdy ne víc, než 5',
-            'Otázky musí být na sobě nezávislé.',
+            'Jsi tvůrce kvízů. ',
+            'Vytvoř sérii otázek a odpovědí na téma, které zadává uživatel. ',
+            'Otázky musí být na sobě nezávislé. ',
+            'Každá otázka musí dávat smysl samostatně. ',
             'Odpověď musí být jedno až dvě slova, málo znaků - například jméno, název. ',
-            'Input uživatele: "',
+            'Input uživatele: ',
             $userPrompt,
-            '"'
         );
     }
 }

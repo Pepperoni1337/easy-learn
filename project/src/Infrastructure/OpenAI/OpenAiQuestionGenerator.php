@@ -13,8 +13,7 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
     public function __construct(
         private readonly OpenAiApiClient $client,
         private readonly SerializerInterface $serializer,
-    )
-    {
+    ) {
     }
 
     /**

@@ -6,7 +6,6 @@ namespace App\Infrastructure\OpenAI;
 
 use App\Application\AI\QuestionDto;
 use App\Application\AI\QuestionGenerator;
-use App\Util\StringUtil;
 use Symfony\Component\Serializer\SerializerInterface;
 
 final class OpenAiQuestionGenerator implements QuestionGenerator
@@ -21,18 +20,8 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
     /**
      * @return array<int, QuestionDto>
      */
-    public function generateQuestions(): array
+    public function generateQuestions(string $prompt, int $minCount, int $maxCount): array
     {
-        $prompt = StringUtil::concat(
-            'Jsi automat na otázky. ',
-            'Vytvoř sérii otázek a odpovědí na téma, které zadává uživatel.',
-            'Počet otázek musí být cca 2-3, nikdy ne víc, než 5',
-            'Otázky musí být na sobě nezávislé.',
-            'Odpověď musí být jedno až dvě slova, málo znaků - například jméno, název. ',
-            'Input uživatele: ',
-            'Chtěl bych kvíz na postavy z harryho pottera',
-        );
-
         $response = $this->client->request(
             'POST',
             '/v1/responses',
@@ -50,8 +39,8 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
                                 'properties' => [
                                     'qa' => [
                                         'type' => 'array',
-                                        'minItems' => 2,
-                                        'maxItems' => 5,
+                                        'minItems' => $minCount,
+                                        'maxItems' => $maxCount,
                                         'items' => [
                                             'type' => 'object',
                                             'properties' => [

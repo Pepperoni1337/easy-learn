@@ -7,5 +7,5 @@ interface QuestionGenerator
     /**
      * @return array<int, QuestionDto>
      */
-    public function generateQuestions(): array;
+    public function generateQuestions(string $prompt, int $minCount, int $maxCount): array;
 }

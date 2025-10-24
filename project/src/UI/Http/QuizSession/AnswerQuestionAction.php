@@ -53,7 +53,7 @@ final class AnswerQuestionAction extends AbstractController
 
         if ($result->isQuizFinished) {
             return $this->redirectToRoute('app_quiz_session_results', [
-                'quiz' => $quizSession->getQuiz()->getId(),
+                'quizSession' => $quizSession->getId(),
             ]);
         }
 

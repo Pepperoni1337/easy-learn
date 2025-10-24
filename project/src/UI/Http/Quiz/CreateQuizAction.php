@@ -7,6 +7,7 @@ namespace App\UI\Http\Quiz;
 use App\Application\AI\QuestionGenerator;
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Model\QuizQuestion;
+use App\Core\Quiz\Model\QuizType;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\User\Model\User;
 use App\Infrastructure\OpenAI\PromptService;
@@ -44,7 +45,10 @@ final class CreateQuizAction extends AbstractController
                 throw new \RuntimeException('User is not logged in.');
             }
 
-            $quiz = new Quiz($user);
+            $quiz = new Quiz(
+                $user,
+                QuizType::SingleLevel,
+            );
             $quiz->setTitle($quizDto->name);
             $quiz->setDescription($quizDto->prompt);
 

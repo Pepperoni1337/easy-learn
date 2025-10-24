@@ -3,6 +3,7 @@
 namespace App\UI\Http\Admin\Quiz;
 
 use App\Core\Quiz\Model\Quiz;
+use App\Core\Quiz\Model\QuizType;
 use App\Core\User\Model\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
@@ -26,7 +27,10 @@ class QuizCrudController extends AbstractCrudController
             throw new RuntimeException('User is not logged in.');
         }
 
-        return new Quiz($user);
+        return new Quiz(
+            $user,
+            QuizType::SingleLevel,
+        );
     }
 
     public function configureFields(string $pageName): iterable

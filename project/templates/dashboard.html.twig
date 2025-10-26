@@ -39,7 +39,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <div class="d-flex justify-content-between">
-                            <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}" class="btn btn-success btn-sm">
+                            <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'simple'}) }}" class="btn btn-success btn-sm">
                                 <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
                             </a>
                             <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}" class="btn btn-outline-primary btn-sm">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="card-footer bg-transparent">
                         <div class="d-flex justify-content-between">
-                            <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}" class="btn btn-success btn-sm">
+                            <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'simple'}) }}" class="btn btn-success btn-sm">
                                 <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
                             </a>
                             <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}" class="btn btn-outline-primary btn-sm">

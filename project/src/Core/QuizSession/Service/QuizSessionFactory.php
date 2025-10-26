@@ -6,6 +6,7 @@ namespace App\Core\QuizSession\Service;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Model\QuizSessionLevel;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
 use App\Util\CollectionUtil;
@@ -15,11 +16,6 @@ use Doctrine\Common\Collections\Collection;
 final class QuizSessionFactory
 {
     private array $leveQuestionCount = [3, 6, 9, 15, 24, 39];
-
-    public function __construct(
-        private readonly QuizSessionLevelFactory $levelFactory,
-    ) {
-    }
 
     public function createNewSession(Quiz $quiz, User $user): QuizSession
     {
@@ -45,10 +41,10 @@ final class QuizSessionFactory
         foreach ($this->leveQuestionCount as $count) {
             if ($allQuestions->count() > $count) {
                 $result->add(
-                    $this->levelFactory->createLevel(
-                        session: $session,
-                        levelNumber: $level,
-                        questions: CollectionUtil::sliceFromStart($allQuestions, $count),
+                    new QuizSessionLevel(
+                        quizSession: $session,level:
+                        $level,remainingQuestions:
+                        CollectionUtil::sliceFromStart($allQuestions, $count),
                     )
                 );
                 $level++;
@@ -56,10 +52,10 @@ final class QuizSessionFactory
         }
 
         $result->add(
-            $this->levelFactory->createLevel(
-                session: $session,
-                levelNumber: $level,
-                questions: $allQuestions,
+            new QuizSessionLevel(
+                quizSession: $session,
+                level: $level,
+                remainingQuestions: $allQuestions,
             )
         );
 

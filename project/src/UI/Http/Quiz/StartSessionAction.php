@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Http\Quiz;
 
 use App\Core\Quiz\Model\Quiz;
+use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Service\QuizSessionFactory;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\User\Model\User;
@@ -13,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/quiz/{quiz}/start-session', name: 'app_quiz_session_start')]
+#[Route('/quiz/{quiz}/start-session/{style}', name: 'app_quiz_session_start')]
 final class StartSessionAction extends AbstractController
 {
     use WithEntityManager;
@@ -23,7 +24,7 @@ final class StartSessionAction extends AbstractController
     ) {
     }
 
-    public function __invoke(Quiz $quiz): Response
+    public function __invoke(Quiz $quiz, GameStyle $style): Response
     {
         $user = $this->getUser();
 

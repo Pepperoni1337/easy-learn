@@ -25,6 +25,21 @@ final class CollectionUtil
         return $result;
     }
 
+    public static function sliceFromCollection(Collection $collection, int $start, int $end): Collection
+    {
+        $result = new ArrayCollection();
+
+        $i = 0;
+        foreach ($collection as $element) {
+            if ($i >= $start && $i <= $end) {
+                $result->add($element);
+            }
+            $i++;
+        }
+
+        return $result;
+    }
+
     /**
      * @template T
      * @param Collection<int, T> $collection

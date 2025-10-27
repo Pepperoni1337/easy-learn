@@ -41,7 +41,6 @@ class QuizCrudController extends AbstractCrudController
         yield FormField::addTab('Otázky');
         yield CollectionField::new('questions')
             ->setEntryType(QuizQuestionType::class)
-            ->allowAdd()
             ->allowDelete()
             ->setFormTypeOption('by_reference', false);
     }

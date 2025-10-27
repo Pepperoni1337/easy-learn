@@ -18,22 +18,43 @@ class QuizQuestion implements Entity
     public const QUIZ = 'quiz';
     public const QUESTION = 'question';
     public const ANSWER = 'answer';
+    public const WRONG_ANSWER_1 = 'wrongAnswer1';
+    public const WRONG_ANSWER_2 = 'wrongAnswer2';
+    public const WRONG_ANSWER_3 = 'wrongAnswer3';
 
-    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist'])]
+    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist', 'remove'])]
     #[Assert\NotBlank]
-    private ?Quiz $quiz;
+    private Quiz $quiz;
 
     #[ORM\Column]
     #[Assert\NotBlank]
-    private ?string $question;
+    private string $question;
 
     #[ORM\Column]
     #[Assert\NotBlank]
-    private ?string $answer;
+    private string $answer;
 
-    public function __construct()
-    {
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $wrongAnswer1 = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $wrongAnswer2 = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(allowNull: true)]
+    private ?string $wrongAnswer3 = null;
+
+    public function __construct(
+      Quiz $quiz,
+      string $question,
+      string $answer,
+    ) {
         $this->id = Id::new();
+        $this->quiz = $quiz;
+        $this->question = $question;
+        $this->answer = $answer;
     }
 
     public function getQuiz(): Quiz

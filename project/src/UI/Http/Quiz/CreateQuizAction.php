@@ -57,9 +57,12 @@ final class CreateQuizAction extends AbstractController
             );
 
             foreach ($questions as $questionDto) {
-                $quizQuestion = new QuizQuestion();
-                $quizQuestion->setQuestion($questionDto->question);
-                $quizQuestion->setAnswer($questionDto->answer);
+                $quizQuestion = new QuizQuestion(
+                    quiz: $quiz,
+                    question: $questionDto->question,
+                    answer: $questionDto->answer,
+
+                );
                 $quiz->addQuestion($quizQuestion);
             }
 

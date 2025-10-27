@@ -16,6 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
@@ -155,6 +156,11 @@ class QuizSession implements Entity
     public function getResult(): ?QuizSessionResult
     {
         return $this->result;
+    }
+
+    public function ensureResult(): QuizSessionResult
+    {
+        return $this->result ?? throw new RuntimeException('Result is not set');
     }
 
     public function setResult(?QuizSessionResult $result): void

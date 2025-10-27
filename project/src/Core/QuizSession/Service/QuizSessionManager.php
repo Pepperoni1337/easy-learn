@@ -44,6 +44,16 @@ final class QuizSessionManager
             $session->setStatus(QuizSessionStatus::FINISHED);
         }
 
+        if ($levelResult->correctAnswer) {
+            $result = $session->ensureResult();
+            $result->addScore(10);
+        }
+
+        if ($levelFinished) {
+            $result = $session->ensureResult();
+            $result->addScore(10);
+        }
+
         return new SessionAnswerResult(
             isCorrect: $levelResult->isCorrect,
             correctAnswer: $levelResult->correctAnswer,

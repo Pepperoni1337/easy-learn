@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
+use App\Core\QuizSession\Model\QuizSessionResult;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
 use App\Util\CollectionUtil;
@@ -31,6 +32,8 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
             status: QuizSessionStatus::IN_PROGRESS,
             keepWronglyAnsweredQuestions: true,
         );
+
+        $session->setResult(new QuizSessionResult($session, 0));
 
         $levels = $this->createLevels($session);
 

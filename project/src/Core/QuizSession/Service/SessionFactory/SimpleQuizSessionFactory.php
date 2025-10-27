@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
+use App\Core\QuizSession\Model\QuizSessionResult;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +31,8 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
             status: QuizSessionStatus::IN_PROGRESS,
             keepWronglyAnsweredQuestions: false,
         );
+
+        $session->setResult(new QuizSessionResult($session, 0));
 
         $session->setRemainingLevels(
             $this->createLevels($session),

@@ -46,18 +46,13 @@ class Quiz implements Entity
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $createdBy;
 
-    #[ORM\Column(enumType: QuizType::class)]
-    private QuizType $type;
-
     public function __construct(
         User $createdBy,
-        QuizType $type,
     ) {
         $this->id = Id::new();
         $this->questions = new ArrayCollection();
         $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
         $this->createdBy = $createdBy;
-        $this->type = $type;
     }
 
     public function getTitle(): string
@@ -108,15 +103,5 @@ class Quiz implements Entity
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
-    }
-
-    public function getType(): QuizType
-    {
-        return $this->type;
-    }
-
-    public function setType(QuizType $type): void
-    {
-        $this->type = $type;
     }
 }

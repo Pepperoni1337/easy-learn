@@ -17,6 +17,7 @@ final class QuizSessionOutput
         public readonly QuizSessionStatus $status,
         public readonly int $numberOfLevelsAtStart,
         public readonly int $currentLevelNumber,
+        public readonly ?QuizSessionResultOutput $result,
     ) {
     }
 
@@ -29,6 +30,7 @@ final class QuizSessionOutput
             status: $session->getStatus(),
             numberOfLevelsAtStart: $session->getNumberOfLevelsAtStart(),
             currentLevelNumber: self::resolveCurrentLevel($session),
+            result: $session->getResult() ? QuizSessionResultOutput::fromQuizSessionResult($session->getResult()) : null,
         );
     }
 

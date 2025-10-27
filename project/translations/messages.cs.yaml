@@ -18,6 +18,7 @@ page.quiz.detail.quiz.shareLink: 'Sdílet kvíz'
 
 page.getQuestion.currentLevel: 'Aktuální level'
 page.getQuestion.numberOfAnsweredQuestions: 'Uhodnuto'
+page.getQuestion.score: 'Skóre'
 
 section:
   available_quizzes: 'Dostupné kvízy'

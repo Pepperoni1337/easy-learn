@@ -14,6 +14,9 @@
                         <div>
                             {{ 'page.getQuestion.numberOfAnsweredQuestions'|trans }}: {{ level.currentQuestionNumber - 1}} / {{ level.numberOfQuestionsAtStart }}
                         </div>
+                        <div>
+                            {{ 'page.getQuestion.score'|trans }}: {{ quizSession.result.score }}
+                        </div>
                     </div>
 
                     <div class="card-body">

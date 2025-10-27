@@ -10,13 +10,12 @@ use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
-use App\Util\CollectionUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 final class SimpleQuizSessionFactory implements QuizSessionFactory
 {
-    private array $leveQuestionCount = [3, 6, 9, 15, 24, 39];
+    public const QUEStIONS_PER_LEVEL = 3;
 
     public function supports(GameStyle $style): bool
     {
@@ -31,9 +30,9 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
             QuizSessionStatus::IN_PROGRESS,
         );
 
-        $levels = $this->createLevels($session);
-
-        $session->setRemainingLevels($levels);
+        $session->setRemainingLevels(
+            $this->createLevels($session),
+        );
 
         return $session;
     }
@@ -43,27 +42,28 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
         $allQuestions = $session->getQuiz()->getQuestions();
         $result = new ArrayCollection();
 
-        $level = 1;
-        foreach ($this->leveQuestionCount as $count) {
-            if ($allQuestions->count() > $count) {
-                $result->add(
-                    new QuizSessionLevel(
-                        quizSession: $session,level:
-                        $level,remainingQuestions:
-                        CollectionUtil::sliceFromStart($allQuestions, $count),
-                    )
+        $levelNumber = 1;
+
+        $i = 0;
+        $level = new QuizSessionLevel(
+            quizSession: $session,
+            level: $levelNumber,
+        );
+
+        foreach ($allQuestions as $question) {
+            $level->addRemainingQuestion($question);
+            if ($i % self::QUEStIONS_PER_LEVEL === self::QUEStIONS_PER_LEVEL - 1) {
+                $result->add($level);
+                $levelNumber++;
+                $level = new QuizSessionLevel(
+                    quizSession: $session,
+                    level: $levelNumber,
                 );
-                $level++;
             }
+            $i++;
         }
 
-        $result->add(
-            new QuizSessionLevel(
-                quizSession: $session,
-                level: $level,
-                remainingQuestions: $allQuestions,
-            )
-        );
+        $result->add($level);
 
         return $result;
     }

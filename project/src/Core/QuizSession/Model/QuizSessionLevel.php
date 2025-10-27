@@ -9,6 +9,7 @@ use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use App\Util\CollectionUtil;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,13 +43,12 @@ class QuizSessionLevel implements Entity
     public function __construct(
         QuizSession $quizSession,
         int $level,
-        Collection $remainingQuestions,
     ) {
         $this->id = Id::new();
         $this->quizSession = $quizSession;
         $this->level = $level;
-        $this->remainingQuestions = $remainingQuestions;
-        $this->numberOfQuestionsAtStart = $remainingQuestions->count();
+        $this->remainingQuestions = new ArrayCollection();
+        $this->numberOfQuestionsAtStart = 0;
     }
 
     public function getQuizSession(): QuizSession
@@ -71,6 +71,12 @@ class QuizSessionLevel implements Entity
         return $this->remainingQuestions->isEmpty();
     }
 
+    public function setRemainingQuestions(Collection $remainingQuestions): void
+    {
+        $this->remainingQuestions = $remainingQuestions;
+        $this->numberOfQuestionsAtStart = $remainingQuestions->count();
+    }
+
     public function hasRemainingQuestions(): bool
     {
         return !$this->remainingQuestions->isEmpty();
@@ -90,6 +96,14 @@ class QuizSessionLevel implements Entity
     {
         if ($this->remainingQuestions->contains($question)) {
             $this->remainingQuestions->removeElement($question);
+        }
+    }
+
+    public function addRemainingQuestion($question): void
+    {
+        if (!$this->remainingQuestions->contains($question)) {
+            $this->remainingQuestions->add($question);
+            $this->numberOfQuestionsAtStart++;
         }
     }
 }

@@ -25,6 +25,8 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }
+        - { path: ^/(_(profiler|wdt)|css|images|js)/, roles: PUBLIC_ACCESS }
+        - { path: ^/bundles/, roles: PUBLIC_ACCESS }
 
 when@test:
     security:

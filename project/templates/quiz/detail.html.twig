@@ -30,7 +30,10 @@
                     </div>
                 </div>
                 <div class="card-footer bg-light">
-                    <a href="{{ path('app_quiz_session_start', {quiz: quiz.id}) }}" class="btn btn-success btn-lg">
+                    <a href="{{ path('app_quiz_session_start', {quiz: quiz.id, style: 'simple'}) }}" class="btn btn-success btn-lg">
+                        <i class="bi bi-play-fill me-2"></i>{{ 'page.dashboard.startQuizSimple'|trans }}
+                    </a>
+                    <a href="{{ path('app_quiz_session_start', {quiz: quiz.id, style: 'snowball'}) }}" class="btn btn-success btn-lg">
                         <i class="bi bi-play-fill me-2"></i>{{ 'page.dashboard.startQuiz'|trans }}
                     </a>
                 </div>

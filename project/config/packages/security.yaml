@@ -20,13 +20,19 @@ security:
                 path: app_logout
 
     access_control:
+        #public access first
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/logout, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/_wdt, roles: PUBLIC_ACCESS }
+        - { path: ^/_profiler, roles: PUBLIC_ACCESS }
+        - { path: ^/css, roles: PUBLIC_ACCESS }
+        - { path: ^/js, roles: PUBLIC_ACCESS }
+        - { path: ^/images, roles: PUBLIC_ACCESS }
+
         - { path: ^/, roles: ROLE_USER }
-        - { path: ^/(_(profiler|wdt)|css|images|js)/, roles: PUBLIC_ACCESS }
-        - { path: ^/bundles/, roles: PUBLIC_ACCESS }
+
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:

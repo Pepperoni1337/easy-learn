@@ -33,6 +33,7 @@ class QuizSession implements Entity
     public const CREATED_AT = 'createdAt';
     public const UPDATED_AT = 'updatedAt';
     public const RESULT = 'result';
+    public const KEEP_WRONGLY_ANSWERED_QUESTIONS = 'keepWronglyAnsweredQuestions';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -55,15 +56,20 @@ class QuizSession implements Entity
     #[ORM\OneToOne(targetEntity: QuizSessionResult::class, mappedBy: QuizSessionResult::SESSION, cascade: ['persist', 'remove'])]
     private ?QuizSessionResult $result = null;
 
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
+    private bool $keepWronglyAnsweredQuestions;
+
     public function __construct(
         Quiz $quiz,
         User $owner,
         QuizSessionStatus $status,
+        bool $keepWronglyAnsweredQuestions,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
         $this->owner = $owner;
         $this->status = $status;
+        $this->keepWronglyAnsweredQuestions = $keepWronglyAnsweredQuestions;
         $this->remainingLevels = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = new DateTimeImmutable();
@@ -154,5 +160,15 @@ class QuizSession implements Entity
     public function setResult(?QuizSessionResult $result): void
     {
         $this->result = $result;
+    }
+
+    public function isKeepWronglyAnsweredQuestions(): bool
+    {
+        return $this->keepWronglyAnsweredQuestions;
+    }
+
+    public function setKeepWronglyAnsweredQuestions(bool $keepWronglyAnsweredQuestions): void
+    {
+        $this->keepWronglyAnsweredQuestions = $keepWronglyAnsweredQuestions;
     }
 }

@@ -18,7 +18,7 @@ final class QuizSessionLevelManager
         $correctAnswer = $question->getAnswer();
         $isCorrect = ($correctAnswer === $givenAnswer);
 
-        if ($isCorrect) {
+        if ($isCorrect || !$sessionLevel->getQuizSession()->isKeepWronglyAnsweredQuestions()) {
             $sessionLevel->removeRemainingQuestion($question);
         }
 

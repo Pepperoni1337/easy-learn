@@ -26,9 +26,10 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
     public function createNewSession(Quiz $quiz, User $user): QuizSession
     {
         $session = new QuizSession(
-            $quiz,
-            $user,
-            QuizSessionStatus::IN_PROGRESS,
+            quiz: $quiz,
+            owner: $user,
+            status: QuizSessionStatus::IN_PROGRESS,
+            keepWronglyAnsweredQuestions: true,
         );
 
         $levels = $this->createLevels($session);

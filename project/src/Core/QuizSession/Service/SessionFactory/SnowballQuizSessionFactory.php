@@ -44,21 +44,21 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
         $allQuestions = $session->getQuiz()->getQuestions();
         $result = new ArrayCollection();
 
-        $level = 1;
+        $levelNumber = 1;
         foreach ($this->leveQuestionCount as $count) {
             if ($allQuestions->count() > $count) {
                 $level = new QuizSessionLevel(
                     quizSession: $session,
-                    level: $level,
+                    level: $levelNumber,
                 );
                 $level->setRemainingQuestions(CollectionUtil::sliceFromStart($allQuestions, $count));
-                $level++;
+                $levelNumber++;
             }
         }
 
         $level = new QuizSessionLevel(
             quizSession: $session,
-            level: $level,
+            level: $levelNumber,
         );
 
         $level->setRemainingQuestions($allQuestions);

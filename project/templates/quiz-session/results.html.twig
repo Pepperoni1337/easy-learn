@@ -2,30 +2,62 @@
 
 {% block title %}{{ 'quiz.question_title'|trans }}{% endblock %}
 
-
 {% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>{{ 'page.results.title'|trans({'%quiz%': quizSession.quiz.title})|default('Quiz Results') }}</h3>
+                    </div>
 
-    Qratulujeme, úspěšně jste dokončili test.
+                    <div class="card-body">
+                        {% for label, messages in app.flashes %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ label }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
 
-    výsledky...
+                        <div class="mb-4">
+                            <h4>Qratulujeme, úspěšně jste dokončili test.</h4>
+                            <p>výsledky...</p>
+                        </div>
 
+                        <div class="mb-3">
+                            <h5>Sdílet na FB:</h5>
+                            <!-- Facebook sharing buttons can go here -->
+                        </div>
 
+                        <div class="mb-3">
+                            <h5>pokud už ho člověk hrál:</h5>
+                            <a href="{{ path('app_quiz_session_start', {quiz: quizSession.quiz.id, style: 'simple'}) }}" class="btn btn-primary">
+                                Zkusit znovu test.
+                            </a>
+                        </div>
 
+                        <div class="mb-3">
+                            <h5>else:</h5>
+                            <p>Troufneš si taky na tento kvíz?</p>
+                        </div>
 
-    Sdílet na FB:
+                        <div class="mb-3">
+                            <p>Vytvoř si vlastní kvíz.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-    pokud už ho člověk hrál:
-    <a href="{{ path('app_quiz_session_start', {quiz: quizSession.quiz.id, style: 'simple'}) }}">
-        Zkusit znovu test.
-    </a>
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% endblock %}
 
-
-    else:
-        Troufneš si taky na tento kvíz?
-
-
-    Vytvoř si vlastní kvíz.
-
-
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 {% endblock %}

@@ -59,7 +59,7 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
             if ($i % self::QUESTIONS_PER_LEVEL === self::QUESTIONS_PER_LEVEL - 1) {
                 $result->add($level);
                 $levelNumber++;
-                if ($i < count($allQuestions)) {
+                if ($i < count($allQuestions) - 1) {
                     $level = new QuizSessionLevel(
                         quizSession: $session,
                         level: $levelNumber,

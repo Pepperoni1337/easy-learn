@@ -20,8 +20,8 @@ final class CreateQuizAction extends AbstractController
 {
     use WithEntityManager;
 
-    private const MIN_COUNT = 2;
-    private const MAX_COUNT = 5;
+    private const MIN_COUNT = 5;
+    private const MAX_COUNT = 8;
 
     public function __construct(
         private readonly QuestionGenerator $generator,

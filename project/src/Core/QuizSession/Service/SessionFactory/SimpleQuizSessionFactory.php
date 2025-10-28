@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\Collection;
 
 final class SimpleQuizSessionFactory implements QuizSessionFactory
 {
-    public const QUEStIONS_PER_LEVEL = 3;
+    public const QUESTIONS_PER_LEVEL = 3;
 
     public function supports(GameStyle $style): bool
     {
@@ -56,13 +56,15 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
 
         foreach ($allQuestions as $question) {
             $level->addRemainingQuestion($question);
-            if ($i % self::QUEStIONS_PER_LEVEL === self::QUEStIONS_PER_LEVEL - 1) {
+            if ($i % self::QUESTIONS_PER_LEVEL === self::QUESTIONS_PER_LEVEL - 1) {
                 $result->add($level);
                 $levelNumber++;
-                $level = new QuizSessionLevel(
-                    quizSession: $session,
-                    level: $levelNumber,
-                );
+                if ($i < count($allQuestions)) {
+                    $level = new QuizSessionLevel(
+                        quizSession: $session,
+                        level: $levelNumber,
+                    );
+                }
             }
             $i++;
         }

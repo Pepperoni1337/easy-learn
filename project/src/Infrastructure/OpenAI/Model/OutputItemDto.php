@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\OpenAI;
+namespace App\Infrastructure\OpenAI\Model;
 
 final class OutputItemDto
 {

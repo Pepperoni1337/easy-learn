@@ -38,11 +38,11 @@ class QuizQuestion implements Entity
     #[Assert\NotBlank(allowNull: true)]
     private ?string $wrongAnswer1 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
     private ?string $wrongAnswer2 = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(allowNull: true)]
     private ?string $wrongAnswer3 = null;
 

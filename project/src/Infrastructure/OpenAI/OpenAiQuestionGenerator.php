@@ -6,10 +6,14 @@ namespace App\Infrastructure\OpenAI;
 
 use App\Application\AI\QuestionDto;
 use App\Application\AI\QuestionGenerator;
+use App\Core\Shared\Traits\WithEntityManager;
+use App\Infrastructure\OpenAI\Model\QuestionResponseDto;
 use Symfony\Component\Serializer\SerializerInterface;
 
 final class OpenAiQuestionGenerator implements QuestionGenerator
 {
+    use WithEntityManager;
+
     public function __construct(
         private readonly OpenAiApiClient $client,
         private readonly SerializerInterface $serializer,
@@ -66,6 +70,8 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
 
         $questionsDataRaw = $result->output[1]['content'][0]['text'];
 
+        $this->logData($prompt, $questionsDataRaw);
+
         $test = json_decode($questionsDataRaw, false)->qa;
 
         $result = [];
@@ -79,4 +85,27 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
 
         return $result;
     }
+
+    private function logData(string $prompt, string $questionsDataRaw): void
+    {
+        $em = $this->entityManager;
+        $conn = $em->getConnection();
+
+        $conn->executeStatement("
+            CREATE TABLE IF NOT EXISTS ai_logs (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                prompt TEXT NOT NULL,
+                response TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ");
+
+        $conn->executeStatement("
+            INSERT INTO ai_logs (prompt, response) 
+            VALUES (:prompt, :response)
+        ", [
+                'prompt' => $prompt,
+                'response' => $questionsDataRaw,
+            ]);
+        }
 }

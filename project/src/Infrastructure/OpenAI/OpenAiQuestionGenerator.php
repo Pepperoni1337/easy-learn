@@ -30,36 +30,60 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
             '/v1/responses',
             [
                 'json' => [
-                    'model' => 'gpt-5-nano',
+                    'model' => 'gpt-5-nano', // nebo robustnější model, pokud chcete
+                    'instructions' => implode("\n", [
+                        'Return the result only by calling the qa_list tool. Do not output any free text.',
+                        'For each item, produce one correct answer and three plausible wrong answers.',
+                        'Wrong answers must be distinct, concise, and not contain the correct answer as a substring.',
+                    ]),
                     'input' => $prompt,
-                    'text' => [
-                        'format' => [
-                            'type' => 'json_schema',
-                            'name' => 'qa_list_schema',
-                            'strict' => true,
-                            'schema' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'qa' => [
-                                        'type' => 'array',
-                                        'minItems' => $minCount,
-                                        'maxItems' => $maxCount,
-                                        'items' => [
-                                            'type' => 'object',
-                                            'properties' => [
-                                                'question' => ['type' => 'string'],
-                                                'answer'   => ['type' => 'string'],
-                                            ],
-                                            'required' => ['question', 'answer'],
-                                            'additionalProperties' => false
+
+                    // Definice toolu se STRICT schématem včetně distraktorů
+                    'tools' => [[
+                        'type' => 'function',
+                        'name' => 'qa_list',
+                        'description' => 'Generate a list of Q&A items with three distractors for each.',
+                        'parameters' => [
+                            'type' => 'object',
+                            'properties' => [
+                                'qa' => [
+                                    'type' => 'array',
+                                    'minItems' => $minCount,
+                                    'maxItems' => $maxCount,
+                                    'items' => [
+                                        'type' => 'object',
+                                        'properties' => [
+                                            'question'       => ['type' => 'string'],
+                                            'answer'         => ['type' => 'string'],
+                                            'wrong_answer1'  => ['type' => 'string'],
+                                            'wrong_answer2'  => ['type' => 'string'],
+                                            'wrong_answer3'  => ['type' => 'string'],
                                         ],
+                                        'required' => ['question', 'answer', 'wrong_answer1', 'wrong_answer2', 'wrong_answer3'],
+                                        'additionalProperties' => false
                                     ],
                                 ],
-                                'required' => ['qa'],
-                                'additionalProperties' => false
                             ],
+                            'required' => ['qa'],
+                            'additionalProperties' => false
                         ],
+                        'strict' => true
+                    ]],
+
+                    // Přinuťte model tool zavolat (žádné volné texty)
+                    'tool_choice' => [
+                        'type' => 'function',
+                        'name' => 'qa_list',
                     ],
+
+                    // Můžete klidně nechat vyšší reasoning:
+                    'reasoning' => ['effort' => 'medium'], // nebo 'high' – ale viz poznámka níže
+
+                    // Zvyšte limit, ať neskončíte jako 'incomplete/max_output_tokens'
+                    'max_output_tokens' => 8192,
+
+                    // (volitelné) jednodušší výstup bez paralelních volání
+                    'parallel_tool_calls' => false,
                 ],
             ]
         );
@@ -68,9 +92,10 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
 
         $result = $this->serializer->deserialize($response, QuestionResponseDto::class, 'json');
 
-        $questionsDataRaw = $result->output[1]['content'][0]['text'];
+        $questionsDataRaw = $result->output[1]['arguments'];
+        $status = $result->output[1]['status'];
 
-        $this->logData($prompt, $questionsDataRaw);
+        $this->logData($prompt, $questionsDataRaw, $status);
 
         $test = json_decode($questionsDataRaw, false)->qa;
 
@@ -80,32 +105,37 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
             $result[] = new QuestionDto(
                 $item->question,
                 $item->answer,
+                $item->wrong_answer1,
+                $item->wrong_answer2,
+                $item->wrong_answer3,
             );
         }
 
         return $result;
     }
 
-    private function logData(string $prompt, string $questionsDataRaw): void
+    private function logData(string $prompt, string $questionsDataRaw, string $status): void
     {
         $em = $this->entityManager;
         $conn = $em->getConnection();
 
         $conn->executeStatement("
             CREATE TABLE IF NOT EXISTS ai_logs (
-                id INT AUTO_INCREMENT PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 prompt TEXT NOT NULL,
                 response TEXT NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                status VARCHAR(255) NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         ");
 
         $conn->executeStatement("
-            INSERT INTO ai_logs (prompt, response) 
-            VALUES (:prompt, :response)
+            INSERT INTO ai_logs (prompt, response, status) 
+            VALUES (:prompt, :response, :status)
         ", [
                 'prompt' => $prompt,
                 'response' => $questionsDataRaw,
+                'status' => $status,
             ]);
         }
 }

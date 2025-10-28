@@ -87,6 +87,36 @@ class QuizQuestion implements Entity
         $this->answer = $answer;
     }
 
+    public function getWrongAnswer1(): ?string
+    {
+        return $this->wrongAnswer1;
+    }
+
+    public function setWrongAnswer1(?string $wrongAnswer1): void
+    {
+        $this->wrongAnswer1 = $wrongAnswer1;
+    }
+
+    public function getWrongAnswer2(): ?string
+    {
+        return $this->wrongAnswer2;
+    }
+
+    public function setWrongAnswer2(?string $wrongAnswer2): void
+    {
+        $this->wrongAnswer2 = $wrongAnswer2;
+    }
+
+    public function getWrongAnswer3(): ?string
+    {
+        return $this->wrongAnswer3;
+    }
+
+    public function setWrongAnswer3(?string $wrongAnswer3): void
+    {
+        $this->wrongAnswer3 = $wrongAnswer3;
+    }
+
     public function __toString(): string
     {
         return $this->question;

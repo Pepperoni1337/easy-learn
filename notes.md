@@ -1,6 +1,5 @@
-Asi bude lepčí udělat 4 možnosti odpovědí.
 
 
-je potřeba logovat requesty na AI pro debugování
+je ptořeba logovat celou aplikaci
 
-a vlastně logovat celou aplikaci
+

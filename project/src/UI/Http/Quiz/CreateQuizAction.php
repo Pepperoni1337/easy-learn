@@ -61,8 +61,10 @@ final class CreateQuizAction extends AbstractController
                     quiz: $quiz,
                     question: $questionDto->question,
                     answer: $questionDto->answer,
-
                 );
+                $quizQuestion->setWrongAnswer1($questionDto->wrongAnswer1);
+                $quizQuestion->setWrongAnswer2($questionDto->wrongAnswer2);
+                $quizQuestion->setWrongAnswer3($questionDto->wrongAnswer3);
                 $quiz->addQuestion($quizQuestion);
             }
 

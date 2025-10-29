@@ -9,6 +9,7 @@ final class QuizDto
     public function __construct(
         public string $name = '',
         public string $prompt = '',
+        public QuizSize $size = QuizSize::Medium,
     ) {
     }
 }

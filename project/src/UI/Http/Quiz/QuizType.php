@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Http\Quiz;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,6 +28,11 @@ final class QuizType extends AbstractType
                     'placeholder' => 'Enter a topic or prompt for generating questions',
                     'rows' => 5,
                 ],
+            ])
+            ->add('size', EnumType::class, [
+                'label' => 'Quiz Size',
+                'class' => QuizSize::class,
+                'choices' => QuizSize::cases(),
             ]);
     }
 

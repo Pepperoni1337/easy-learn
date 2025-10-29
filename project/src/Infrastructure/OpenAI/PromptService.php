@@ -8,7 +8,8 @@ use App\Util\StringUtil;
 
 final class PromptService
 {
-    public function createPrompt(string $userPrompt): string {
+    public function createPrompt(string $userPrompt): string
+    {
         return StringUtil::concat(
             'Jsi tvůrce kvízů. ',
             'Vytvoř sérii otázek a odpovědí na téma, které zadává uživatel. ',

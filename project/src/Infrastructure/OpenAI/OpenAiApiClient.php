@@ -9,7 +9,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Contracts\HttpClient\ResponseStreamInterface;
 
-final readonly class OpenAiApiClient implements HttpClientInterface {
+final readonly class OpenAiApiClient implements HttpClientInterface
+{
     private HttpClientInterface $httpClient;
 
     public function __construct(
@@ -22,10 +23,11 @@ final readonly class OpenAiApiClient implements HttpClientInterface {
         ]);
     }
 
-    public function request(string $method, string $url, array $options = []): ResponseInterface {
+    public function request(string $method, string $url, array $options = []): ResponseInterface
+    {
         $options = array_merge($options, [
             'headers' => [
-                'Authorization' => 'Bearer '.$this->openAiApiKey,
+                'Authorization' => 'Bearer ' . $this->openAiApiKey,
                 'Content-Type'  => 'application/json',
             ],
         ]);

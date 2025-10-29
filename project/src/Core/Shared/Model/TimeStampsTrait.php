@@ -4,7 +4,6 @@ namespace App\Core\Shared\Model;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
-
 use Doctrine\ORM\Mapping as ORM;
 
 trait TimeStampsTrait

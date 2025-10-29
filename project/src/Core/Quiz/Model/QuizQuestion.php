@@ -47,9 +47,9 @@ class QuizQuestion implements Entity
     private ?string $wrongAnswer3 = null;
 
     public function __construct(
-      Quiz $quiz,
-      string $question,
-      string $answer,
+        Quiz $quiz,
+        string $question,
+        string $answer,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;

@@ -19,8 +19,7 @@ final class CreateQuizAction extends AbstractController
 
     public function __construct(
         private readonly QuizGenerator $quizGenerator,
-    )
-    {
+    ) {
     }
 
     public function __invoke(Request $request): Response
@@ -50,6 +49,4 @@ final class CreateQuizAction extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-
 }

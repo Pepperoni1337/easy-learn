@@ -35,14 +35,14 @@ final class RegisterAction extends AbstractController
                 email: $email,
                 password: ''
             );
-            
+
             // Hash the password
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
                 $plainPassword
             );
             $user->setPassword($hashedPassword);
-            
+
             // Save the user
             $this->entityManager->persist($user);
             $this->entityManager->flush();

@@ -137,5 +137,5 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
                 'response' => $questionsDataRaw,
                 'status' => $status,
             ]);
-        }
+    }
 }

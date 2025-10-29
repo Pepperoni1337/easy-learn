@@ -80,7 +80,7 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
                     'reasoning' => ['effort' => 'medium'], // nebo 'high' – ale viz poznámka níže
 
                     // Zvyšte limit, ať neskončíte jako 'incomplete/max_output_tokens'
-                    'max_output_tokens' => 8192,
+                    'max_output_tokens' => 16000,
 
                     // (volitelné) jednodušší výstup bez paralelních volání
                     'parallel_tool_calls' => false,

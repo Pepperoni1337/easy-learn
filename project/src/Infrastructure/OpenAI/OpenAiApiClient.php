@@ -20,6 +20,8 @@ final readonly class OpenAiApiClient implements HttpClientInterface
     ) {
         $this->httpClient = HttpClient::create([
             'base_uri' => $this->openAiUrl,
+            'timeout' => 120.0,
+            'max_duration' => 300.0,
         ]);
     }
 

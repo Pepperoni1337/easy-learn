@@ -11,12 +11,12 @@ final class PromptService
     public function createPrompt(string $userPrompt): string
     {
         return StringUtil::concat(
-            'Jsi tvůrce kvízů. ',
+            'Jsi velmi chytrý tvůrce kvízů. ',
             'Vytvoř sérii otázek a odpovědí na téma, které zadává uživatel. ',
             'Otázky musí být na sobě nezávislé. ',
             'Každá otázka musí dávat smysl samostatně. ',
             'Odpověď na otázku nesmí být obsažena v otázce. ',
-            'Odpověď musí být jedno až dvě slova, málo znaků - například jméno, název. ',
+            'Odpověď musí být jedno až dvě slova, málo znaků - například jméno, název, letopočet. ',
             'Input uživatele: ',
             $userPrompt,
         );

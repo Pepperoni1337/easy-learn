@@ -29,7 +29,6 @@ class QuizSession implements Entity
     public const OWNER = 'owner';
     public const STATUS = 'status';
     public const REMAINING_LEVELS = 'remainingLevels';
-    public const SCORE = 'score';
     public const NUMBER_OF_LEVELS_AT_START = 'numberOfLevelsAtStart';
     public const CREATED_AT = 'createdAt';
     public const UPDATED_AT = 'updatedAt';
@@ -49,28 +48,29 @@ class QuizSession implements Entity
     private Collection $remainingLevels;
 
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
-    private int $score = 0;
-
-    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $numberOfLevelsAtStart = 0;
 
     #[ORM\OneToOne(targetEntity: QuizSessionResult::class, mappedBy: QuizSessionResult::SESSION, cascade: ['persist', 'remove'])]
     private ?QuizSessionResult $result = null;
 
-    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
-    private bool $keepWronglyAnsweredQuestions;
+    #[ORM\ManyToOne(targetEntity: QuizSessionSettings::class, cascade: ['persist', 'remove'])]
+    private QuizSessionSettings $settings;
+
+    #[ORM\OneToOne(targetEntity: QuizSessionProgress::class, cascade: ['persist', 'remove'])]
+    private QuizSessionProgress $progress;
 
     public function __construct(
         Quiz $quiz,
         User $owner,
         QuizSessionStatus $status,
-        bool $keepWronglyAnsweredQuestions,
+        QuizSessionSettings $settings,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
         $this->owner = $owner;
         $this->status = $status;
-        $this->keepWronglyAnsweredQuestions = $keepWronglyAnsweredQuestions;
+        $this->settings = $settings;
+        $this->progress = QuizSessionProgress::createEmpty();
         $this->remainingLevels = new ArrayCollection();
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = new DateTimeImmutable();
@@ -106,6 +106,11 @@ class QuizSession implements Entity
         $this->status = $status;
     }
 
+    public function getRemainingLevels(): Collection
+    {
+        return $this->remainingLevels;
+    }
+
     public function getCurrentLevel(): ?QuizSessionLevel
     {
         if ($this->remainingLevels->isEmpty()) {
@@ -115,15 +120,15 @@ class QuizSession implements Entity
         return $this->remainingLevels->first();
     }
 
+    public function getCurrentQuestion(): ?QuizQuestion
+    {
+        return $this->getCurrentLevel()?->getCurrentQuestion();
+    }
+
     public function setRemainingLevels(Collection $remainingLevels): void
     {
         $this->remainingLevels = $remainingLevels;
         $this->numberOfLevelsAtStart = $remainingLevels->count();
-    }
-
-    public function getRemainingLevels(): Collection
-    {
-        return $this->remainingLevels;
     }
 
     public function removeRemainingLevel(QuizSessionLevel $level): void
@@ -133,24 +138,14 @@ class QuizSession implements Entity
         }
     }
 
-    public function getCurrentQuestion(): ?QuizQuestion
-    {
-        return $this->getCurrentLevel()?->getCurrentQuestion();
-    }
-
-    public function getScore(): int
-    {
-        return $this->score;
-    }
-
-    public function addScore(int $points): void
-    {
-        $this->score += $points;
-    }
-
     public function getNumberOfLevelsAtStart(): int
     {
         return $this->numberOfLevelsAtStart;
+    }
+
+    public function setNumberOfLevelsAtStart(int $numberOfLevelsAtStart): void
+    {
+        $this->numberOfLevelsAtStart = $numberOfLevelsAtStart;
     }
 
     public function getResult(): ?QuizSessionResult
@@ -168,13 +163,23 @@ class QuizSession implements Entity
         $this->result = $result;
     }
 
-    public function isKeepWronglyAnsweredQuestions(): bool
+    public function getSettings(): QuizSessionSettings
     {
-        return $this->keepWronglyAnsweredQuestions;
+        return $this->settings;
     }
 
-    public function setKeepWronglyAnsweredQuestions(bool $keepWronglyAnsweredQuestions): void
+    public function setSettings(QuizSessionSettings $settings): void
     {
-        $this->keepWronglyAnsweredQuestions = $keepWronglyAnsweredQuestions;
+        $this->settings = $settings;
+    }
+
+    public function getProgress(): QuizSessionProgress
+    {
+        return $this->progress;
+    }
+
+    public function setProgress(QuizSessionProgress $progress): void
+    {
+        $this->progress = $progress;
     }
 }

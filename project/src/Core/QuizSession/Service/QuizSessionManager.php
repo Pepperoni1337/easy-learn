@@ -44,14 +44,13 @@ final class QuizSessionManager
             $session->setStatus(QuizSessionStatus::FINISHED);
         }
 
+        $progress = $session->getProgress();
         if ($levelResult->isCorrect) {
-            $result = $session->ensureResult();
-            $result->addScore(10);
+            $progress->setScore($progress->getScore() + 10);;
         }
 
         if ($levelFinished) {
-            $result = $session->ensureResult();
-            $result->addScore(10);
+            $progress->setCurrentLevel($progress->getCurrentLevel() + 1);
         }
 
         return new SessionAnswerResult(

@@ -16,7 +16,7 @@ final class QuizSessionResultOutput
     public static function fromQuizSessionResult(QuizSessionResult $result): self
     {
         return new self(
-            $result->getScore(),
+            $result->getTotalScore(),
         );
     }
 }

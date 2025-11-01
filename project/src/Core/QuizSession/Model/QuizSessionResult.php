@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\QuizSession\Model;
 
+use App\Core\Quiz\Model\Quiz;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
@@ -15,22 +16,46 @@ class QuizSessionResult implements Entity
 {
     use EntityTrait;
 
+    public const Quiz = 'quiz';
     public const SESSION = 'session';
+    public const TOTAL_SCORE = 'totalScore';
+    public const TOTAL_TIME = 'totalTime';
+    public const NUMBER_OF_CORRECT_ANSWERS = 'numberOfCorrectAnswers';
+    public const NUMBER_OF_WRONG_ANSWERS = 'numberOfWrongAnswers';
+
+    #[ORM\ManyToOne(targetEntity: Quiz::class)]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private Quiz $quiz;
 
     #[ORM\OneToOne(targetEntity: QuizSession::class, inversedBy: QuizSession::RESULT)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private QuizSession $session;
 
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
-    private int $score;
+    private int $totalScore;
+
+    private float $totalTime;
+
+    private int $numberOfCorrectAnswers;
+
+    private int $numberOfWrongAnswers;
 
     public function __construct(
+        Quiz $quiz,
         QuizSession $session,
-        int $score,
+        int $totalScore,
+        float $totalTime,
+        int $numberOfCorrectAnswers,
+        int $numberOfWrongAnswers,
     ) {
         $this->id = Id::new();
         $this->session = $session;
-        $this->score = $score;
+        $this->totalScore = $totalScore;
+    }
+
+    public function getQuiz(): Quiz
+    {
+        return $this->quiz;
     }
 
     public function getSession(): QuizSession
@@ -38,23 +63,25 @@ class QuizSessionResult implements Entity
         return $this->session;
     }
 
-    public function setSession(QuizSession $session): void
+    public function getTotalScore(): int
     {
-        $this->session = $session;
+        return $this->totalScore;
     }
 
-    public function getScore(): int
+    public function getTotalTime(): float
     {
-        return $this->score;
+        return $this->totalTime;
     }
 
-    public function setScore(int $score): void
+    public function getNumberOfCorrectAnswers(): int
     {
-        $this->score = $score;
+        return $this->numberOfCorrectAnswers;
     }
 
-    public function addScore(int $points): void
+    public function getNumberOfWrongAnswers(): int
     {
-        $this->score += $points;
+        return $this->numberOfWrongAnswers;
     }
+
+
 }

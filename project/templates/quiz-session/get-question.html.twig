@@ -9,13 +9,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            {{ 'page.getQuestion.currentLevel'|trans }}: {{ quizSession.currentLevelNumber }} / {{ quizSession.numberOfLevelsAtStart }}
+                            {{ 'page.getQuestion.currentLevel'|trans }}: {{ quizSession.progress.currentLevel }} / {{ quizSession.numberOfLevelsAtStart }}
                         </div>
                         <div>
                             {{ 'page.getQuestion.numberOfAnsweredQuestions'|trans }}: {{ level.currentQuestionNumber - 1}} / {{ level.numberOfQuestionsAtStart }}
                         </div>
                         <div>
-                            {{ 'page.getQuestion.score'|trans }}: {{ quizSession.result.score }}
+                            {{ 'page.getQuestion.score'|trans }}: {{ quizSession.progress.score }}
                         </div>
                     </div>
 

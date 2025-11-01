@@ -82,6 +82,4 @@ class QuizSessionResult implements Entity
     {
         return $this->numberOfWrongAnswers;
     }
-
-
 }

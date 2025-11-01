@@ -32,7 +32,8 @@ class QuizSessionProgress implements Entity
     #[ORM\Column(type: Types::INTEGER)]
     private int $maxStreak;
 
-    public static function createEmpty(): self {
+    public static function createEmpty(): self
+    {
         return new self(1, 0, 0, 0);
     }
 

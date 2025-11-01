@@ -6,7 +6,8 @@ namespace App\Util;
 
 final class HashUtil
 {
-    public static function createHash(int $length): string {
+    public static function createHash(int $length): string
+    {
         return bin2hex(random_bytes($length));
     }
 }

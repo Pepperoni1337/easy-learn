@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set result = quizSession.result %}
+
 {% block title %}{{ 'quiz.question_title'|trans }}{% endblock %}
 
 {% block body %}
@@ -23,6 +25,7 @@
                         <div class="mb-4">
                             <h4>Qratulujeme, úspěšně jste dokončili test.</h4>
                             <p>výsledky...</p>
+                            <p>Skóre: {{ result.totalScore }}</p>
                         </div>
 
                         <div class="mb-3">

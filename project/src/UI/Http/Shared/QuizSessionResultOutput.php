@@ -9,7 +9,10 @@ use App\Core\QuizSession\Model\QuizSessionResult;
 final class QuizSessionResultOutput
 {
     public function __construct(
-        public readonly int $score,
+        public readonly int $totalScore,
+        public readonly float $totalTime,
+        public readonly int $numberOfCorrectAnswers,
+        public readonly int $numberOfWrongAnswers,
     ) {
     }
 
@@ -17,6 +20,9 @@ final class QuizSessionResultOutput
     {
         return new self(
             $result->getTotalScore(),
+            $result->getTotalTime(),
+            $result->getNumberOfCorrectAnswers(),
+            $result->getNumberOfWrongAnswers(),
         );
     }
 }

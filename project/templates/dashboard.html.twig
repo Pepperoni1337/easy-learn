@@ -161,12 +161,17 @@
                         <h4 class="card-title">{{ quiz.title }}</h4>
                         <p class="card-text">{{ quiz.description }}</p>
                         <span class="badge bg-success mb-2">Completed</span>
+                        {% if quizSession.result is not null %}
+                            <a href="{{ path('app_quiz_session_results', {quizSession: quizSession.id}) }}" class="btn btn-outline-success w-100">
+                                <i class=""></i>{{ 'page.dashboard.results'|trans }}
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="card-footer bg-transparent">
-                        <a href="#" class="btn btn-outline-success w-100">
+                        <a href="{{ path('app_quiz_session_start', {'quiz': quizSession.quiz.id, 'style': 'simple'}) }}" class="btn btn-outline-success w-100">
                             <i class="bi bi-arrow-repeat me-1"></i>{{ 'page.dashboard.startQuizSimple'|trans }}
                         </a>
-                        <a href="#" class="btn btn-outline-success w-100">
+                        <a href="{{ path('app_quiz_session_start', {'quiz': quizSession.quiz.id, 'style': 'snowball'}) }}" class="btn btn-outline-success w-100">
                             <i class="bi bi-arrow-repeat me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
                         </a>
                     </div>

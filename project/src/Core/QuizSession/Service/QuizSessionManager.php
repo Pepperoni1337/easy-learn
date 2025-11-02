@@ -6,6 +6,7 @@ namespace App\Core\QuizSession\Service;
 
 use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Model\QuizSessionResult;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\QuizSession\Model\SessionAnswerResult;
 use RuntimeException;
@@ -42,12 +43,19 @@ final class QuizSessionManager
 
         if ($finished) {
             $session->setStatus(QuizSessionStatus::FINISHED);
+            $session->setResult(new QuizSessionResult(
+                $session->getQuiz(),
+                $session,
+                $session->getProgress()->getScore(),
+                1.04,
+                2,
+                4,
+            ));
         }
 
         $progress = $session->getProgress();
         if ($levelResult->isCorrect) {
             $progress->setScore($progress->getScore() + 10);
-            ;
         }
 
         if ($levelFinished) {

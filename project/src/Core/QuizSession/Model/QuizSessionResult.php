@@ -34,10 +34,13 @@ class QuizSessionResult implements Entity
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $totalScore;
 
+    #[ORM\Column(type: Types::FLOAT, options: ['default' => 0.0])]
     private float $totalTime;
 
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $numberOfCorrectAnswers;
 
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $numberOfWrongAnswers;
 
     public function __construct(
@@ -49,8 +52,12 @@ class QuizSessionResult implements Entity
         int $numberOfWrongAnswers,
     ) {
         $this->id = Id::new();
+        $this->quiz = $quiz;
         $this->session = $session;
         $this->totalScore = $totalScore;
+        $this->totalTime = $totalTime;
+        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
+        $this->numberOfWrongAnswers = $numberOfWrongAnswers;
     }
 
     public function getQuiz(): Quiz

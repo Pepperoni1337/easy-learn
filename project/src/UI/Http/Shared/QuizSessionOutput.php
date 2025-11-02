@@ -14,7 +14,7 @@ final class QuizSessionOutput
     public function __construct(
         public readonly Id $id,
         public readonly QuizOutput $quiz,
-        public readonly UserOutput $owner,
+        public readonly UserOutput $player,
         public readonly QuizSessionStatus $status,
         public readonly int $numberOfLevelsAtStart,
         public readonly QuizSessionProgressOutput $progress,
@@ -27,7 +27,7 @@ final class QuizSessionOutput
         return new self(
             id: $session->getId(),
             quiz: QuizOutput::fromQuiz($session->getQuiz()),
-            owner: UserOutput::fromUser($session->getOwner()),
+            player: UserOutput::fromUser($session->getPlayer()),
             status: $session->getStatus(),
             numberOfLevelsAtStart: $session->getNumberOfLevelsAtStart(),
             progress: QuizSessionProgressOutput::fromQuizSessionProgress($session->getProgress()),

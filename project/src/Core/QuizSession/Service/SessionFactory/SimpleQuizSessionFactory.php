@@ -8,7 +8,6 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
-use App\Core\QuizSession\Model\QuizSessionResult;
 use App\Core\QuizSession\Model\QuizSessionSettings;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
@@ -28,7 +27,7 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
     {
         $session = new QuizSession(
             quiz: $quiz,
-            owner: $user,
+            player: $user,
             status: QuizSessionStatus::IN_PROGRESS,
             settings: new QuizSessionSettings(
                 keepWronglyAnsweredQuestions: false,
@@ -48,27 +47,13 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
         $allQuestions = $session->getQuiz()->getQuestions();
         $result = new ArrayCollection();
 
-        $levelNumber = 1;
-
-        $i = 0;
         $level = new QuizSessionLevel(
             quizSession: $session,
-            level: $levelNumber,
+            level: 1,
         );
 
         foreach ($allQuestions as $question) {
             $level->addRemainingQuestion($question);
-            if ($i % self::QUESTIONS_PER_LEVEL === self::QUESTIONS_PER_LEVEL - 1) {
-                $result->add($level);
-                $levelNumber++;
-                if ($i < count($allQuestions) - 1) {
-                    $level = new QuizSessionLevel(
-                        quizSession: $session,
-                        level: $levelNumber,
-                    );
-                }
-            }
-            $i++;
         }
 
         $result->add($level);

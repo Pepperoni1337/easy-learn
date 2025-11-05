@@ -84,7 +84,6 @@ class Quiz implements Entity
     {
         if (!$this->questions->contains($question)) {
             $this->questions->add($question);
-            $question->setQuiz($this);
         }
     }
 

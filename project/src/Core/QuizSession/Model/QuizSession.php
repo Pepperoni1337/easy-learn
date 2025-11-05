@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Core\QuizSession\Model;
 
 use App\Core\Quiz\Model\Quiz;
-use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
@@ -120,7 +119,7 @@ class QuizSession implements Entity
         return $this->remainingLevels->first();
     }
 
-    public function getCurrentQuestion(): ?QuizQuestion
+    public function getCurrentQuestion(): ?QuizSessionLevelQuestion
     {
         return $this->getCurrentLevel()?->getCurrentQuestion();
     }

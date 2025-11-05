@@ -7,12 +7,13 @@ namespace App\Core\QuizSession\Service;
 use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\LevelAnswerResult;
 use App\Core\QuizSession\Model\QuizSessionLevel;
+use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 
 final class QuizSessionLevelManager
 {
     public function submitAnswer(
         QuizSessionLevel $sessionLevel,
-        QuizQuestion $question,
+        QuizSessionLevelQuestion $question,
         string $givenAnswer
     ): LevelAnswerResult {
         $correctAnswer = $question->getAnswer();

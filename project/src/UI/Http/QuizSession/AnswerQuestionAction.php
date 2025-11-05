@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Http\QuizSession;
 
-use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 use App\Core\QuizSession\Service\QuizSessionManager;
 use App\Core\Shared\Traits\WithEntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ final class AnswerQuestionAction extends AbstractController
 
     public function __invoke(
         QuizSession $quizSession,
-        QuizQuestion $question,
+        QuizSessionLevelQuestion $question,
         Request $request,
     ): Response {
 

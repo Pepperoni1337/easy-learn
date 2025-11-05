@@ -34,7 +34,7 @@ class QuizSessionLevel implements Entity
     /**
      * @var Collection<QuizSessionLevelQuestion> $remainingQuestions
      */
-    #[ORM\OneToMany(targetEntity: QuizSessionLevelQuestion::class, mappedBy: QuizSessionLevelQuestion::LEVEL)]
+    #[ORM\OneToMany(targetEntity: QuizSessionLevelQuestion::class, mappedBy: QuizSessionLevelQuestion::LEVEL, cascade: ['persist', 'remove'])]
     private Collection $remainingQuestions;
 
     #[ORM\Column(type: Types::INTEGER)]
@@ -61,7 +61,7 @@ class QuizSessionLevel implements Entity
         return $this->level;
     }
 
-    public function getCurrentQuestion(): ?QuizQuestion
+    public function getCurrentQuestion(): ?QuizSessionLevelQuestion
     {
         return CollectionUtil::getRandomElement($this->remainingQuestions);
     }
@@ -92,7 +92,7 @@ class QuizSessionLevel implements Entity
         return $this->numberOfQuestionsAtStart;
     }
 
-    public function removeRemainingQuestion(QuizQuestion $question): void
+    public function removeRemainingQuestion(QuizSessionLevelQuestion $question): void
     {
         if ($this->remainingQuestions->contains($question)) {
             $this->remainingQuestions->removeElement($question);

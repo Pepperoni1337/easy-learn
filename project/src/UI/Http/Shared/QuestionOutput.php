@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Shared;
 
-use App\Core\Quiz\Model\QuizQuestion;
+use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 use App\Core\Shared\Model\Id;
 use App\Util\ArrayUtil;
 
@@ -18,7 +18,7 @@ final class QuestionOutput
     ) {
     }
 
-    public static function fromQuestion(QuizQuestion $question): self
+    public static function fromQuestion(QuizSessionLevelQuestion $question): self
     {
         $possibleAnswers = [
             $question->getAnswer(),

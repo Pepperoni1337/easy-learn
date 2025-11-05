@@ -55,9 +55,9 @@ class QuizSessionProgress implements Entity
         return $this->currentLevel;
     }
 
-    public function setCurrentLevel(int $currentLevel): void
+    public function increaseCurrentLevel(): void
     {
-        $this->currentLevel = $currentLevel;
+        $this->currentLevel++;
     }
 
     public function getScore(): int
@@ -65,9 +65,9 @@ class QuizSessionProgress implements Entity
         return $this->score;
     }
 
-    public function setScore(int $score): void
+    public function increaseScore(int $diff): void
     {
-        $this->score = $score;
+        $this->score += $diff;
     }
 
     public function getCurrentStreak(): int
@@ -75,18 +75,19 @@ class QuizSessionProgress implements Entity
         return $this->currentStreak;
     }
 
-    public function setCurrentStreak(int $currentStreak): void
+    public function increaseCurrentStreak(): void
     {
-        $this->currentStreak = $currentStreak;
+        $this->currentStreak++;
+        $this->maxStreak = max($this->maxStreak, $this->currentStreak);
+    }
+
+    public function resetCurrentStreak(): void
+    {
+        $this->currentStreak = 0;
     }
 
     public function getMaxStreak(): int
     {
         return $this->maxStreak;
-    }
-
-    public function setMaxStreak(int $maxStreak): void
-    {
-        $this->maxStreak = $maxStreak;
     }
 }

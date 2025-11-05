@@ -24,6 +24,14 @@ final class QuizSessionLevelManager
             $question->setStatus(QuestionStatus::ANSWERED);
         }
 
+        $progress = $sessionLevel->getQuizSession()->getProgress();
+        if ($isCorrect) {
+            $progress->increaseScore(10);
+            $progress->increaseCurrentStreak();
+        } else {
+            $progress->resetCurrentStreak();
+        }
+
         return new LevelAnswerResult(
             isCorrect: $isCorrect,
             correctAnswer: $correctAnswer,

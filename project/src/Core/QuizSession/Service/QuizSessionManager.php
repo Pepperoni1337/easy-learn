@@ -43,11 +43,11 @@ final class QuizSessionManager
 
         $progress = $session->getProgress();
         if ($levelResult->isCorrect) {
-            $progress->setScore($progress->getScore() + 10);
+            $progress->increaseScore(100);
         }
 
         if ($levelFinished) {
-            $progress->setCurrentLevel($progress->getCurrentLevel() + 1);
+            $progress->increaseCurrentLevel();
         }
 
         if ($finished) {

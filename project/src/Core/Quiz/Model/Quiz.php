@@ -12,7 +12,6 @@ use App\Util\RandomUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class Quiz implements Entity
@@ -26,15 +25,13 @@ class Quiz implements Entity
     public const CREATED_BY = 'createdBy';
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Please enter a title')]
-    private ?string $title;
+    private string $title;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
-    private ?string $description;
+    private string $description;
 
     /**
-     * @var Collection<QuizQuestion> $questions
+     * @var Collection<int, QuizQuestion> $questions
      */
     #[ORM\OneToMany(targetEntity: QuizQuestion::class, mappedBy: QuizQuestion::QUIZ, cascade: ['persist'])]
     private Collection $questions;
@@ -47,9 +44,13 @@ class Quiz implements Entity
     private ?User $createdBy;
 
     public function __construct(
+        string $title,
+        string $description,
         User $createdBy,
     ) {
         $this->id = Id::new();
+        $this->title = $title;
+        $this->description = $description;
         $this->questions = new ArrayCollection();
         $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
         $this->createdBy = $createdBy;
@@ -75,6 +76,9 @@ class Quiz implements Entity
         $this->description = $description;
     }
 
+    /**
+     * @return Collection<int, QuizQuestion>
+     */
     public function getQuestions(): Collection
     {
         return $this->questions;

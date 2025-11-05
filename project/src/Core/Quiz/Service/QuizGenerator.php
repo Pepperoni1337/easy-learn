@@ -22,10 +22,10 @@ final class QuizGenerator
     public function generateQuiz(User $user, QuizDto $quizDto): Quiz
     {
         $quiz = new Quiz(
-            $user,
+            title: $quizDto->name,
+            description: $quizDto->prompt,
+            createdBy: $user,
         );
-        $quiz->setTitle($quizDto->name);
-        $quiz->setDescription($quizDto->prompt);
 
         $size = $quizDto->size;
 

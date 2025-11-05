@@ -27,6 +27,8 @@ class QuizCrudController extends AbstractCrudController
         }
 
         return new Quiz(
+            '',
+            '',
             $user,
         );
     }

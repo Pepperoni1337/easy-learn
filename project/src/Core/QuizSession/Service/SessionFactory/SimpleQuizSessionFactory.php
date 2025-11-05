@@ -59,7 +59,8 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
                     wrongAnswer1: $question->getWrongAnswer1(),
                     wrongAnswer2: $question->getWrongAnswer2(),
                     wrongAnswer3: $question->getWrongAnswer3(),
-                ));
+                )
+            );
         }
 
         $result = new ArrayCollection();

@@ -58,7 +58,7 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
                     level: $levelNumber,
                 );
                 foreach (CollectionUtil::sliceFromStart($allQuestions, $count) as $question) {
-                    $level->addRemainingQuestion(new QuizSessionLevelQuestion(
+                    $level->addQuestion(new QuizSessionLevelQuestion(
                         level: $level,
                         question: $question->getQuestion(),
                         answer: $question->getAnswer(),

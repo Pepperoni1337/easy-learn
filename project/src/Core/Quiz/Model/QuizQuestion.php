@@ -22,7 +22,7 @@ class QuizQuestion implements Entity
     public const WRONG_ANSWER_2 = 'wrongAnswer2';
     public const WRONG_ANSWER_3 = 'wrongAnswer3';
 
-    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist', 'remove'], inversedBy: Quiz::QUESTIONS)]
     #[Assert\NotBlank]
     private Quiz $quiz;
 

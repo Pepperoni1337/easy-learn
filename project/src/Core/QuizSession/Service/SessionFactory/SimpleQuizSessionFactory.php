@@ -51,7 +51,7 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
         );
 
         foreach ($allQuestions as $question) {
-            $level->addRemainingQuestion(
+            $level->addQuestion(
                 new QuizSessionLevelQuestion(
                     level: $level,
                     question: $question->getQuestion(),

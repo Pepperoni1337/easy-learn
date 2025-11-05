@@ -6,6 +6,7 @@ namespace App\Core\QuizSession\Service;
 
 use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\LevelAnswerResult;
+use App\Core\QuizSession\Model\QuestionStatus;
 use App\Core\QuizSession\Model\QuizSessionLevel;
 use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 
@@ -20,7 +21,7 @@ final class QuizSessionLevelManager
         $isCorrect = ($correctAnswer === $givenAnswer);
 
         if ($isCorrect || !$sessionLevel->getQuizSession()->getSettings()->isKeepWronglyAnsweredQuestions()) {
-            $sessionLevel->removeRemainingQuestion($question);
+            $question->setStatus(QuestionStatus::ANSWERED);
         }
 
         return new LevelAnswerResult(

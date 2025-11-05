@@ -32,13 +32,10 @@ class QuizSessionLevel implements Entity
     private int $level;
 
     /**
-     * @var Collection<QuizSessionLevelQuestion> $remainingQuestions
+     * @var Collection<QuizSessionLevelQuestion> $questions
      */
     #[ORM\OneToMany(targetEntity: QuizSessionLevelQuestion::class, mappedBy: QuizSessionLevelQuestion::LEVEL, cascade: ['persist', 'remove'])]
-    private Collection $remainingQuestions;
-
-    #[ORM\Column(type: Types::INTEGER)]
-    private int $numberOfQuestionsAtStart;
+    private Collection $questions;
 
     public function __construct(
         QuizSession $quizSession,
@@ -47,8 +44,7 @@ class QuizSessionLevel implements Entity
         $this->id = Id::new();
         $this->quizSession = $quizSession;
         $this->level = $level;
-        $this->remainingQuestions = new ArrayCollection();
-        $this->numberOfQuestionsAtStart = 0;
+        $this->questions = new ArrayCollection();
     }
 
     public function getQuizSession(): QuizSession
@@ -63,47 +59,40 @@ class QuizSessionLevel implements Entity
 
     public function getCurrentQuestion(): ?QuizSessionLevelQuestion
     {
-        return CollectionUtil::getRandomElement($this->remainingQuestions);
+        return CollectionUtil::getRandomElement($this->getRemainingQuestions());
     }
 
     public function isFinished(): bool
     {
-        return $this->remainingQuestions->isEmpty();
+        return $this->getRemainingQuestions()->isEmpty();
     }
 
-    public function setRemainingQuestions(Collection $remainingQuestions): void
+    public function setQuestions(Collection $questions): void
     {
-        $this->remainingQuestions = $remainingQuestions;
-        $this->numberOfQuestionsAtStart = $remainingQuestions->count();
+        $this->questions = $questions;
     }
 
     public function hasRemainingQuestions(): bool
     {
-        return !$this->remainingQuestions->isEmpty();
+        return !$this->getRemainingQuestions()->isEmpty();
     }
 
     public function getRemainingQuestions(): Collection
     {
-        return $this->remainingQuestions;
+        return $this->questions->filter(
+            fn (QuizSessionLevelQuestion $question) => $question->getStatus() === QuestionStatus::NOT_ANSWERED
+        );
     }
 
     public function getNumberOfQuestionsAtStart(): int
     {
-        return $this->numberOfQuestionsAtStart;
+        return $this->questions->count();
     }
 
-    public function removeRemainingQuestion(QuizSessionLevelQuestion $question): void
+    public function addQuestion($question): void
     {
-        if ($this->remainingQuestions->contains($question)) {
-            $this->remainingQuestions->removeElement($question);
-        }
-    }
-
-    public function addRemainingQuestion($question): void
-    {
-        if (!$this->remainingQuestions->contains($question)) {
-            $this->remainingQuestions->add($question);
-            $this->numberOfQuestionsAtStart++;
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
         }
     }
 }

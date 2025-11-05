@@ -32,9 +32,9 @@ class QuizSessionLevel implements Entity
     private int $level;
 
     /**
-     * @var Collection<QuizQuestion> $remainingQuestions
+     * @var Collection<QuizSessionLevelQuestion> $remainingQuestions
      */
-    #[ORM\ManyToMany(targetEntity: QuizQuestion::class)]
+    #[ORM\OneToMany(targetEntity: QuizSessionLevelQuestion::class, mappedBy: QuizSessionLevelQuestion::LEVEL)]
     private Collection $remainingQuestions;
 
     #[ORM\Column(type: Types::INTEGER)]

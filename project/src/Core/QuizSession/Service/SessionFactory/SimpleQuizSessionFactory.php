@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
+use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 use App\Core\QuizSession\Model\QuizSessionSettings;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
@@ -16,8 +17,6 @@ use Doctrine\Common\Collections\Collection;
 
 final class SimpleQuizSessionFactory implements QuizSessionFactory
 {
-    public const QUESTIONS_PER_LEVEL = 3;
-
     public function supports(GameStyle $style): bool
     {
         return $style === GameStyle::Simple;
@@ -45,7 +44,6 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
     private function createLevels(QuizSession $session): Collection
     {
         $allQuestions = $session->getQuiz()->getQuestions();
-        $result = new ArrayCollection();
 
         $level = new QuizSessionLevel(
             quizSession: $session,
@@ -53,9 +51,18 @@ final class SimpleQuizSessionFactory implements QuizSessionFactory
         );
 
         foreach ($allQuestions as $question) {
-            $level->addRemainingQuestion($question);
+            $level->addRemainingQuestion(
+                new QuizSessionLevelQuestion(
+                    level: $level,
+                    question: $question->getQuestion(),
+                    answer: $question->getAnswer(),
+                    wrongAnswer1: $question->getWrongAnswer1(),
+                    wrongAnswer2: $question->getWrongAnswer2(),
+                    wrongAnswer3: $question->getWrongAnswer3(),
+                ));
         }
 
+        $result = new ArrayCollection();
         $result->add($level);
 
         return $result;

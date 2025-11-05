@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Core\QuizSession\Service\SessionFactory;
 
 use App\Core\Quiz\Model\Quiz;
+use App\Core\Quiz\Model\QuizQuestion;
 use App\Core\QuizSession\Model\GameStyle;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionLevel;
+use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 use App\Core\QuizSession\Model\QuizSessionSettings;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\User\Model\User;
@@ -55,6 +57,16 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
                     quizSession: $session,
                     level: $levelNumber,
                 );
+                foreach (CollectionUtil::sliceFromStart($allQuestions, $count) as $question) {
+                    $level->addRemainingQuestion(new QuizSessionLevelQuestion(
+                        level: $level,
+                        question: $question->getQuestion(),
+                        answer: $question->getAnswer(),
+                        wrongAnswer1: $question->getWrongAnswer1(),
+                        wrongAnswer2: $question->getWrongAnswer2(),
+                        wrongAnswer3: $question->getWrongAnswer3(),
+                    ));
+                }
                 $level->setRemainingQuestions(CollectionUtil::sliceFromStart($allQuestions, $count));
                 $levelNumber++;
             }

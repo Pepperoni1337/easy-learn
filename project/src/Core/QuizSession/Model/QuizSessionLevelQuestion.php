@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Core\Quiz\Model;
+namespace App\Core\QuizSession\Model;
 
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
@@ -11,20 +11,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-class QuizQuestion implements Entity
+class QuizSessionLevelQuestion implements Entity
 {
     use EntityTrait;
 
-    public const QUIZ = 'quiz';
+    public const LEVEL = 'level';
     public const QUESTION = 'question';
     public const ANSWER = 'answer';
     public const WRONG_ANSWER_1 = 'wrongAnswer1';
     public const WRONG_ANSWER_2 = 'wrongAnswer2';
     public const WRONG_ANSWER_3 = 'wrongAnswer3';
 
-    #[ORM\ManyToOne(targetEntity: Quiz::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: QuizSessionLevel::class, cascade: ['persist', 'remove'])]
     #[Assert\NotBlank]
-    private Quiz $quiz;
+    private QuizSessionLevel $level;
 
     #[ORM\Column]
     #[Assert\NotBlank]
@@ -47,7 +47,7 @@ class QuizQuestion implements Entity
     private string $wrongAnswer3;
 
     public function __construct(
-        Quiz $quiz,
+        QuizSessionLevel $level,
         string $question,
         string $answer,
         string $wrongAnswer1,
@@ -55,7 +55,7 @@ class QuizQuestion implements Entity
         string $wrongAnswer3,
     ) {
         $this->id = Id::new();
-        $this->quiz = $quiz;
+        $this->level = $level;
         $this->question = $question;
         $this->answer = $answer;
         $this->wrongAnswer1 = $wrongAnswer1;
@@ -63,9 +63,9 @@ class QuizQuestion implements Entity
         $this->wrongAnswer3 = $wrongAnswer3;
     }
 
-    public function getQuiz(): Quiz
+    public function getLevel(): QuizSessionLevel
     {
-        return $this->quiz;
+        return $this->level;
     }
 
     public function getQuestion(): string

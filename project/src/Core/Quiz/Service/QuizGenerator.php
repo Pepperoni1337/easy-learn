@@ -40,10 +40,10 @@ final class QuizGenerator
                 quiz: $quiz,
                 question: $questionDto->question,
                 answer: $questionDto->answer,
+                wrongAnswer1: $questionDto->wrongAnswer1,
+                wrongAnswer2: $questionDto->wrongAnswer2,
+                wrongAnswer3: $questionDto->wrongAnswer3,
             );
-            $quizQuestion->setWrongAnswer1($questionDto->wrongAnswer1);
-            $quizQuestion->setWrongAnswer2($questionDto->wrongAnswer2);
-            $quizQuestion->setWrongAnswer3($questionDto->wrongAnswer3);
             $quiz->addQuestion($quizQuestion);
         }
 

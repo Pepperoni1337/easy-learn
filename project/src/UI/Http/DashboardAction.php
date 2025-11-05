@@ -44,19 +44,21 @@ final class DashboardAction extends AbstractController
 
         $finishedQuizSessionsOutput = array_map(
             static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
-            $this->getRepository(QuizSession::class)->findBy([
+            $this->getRepository(QuizSession::class)->findBy(
+                [
                 QuizSession::STATUS => QuizSessionStatus::FINISHED,
-            ],
+                ],
                 [QuizSession::CREATED_AT => 'DESC'],
             )
         );
 
         $quizSessionsInProgressOutput = array_map(
             static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
-            $this->getRepository(QuizSession::class)->findBy([
+            $this->getRepository(QuizSession::class)->findBy(
+                [
                 QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
-            ],
-            [QuizSession::CREATED_AT => 'DESC'],
+                ],
+                [QuizSession::CREATED_AT => 'DESC'],
             )
         );
 

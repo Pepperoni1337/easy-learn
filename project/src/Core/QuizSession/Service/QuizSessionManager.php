@@ -33,22 +33,15 @@ final class QuizSessionManager
 
         $levelFinished = $currentLevel->isFinished();
 
-        $lastLevelNumber = $currentLevel->getLevel();
+        $progress = $session->getProgress();
 
         if ($levelFinished) {
+            $progress->increaseScore(100);
+            $progress->increaseCurrentLevel();
             $session->removeRemainingLevel($currentLevel);
         }
 
         $finished = $session->getCurrentLevel() === null;
-
-        $progress = $session->getProgress();
-        if ($levelResult->isCorrect) {
-            $progress->increaseScore(100);
-        }
-
-        if ($levelFinished) {
-            $progress->increaseCurrentLevel();
-        }
 
         if ($finished) {
             $session->setStatus(QuizSessionStatus::FINISHED);
@@ -66,7 +59,7 @@ final class QuizSessionManager
             isCorrect: $levelResult->isCorrect,
             correctAnswer: $levelResult->correctAnswer,
             isLevelFinished: $levelFinished,
-            lastLevelNumber: $lastLevelNumber,
+            lastLevelNumber: $currentLevel->getLevel(),
             isQuizFinished: $finished,
         );
     }

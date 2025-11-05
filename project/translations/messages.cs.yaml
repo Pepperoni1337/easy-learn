@@ -22,6 +22,8 @@ page.getQuestion.numberOfAnsweredQuestions: 'Uhodnuto'
 page.getQuestion.score: 'Skóre'
 page.getQuestion.currentStreak: 'Nejlepší řada'
 
+page.results.title: 'Výsledky'
+
 section:
   available_quizzes: 'Dostupné kvízy'
   sessions_in_progress: 'Rozpracované relace'

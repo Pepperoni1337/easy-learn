@@ -30,19 +30,14 @@ final class OpenAiQuestionGenerator implements QuestionGenerator
             '/v1/responses',
             [
                 'json' => [
-                    'model' => 'gpt-5-nano', // nebo robustnější model, pokud chcete
-                    'instructions' => implode("\n", [
-                        'Return the result only by calling the qa_list tool. Do not output any free text.',
-                        'For each item, produce one correct answer and three plausible wrong answers.',
-                        'Wrong answers must be distinct, concise, and not contain the correct answer as a substring.',
-                    ]),
+                    'model' => 'gpt-5',
                     'input' => $prompt,
 
-                    // Definice toolu se STRICT schématem včetně distraktorů
+                    // Definice toolu se STRICT schématem
                     'tools' => [[
                         'type' => 'function',
                         'name' => 'qa_list',
-                        'description' => 'Generate a list of Q&A items with three distractors for each.',
+                        'description' => 'Generate a list of Q&A items with three wrong answers as distractors for each.',
                         'parameters' => [
                             'type' => 'object',
                             'properties' => [

@@ -15,6 +15,7 @@ final class QuizOutput
         public readonly string $description,
         public readonly string $shareToken,
         public readonly int $numberOfQuestions,
+        public readonly ?float $avgRating = null,
     ) {
     }
 
@@ -26,6 +27,7 @@ final class QuizOutput
             $quiz->getDescription(),
             $quiz->getShareToken(),
             $quiz->getQuestions()->count(),
+            $quiz->getAvgRating(),
         );
     }
 }

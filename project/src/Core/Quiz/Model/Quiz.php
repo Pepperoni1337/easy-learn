@@ -11,6 +11,7 @@ use App\Core\User\Model\User;
 use App\Util\RandomUtil;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -42,6 +43,9 @@ class Quiz implements Entity
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(onDelete: 'SET NULL')]
     private ?User $createdBy;
+
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
+    private ?float $avgRating = null;
 
     public function __construct(
         string $title,
@@ -106,5 +110,15 @@ class Quiz implements Entity
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
+    }
+
+    public function getAvgRating(): ?float
+    {
+        return $this->avgRating;
+    }
+
+    public function setAvgRating(?float $avgRating): void
+    {
+        $this->avgRating = $avgRating;
     }
 }

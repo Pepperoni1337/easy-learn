@@ -67,19 +67,10 @@ final class SnowballQuizSessionFactory implements QuizSessionFactory
                         wrongAnswer3: $question->getWrongAnswer3(),
                     ));
                 }
-                $level->setRemainingQuestions(CollectionUtil::sliceFromStart($allQuestions, $count));
+                $result->add($level);
                 $levelNumber++;
             }
         }
-
-        $level = new QuizSessionLevel(
-            quizSession: $session,
-            level: $levelNumber,
-        );
-
-        $level->setRemainingQuestions($allQuestions);
-
-        $result->add($level);
 
         return $result;
     }

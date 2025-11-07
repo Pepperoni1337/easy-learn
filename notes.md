@@ -16,7 +16,7 @@ Hodnoceni kvizu
 nejlepsi kvizy posilat zpet do promptu?
 
 
-nejlepší by asi bylo logiku kvizu předělat na eventy
+nejlepší by asi bylo logiku kvizu předělat na eventy?
 
 tagy na kvizech (kategorie)
 

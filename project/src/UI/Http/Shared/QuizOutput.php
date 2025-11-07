@@ -6,6 +6,7 @@ namespace App\UI\Http\Shared;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Shared\Model\Id;
+use App\Core\User\Model\User;
 
 final class QuizOutput
 {
@@ -15,7 +16,8 @@ final class QuizOutput
         public readonly string $description,
         public readonly string $shareToken,
         public readonly int $numberOfQuestions,
-        public readonly ?float $avgRating = null,
+        public readonly ?User $createdBy,
+        public readonly ?float $avgRating,
     ) {
     }
 
@@ -27,6 +29,7 @@ final class QuizOutput
             $quiz->getDescription(),
             $quiz->getShareToken(),
             $quiz->getQuestions()->count(),
+            $quiz->getCreatedBy(),
             $quiz->getAvgRating(),
         );
     }

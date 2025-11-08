@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\User\Event;
 
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use App\Core\Shared\Event\SyncEventHandler;
 
-#[AsMessageHandler(fromTransport: 'sync')]
-final class TestHandler
+final class TestHandler implements SyncEventHandler
 {
     public function __invoke(UserCreated $event): void
     {

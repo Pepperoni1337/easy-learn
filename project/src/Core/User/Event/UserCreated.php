@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core\User\Event;
 
-use App\Core\Shared\Model\Event;
+use App\Core\Shared\Event\Event;
 
 final class UserCreated implements Event
 {

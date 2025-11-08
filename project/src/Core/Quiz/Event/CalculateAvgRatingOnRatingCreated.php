@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Core\Quiz\Event;
 
 use App\Core\Quiz\Model\QuizRating;
+use App\Core\Shared\Event\SyncEventHandler;
 use App\Core\Shared\Traits\WithEntityManager;
-use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler(fromTransport: 'sync')]
-final class CalculateAvgRatingOnRatingCreated
+final class CalculateAvgRatingOnRatingCreated implements SyncEventHandler
 {
     use WithEntityManager;
 

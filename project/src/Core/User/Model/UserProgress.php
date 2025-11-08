@@ -19,6 +19,7 @@ final class UserProgress implements Entity
     public const SCORE = 'score';
     public const LEVEL = 'level';
     public const NUMBER_OF_FINISHED_SESSIONS = 'number_of_finished_sessions';
+    public const NUMBER_OF_CORRECT_ANSWERS = 'number_of_correct_answers';
 
     #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]

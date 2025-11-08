@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Http;
 
 use App\Core\Quiz\Model\Quiz;
+use App\Core\Quiz\Query\FindAvailableQuizzes;
 use App\Core\Quiz\Query\FindMyQuizzes;
 use App\Core\QuizSession\Model\QuizSession;
 use App\Core\QuizSession\Model\QuizSessionStatus;
@@ -40,10 +41,7 @@ final class DashboardAction extends AbstractController
 
         $availableQuizzesOutput = array_map(
             static fn (Quiz $quiz) => QuizOutput::fromQuiz($quiz),
-            $this->getRepository(Quiz::class)->findBy(
-                [],
-                [QuizSession::ID => 'DESC'],
-            )
+            $this->query(new FindAvailableQuizzes(100)),
         );
 
         $finishedQuizSessionsOutput = array_map(

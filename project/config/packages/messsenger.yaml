@@ -1,14 +1,31 @@
+# config/packages/messenger.yaml
 framework:
   messenger:
     transports:
+      sync: 'sync://'
+
       async:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           table_name: messenger_messages
           queue_name: default
+
       failed:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           table_name: messenger_messages
           queue_name: failed
+
     failure_transport: failed
+
+    default_bus: query.bus
+
+    buses:
+      query.bus:
+        default_middleware: allow_no_handlers
+
+      event.bus:
+        default_middleware: allow_no_handlers
+
+    routing:
+      App\Core\Shared\Event\Event: [sync, async]

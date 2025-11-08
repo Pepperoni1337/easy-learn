@@ -21,3 +21,6 @@ nejlepší by asi bylo logiku kvizu předělat na eventy?
 tagy na kvizech (kategorie)
 
 hodnoceni kvizů
+
+
+zpusob prijimani prachu pres nejaky donate, kdyby byl drahy provoz?

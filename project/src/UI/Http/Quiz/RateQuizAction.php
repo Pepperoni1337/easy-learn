@@ -14,14 +14,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-
 #[Route('/quiz/{quiz}/rate', name: 'app_quiz_rate', methods: ['POST'])]
 final class RateQuizAction extends AbstractController
 {
     use WithEntityManager;
     use WithEventDispatcher;
 
-    public function __invoke(Quiz $quiz, Request $request): Response {
+    public function __invoke(Quiz $quiz, Request $request): Response
+    {
 
         $rating = $request->request->get('rating');
 

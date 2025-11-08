@@ -5,22 +5,22 @@ declare(strict_types=1);
 namespace App\Core\Shared\Traits;
 
 use App\Core\Shared\Query\Query;
-use Symfony\Component\Messenger\MessageBusInterface;
+use App\Core\Shared\Query\QueryBus;
 use Symfony\Contracts\Service\Attribute\Required;
 
 trait WithQueryBus
 {
-    private MessageBusInterface $queryBus;
+    private QueryBus $queryBus;
 
     #[Required]
     public function setQueryBus(
-        MessageBusInterface $queryBus,
+        QueryBus $queryBus,
     ): void {
         $this->queryBus = $queryBus;
     }
 
     public function query(Query $query): mixed
     {
-        return $this->queryBus->dispatch($query);
+        return $this->queryBus->ask($query);
     }
 }

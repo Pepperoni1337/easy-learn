@@ -12,5 +12,4 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 )]
 interface AsyncEventHandler
 {
-
 }

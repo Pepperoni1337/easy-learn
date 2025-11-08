@@ -22,7 +22,7 @@ final class TestAction extends AbstractController
     {
         $test = $this->query(new GetUser('asdda'));
 
-        dump($test);
+        dump($test); // nefunguje, je potreba opravit
 
         $this->dispatch(new UserCreated(3));
     }

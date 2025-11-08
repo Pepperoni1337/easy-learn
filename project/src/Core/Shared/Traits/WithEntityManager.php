@@ -11,7 +11,7 @@ trait WithEntityManager
     private EntityManagerInterface $entityManager;
 
     #[Required]
-    public function setQueryBus(
+    public function setEntityManager(
         EntityManagerInterface $entityManager,
     ): void {
         $this->entityManager = $entityManager;

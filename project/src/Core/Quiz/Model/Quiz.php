@@ -9,6 +9,8 @@ use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
 use App\Core\User\Model\User;
 use App\Util\RandomUtil;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -24,6 +26,8 @@ class Quiz implements Entity
     public const QUESTIONS = 'questions';
     public const SHARE_TOKEN = 'shareToken';
     public const CREATED_BY = 'createdBy';
+    public const AVG_RATING = 'avgRating';
+    public const CREATED_AT = 'createdAt';
 
     #[ORM\Column]
     private string $title;
@@ -47,6 +51,9 @@ class Quiz implements Entity
     #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $avgRating = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private DateTimeInterface $createdAt;
+
     public function __construct(
         string $title,
         string $description,
@@ -58,6 +65,7 @@ class Quiz implements Entity
         $this->questions = new ArrayCollection();
         $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
         $this->createdBy = $createdBy;
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getTitle(): string
@@ -120,5 +128,15 @@ class Quiz implements Entity
     public function setAvgRating(?float $avgRating): void
     {
         $this->avgRating = $avgRating;
+    }
+
+    public function getCreatedAt(): DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 }

@@ -112,6 +112,52 @@
         {% endfor %}
     </div>
 
+    <!-- Discover Quizzes Section -->
+    <h3 class="section-header mt-5">
+        <i class="bi bi-search me-2"></i>{{ 'page.dashboard.discoverQuizzes'|trans }}
+    </h3>
+    <div class="row">
+        {% for quiz in mostPlayedQuizzes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ quiz.title }}</h4>
+                        <p class="card-text">{{ quiz.description }}</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <i class="bi bi-question-circle me-1"></i>{{ 'page.dashboard.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}
+                            </small>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'simple'}) }}" class="btn btn-success btn-sm">
+                                <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuizSimple'|trans }}
+                            </a>
+                            <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'snowball'}) }}" class="btn btn-success btn-sm">
+                                <i class="bi bi-play-fill me-1"></i>{{ 'page.dashboard.startQuiz'|trans }}
+                            </a>
+                            <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-info-circle me-1"></i>{{ 'page.dashboard.quiz.detailLink'|trans }}
+                            </a>
+                        </div>
+                        <div class="mt-2">
+                            <small class="text-muted">
+                                <i class="bi bi-share me-1"></i>{{ 'page.dashboard.quiz.shareLink'|trans }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>No quizzes available for discovery at the moment.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
     <!-- Quiz Sessions In Progress Section -->
     <h3 class="section-header mt-5">
         <i class="bi bi-hourglass-split me-2"></i>{{ 'page.dashboard.quizSessionsInProgress'|trans }}

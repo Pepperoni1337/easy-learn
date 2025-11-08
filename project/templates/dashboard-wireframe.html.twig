@@ -29,6 +29,44 @@
 
     {% endfor %}<br>
 
+    {{ 'page.dashboard.mostPlayedQuizzes'|trans }}<br><br>
+
+    {% for quiz in mostPlayedQuizzes %}
+        {{ quiz.title }}<br>
+        {{ quiz.description }}<br>
+        {{ 'page.dashboard.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}<br>
+        {{ 'page.dashboard.quiz.shareLink'|trans }}<br>
+        <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'simple'}) }}">
+            {{ 'page.dashboard.startQuizSimple'|trans }}
+        </a> <br><br>
+        <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'snowball'}) }}">
+            {{ 'page.dashboard.startQuiz'|trans }}
+        </a> <br><br>
+        <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}">
+            {{ 'page.dashboard.quiz.detailLink'|trans }}
+        </a> <br><br>
+
+    {% endfor %}<br>
+
+    {{ 'page.dashboard.bestRatedQuizzes'|trans }}<br><br>
+
+    {% for quiz in bestRatedQuizzes %}
+        {{ quiz.title }}<br>
+        {{ quiz.description }}<br>
+        {{ 'page.dashboard.quiz.numberOfQuestions'|trans }}: {{ quiz.numberOfQuestions }}<br>
+        {{ 'page.dashboard.quiz.shareLink'|trans }}<br>
+        <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'simple'}) }}">
+            {{ 'page.dashboard.startQuizSimple'|trans }}
+        </a> <br><br>
+        <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'snowball'}) }}">
+            {{ 'page.dashboard.startQuiz'|trans }}
+        </a> <br><br>
+        <a href="{{ path('app_quiz_detail', {quiz: quiz.id}) }}">
+            {{ 'page.dashboard.quiz.detailLink'|trans }}
+        </a> <br><br>
+
+    {% endfor %}<br>
+
 {{ 'page.dashboard.discoverQuizzes'|trans }}<br><br>
 
     {% for quiz in availableQuizzes %}

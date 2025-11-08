@@ -6,6 +6,7 @@ namespace App\UI\Http;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Query\FindAvailableQuizzes;
+use App\Core\Quiz\Query\FindBestRatedQuizzes;
 use App\Core\Quiz\Query\FindMostPlayedQuizzes;
 use App\Core\Quiz\Query\FindMyQuizzes;
 use App\Core\QuizSession\Model\QuizSession;
@@ -63,6 +64,11 @@ final class DashboardAction extends AbstractController
             $this->query(new FindMostPlayedQuizzes(100)),
         );
 
+        $bestRatedQuizzesOutput = array_map(
+            static fn (Quiz $quiz) => QuizOutput::fromQuiz($quiz),
+            $this->query(new FindBestRatedQuizzes(100)),
+        );
+
         return $this->render(
             'dashboard.html.twig',
             [
@@ -72,6 +78,7 @@ final class DashboardAction extends AbstractController
                 'quizSessionsInProgress' => $quizSessionsInProgressOutput, //gameInProgress
                 'availableQuizzes' => $availableQuizzesOutput,
                 'mostPlayedQuizzes' => $mostPlayedQuizzesOutput,
+                'bestRatedQuizzes' => $bestRatedQuizzesOutput,
             ]
         );
     }

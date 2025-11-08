@@ -33,17 +33,22 @@ final class UserProgress implements Entity
     #[ORM\Column(type: Types::INTEGER)]
     private int $numberOfFinishedSessions;
 
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $numberOfCorrectAnswers;
+
     public function __construct(
         User $user,
         int $score = 0,
         int $level = 0,
         int $numberOfFinishedSessions = 0,
+        int $numberOfCorrectAnswers = 0,
     ) {
         $this->id = Id::new();
         $this->user = $user;
         $this->score = $score;
         $this->level = $level;
         $this->numberOfFinishedSessions = $numberOfFinishedSessions;
+        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
     }
 
     public function getUser(): User
@@ -84,5 +89,15 @@ final class UserProgress implements Entity
     public function setNumberOfFinishedSessions(int $numberOfFinishedSessions): void
     {
         $this->numberOfFinishedSessions = $numberOfFinishedSessions;
+    }
+
+    public function getNumberOfCorrectAnswers(): int
+    {
+        return $this->numberOfCorrectAnswers;
+    }
+
+    public function setNumberOfCorrectAnswers(int $numberOfCorrectAnswers): void
+    {
+        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
     }
 }

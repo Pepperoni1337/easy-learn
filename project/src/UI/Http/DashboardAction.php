@@ -8,7 +8,8 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Query\FindAvailableQuizzes;
 use App\Core\Quiz\Query\FindMyQuizzes;
 use App\Core\QuizSession\Model\QuizSession;
-use App\Core\QuizSession\Model\QuizSessionStatus;
+use App\Core\QuizSession\Query\FindFinishedQuizSessions;
+use App\Core\QuizSession\Query\FindQuizSessionsInProgress;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\Shared\Traits\WithQueryBus;
 use App\Core\User\Model\User;
@@ -46,22 +47,12 @@ final class DashboardAction extends AbstractController
 
         $finishedQuizSessionsOutput = array_map(
             static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
-            $this->getRepository(QuizSession::class)->findBy(
-                [
-                QuizSession::STATUS => QuizSessionStatus::FINISHED,
-                ],
-                [QuizSession::CREATED_AT => 'DESC'],
-            )
+            $this->query(new FindFinishedQuizSessions(100)),
         );
 
         $quizSessionsInProgressOutput = array_map(
             static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
-            $this->getRepository(QuizSession::class)->findBy(
-                [
-                QuizSession::STATUS => QuizSessionStatus::IN_PROGRESS,
-                ],
-                [QuizSession::CREATED_AT => 'DESC'],
-            )
+            $this->query(new FindQuizSessionsInProgress(100)),
         );
 
         return $this->render(

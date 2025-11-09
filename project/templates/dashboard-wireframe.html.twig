@@ -110,6 +110,11 @@
         <a href="{{ path('app_quiz_session_start', {'quiz': quiz.id, 'style': 'snowball'}) }}">
             {{ 'page.dashboard.startQuiz'|trans }}
         </a> <br><br>
+        {% if quizSession.result is not null %}
+            <a href="{{ path('app_quiz_session_results', {quizSession: quizSession.id}) }}">
+                <i class=""></i>{{ 'page.dashboard.results'|trans }}
+            </a>
+        {% endif %}
     {% endfor %}<br>
 
 {% endblock %}

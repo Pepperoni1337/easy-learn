@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\UI\Http\QuizSession;
 
 use App\Core\QuizSession\Model\QuizSession;
+use App\Core\User\Model\User;
 use App\UI\Http\Shared\QuestionOutput;
 use App\UI\Http\Shared\QuizSessionLevelOutput;
 use App\UI\Http\Shared\QuizSessionOutput;
+use App\UI\Http\Shared\UserOutput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,9 +18,16 @@ final class GetQuestionAction extends AbstractController
 {
     public function __invoke(QuizSession $quizSession)
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User is not logged in.');
+        }
+
         return $this->render(
             'quiz-session/get-question.html.twig',
             [
+                'user' => UserOutput::fromUser($user),
                 'question' => QuestionOutput::fromQuestion($quizSession->getCurrentQuestion()),
                 'level' => QuizSessionLevelOutput::fromQuizSessionLevel($quizSession->getCurrentLevel()),
                 'quizSession' => QuizSessionOutput::fromQuizSession($quizSession),

@@ -9,6 +9,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\Quiz\Model\QuizRating;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\Shared\Traits\WithEventDispatcher;
+use App\Core\User\Model\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +23,18 @@ final class RateQuizAction extends AbstractController
 
     public function __invoke(Quiz $quiz, Request $request): Response
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User is not logged in.');
+        }
 
         $rating = $request->request->get('rating');
 
         if ($rating !== null) {
             $userRating = new QuizRating(
                 quiz: $quiz,
-                user: $this->getUser(),
+                user: $user,
                 rating: (int)$rating
             );
 

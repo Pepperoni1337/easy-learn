@@ -6,7 +6,9 @@ namespace App\UI\Http\Quiz;
 
 use App\Core\Quiz\Model\Quiz;
 use App\Core\Shared\Traits\WithEntityManager;
+use App\Core\User\Model\User;
 use App\UI\Http\Shared\QuizOutput;
+use App\UI\Http\Shared\UserOutput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,7 +20,14 @@ final class DetailAction extends AbstractController
 
     public function __invoke(Quiz $quiz): Response
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User is not logged in.');
+        }
+
         return $this->render('quiz/detail.html.twig', [
+            'user' => UserOutput::fromUser($user),
             'quiz' => QuizOutput::fromQuiz($quiz),
         ]);
     }

@@ -7,6 +7,7 @@ namespace App\UI\Http\Quiz;
 use App\Core\Quiz\Service\QuizGenerator;
 use App\Core\Shared\Traits\WithEntityManager;
 use App\Core\User\Model\User;
+use App\UI\Http\Shared\UserOutput;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,18 +25,18 @@ final class CreateQuizAction extends AbstractController
 
     public function __invoke(Request $request): Response
     {
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \RuntimeException('User is not logged in.');
+        }
+
         $form = $this->createForm(QuizType::class, new QuizDto());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var QuizDto $quizDto */
             $quizDto = $form->getData();
-
-            $user = $this->getUser();
-
-            if (!$user instanceof User) {
-                throw new \RuntimeException('User is not logged in.');
-            }
 
             $quiz = $this->quizGenerator->generateQuiz($user, $quizDto);
 
@@ -46,6 +47,7 @@ final class CreateQuizAction extends AbstractController
         }
 
         return $this->render('quiz/create.html.twig', [
+            'user' => UserOutput::fromUser($user),
             'form' => $form->createView(),
         ]);
     }

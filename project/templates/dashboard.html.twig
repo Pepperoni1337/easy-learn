@@ -270,6 +270,11 @@
                         {{ 'page.dashboard.startQuiz'|trans }}
                     </a>
                 </div>
+                {% if quizSession.result is not null %}
+                    <a href="{{ path('app_quiz_session_results', {quizSession: quizSession.id}) }}" class="btn btn-outline-success btn-sm">
+                        <i class=""></i>{{ 'page.dashboard.results'|trans }}
+                    </a>
+                {% endif %}
             </div>
         </div>
         {% endfor %}

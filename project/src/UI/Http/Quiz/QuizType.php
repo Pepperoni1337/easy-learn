@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Http\Quiz;
 
+use App\Core\Quiz\Model\Difficulty;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -33,6 +34,11 @@ final class QuizType extends AbstractType
                 'label' => 'Quiz Size',
                 'class' => QuizSize::class,
                 'choices' => QuizSize::cases(),
+            ])
+            ->add('difficulty', EnumType::class, [
+                'label' => 'Quiz Difficulty',
+                'class' => Difficulty::class,
+                'choices' => Difficulty::cases(),
             ]);
     }
 

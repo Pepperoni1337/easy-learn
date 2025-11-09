@@ -57,6 +57,19 @@
                         </small>
                     </div>
 
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-bar-chart-fill text-primary me-2"></i>
+                            {{ form_label(form.difficulty, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        </div>
+                        {{ form_widget(form.difficulty, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                        {{ form_errors(form.difficulty, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        <small class="form-text text-muted mt-2">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Choose the difficulty level: Easy, Medium, or Hard. This affects the complexity of the generated questions.
+                        </small>
+                    </div>
+
                     <div class="d-grid gap-2 mt-5">
                         <button type="submit" class="btn btn-primary btn-lg py-3">
                             <i class="bi bi-plus-circle-fill me-2"></i>Create Quiz

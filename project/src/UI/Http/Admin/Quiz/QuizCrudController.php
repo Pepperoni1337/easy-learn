@@ -2,6 +2,7 @@
 
 namespace App\UI\Http\Admin\Quiz;
 
+use App\Core\Quiz\Model\Difficulty;
 use App\Core\Quiz\Model\Quiz;
 use App\Core\User\Model\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -30,6 +31,7 @@ class QuizCrudController extends AbstractCrudController
             '',
             '',
             $user,
+            Difficulty::Medium,
         );
     }
 

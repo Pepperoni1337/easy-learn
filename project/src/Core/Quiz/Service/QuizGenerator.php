@@ -25,6 +25,7 @@ final class QuizGenerator
             title: $quizDto->name,
             description: $quizDto->prompt,
             createdBy: $user,
+            difficulty: $quizDto->difficulty,
         );
 
         $size = $quizDto->size;

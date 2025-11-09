@@ -28,6 +28,7 @@ class Quiz implements Entity
     public const CREATED_BY = 'createdBy';
     public const AVG_RATING = 'avgRating';
     public const CREATED_AT = 'createdAt';
+    public const DIFFICULTY = 'difficulty';
 
     #[ORM\Column]
     private string $title;
@@ -54,10 +55,14 @@ class Quiz implements Entity
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private DateTimeInterface $createdAt;
 
+    #[ORM\Column(type: Types::STRING, enumType: Difficulty::class, options: ['default' => Difficulty::Medium])]
+    private Difficulty $difficulty;
+
     public function __construct(
         string $title,
         string $description,
         User $createdBy,
+        Difficulty $difficulty,
     ) {
         $this->id = Id::new();
         $this->title = $title;
@@ -66,6 +71,7 @@ class Quiz implements Entity
         $this->shareToken = RandomUtil::generateShareToken($this->id->toString());
         $this->createdBy = $createdBy;
         $this->createdAt = new DateTimeImmutable();
+        $this->difficulty = $difficulty;
     }
 
     public function getTitle(): string
@@ -138,5 +144,15 @@ class Quiz implements Entity
     public function setCreatedAt(DateTimeInterface $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    public function getDifficulty(): Difficulty
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(Difficulty $difficulty): void
+    {
+        $this->difficulty = $difficulty;
     }
 }

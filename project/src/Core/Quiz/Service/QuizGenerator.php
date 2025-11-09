@@ -31,7 +31,7 @@ final class QuizGenerator
         $size = $quizDto->size;
 
         $questions = $this->generator->generateQuestions(
-            $this->promptService->createPrompt($quizDto->prompt),
+            $this->promptService->createPrompt($quizDto->prompt, $quizDto->difficulty),
             $size->getMin(),
             $size->getMax(),
         );

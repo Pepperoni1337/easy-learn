@@ -22,6 +22,7 @@ final class RegisterAction extends AbstractController
         if ($request->isMethod('POST')) {
             $email = $request->request->get('email');
             $plainPassword = $request->request->get('password');
+            $nickname = $request->request->get('nickname');
 
             // Check if user already exists
             $existingUser = $this->getRepository(User::class)->findOneBy(['email' => $email]);
@@ -33,7 +34,8 @@ final class RegisterAction extends AbstractController
             // Create new user
             $user = new User(
                 email: $email,
-                password: ''
+                nickname: $nickname,
+                password: '',
             );
 
             // Hash the password

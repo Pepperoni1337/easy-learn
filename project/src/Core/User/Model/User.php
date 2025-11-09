@@ -28,10 +28,14 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles;
 
-    public function __construct(string $email, string $password)
-    {
+    public function __construct(
+        string $email,
+        string $nickname,
+        string $password
+    ) {
         $this->id = Id::new();
         $this->email = $email;
+        $this->nickname = $nickname;
         $this->password = $password;
         $this->roles = ['ROLE_USER'];
     }

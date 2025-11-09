@@ -25,7 +25,7 @@ class QuizSession implements Entity
     use TimeStampsTrait;
 
     public const QUIZ = 'quiz';
-    public const OWNER = 'owner';
+    public const PLAYER = 'player';
     public const STATUS = 'status';
     public const REMAINING_LEVELS = 'remainingLevels';
     public const NUMBER_OF_LEVELS_AT_START = 'numberOfLevelsAtStart';

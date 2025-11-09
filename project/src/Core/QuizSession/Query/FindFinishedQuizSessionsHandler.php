@@ -26,12 +26,14 @@ final class FindFinishedQuizSessionsHandler implements QueryHandler
             'SELECT qs ',
             'FROM ' . QuizSession::class . ' qs ',
             'WHERE qs.' . QuizSession::STATUS . ' = :status ',
+            'AND qs.' . QuizSession::PLAYER . ' = :user ',
             'ORDER BY qs.' . QuizSession::CREATED_AT . ' DESC ',
         );
 
         /** @var QuizSession[] $result */
         $result = $this->entityManager->createQuery($dql)
             ->setParameter('status', QuizSessionStatus::FINISHED)
+            ->setParameter('user', $query->user->getId())
             ->setMaxResults($limit)
             ->getResult();
 

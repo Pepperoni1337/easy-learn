@@ -98,9 +98,9 @@
         </a> <br><br>
     {% endfor %}<br>
 
-{{ 'page.dashboard.finishedQuizSessions'|trans }}<br><br>
+{{ 'page.dashboard.myFinishedQuizSessions'|trans }}<br><br>
 
-    {% for quizSession in finishedQuizSessions %}
+    {% for quizSession in myFinishedQuizSessions %}
         {% set quiz = quizSession.quiz %}
         {{ quiz.title }}<br>
         - {{ quiz.description }}<br>

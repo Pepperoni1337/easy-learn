@@ -248,10 +248,10 @@
     <div class="col-md-6 col-lg-4">
         <h2 class="section-header">
             <i class="bi bi-check-circle me-2"></i>
-            {{ 'page.dashboard.finishedQuizSessions'|trans }}
+            {{ 'page.dashboard.myFinishedQuizSessions'|trans }}
         </h2>
 
-        {% for quizSession in finishedQuizSessions %}
+        {% for quizSession in myFinishedQuizSessions %}
         {% set quiz = quizSession.quiz %}
         <div class="card mb-3 border-success">
             <div class="card-body">

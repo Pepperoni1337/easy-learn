@@ -54,9 +54,9 @@ final class DashboardAction extends AbstractController
             $this->query(new FindFinishedQuizSessions($user, 100)),
         );
 
-        $quizSessionsInProgressOutput = array_map(
+        $myQuizSessionsInProgressOutput = array_map(
             static fn (QuizSession $quizSession) => QuizSessionOutput::fromQuizSession($quizSession),
-            $this->query(new FindQuizSessionsInProgress(100)),
+            $this->query(new FindQuizSessionsInProgress($user, 100)),
         );
 
         $mostPlayedQuizzesOutput = array_map(
@@ -75,7 +75,7 @@ final class DashboardAction extends AbstractController
                 'user' => $userOutput,
                 'myQuizzes' => $myQuizzesOutput,
                 'myFinishedQuizSessions' => $myFinishedQuizSessionsOutput, //gameHistory
-                'quizSessionsInProgress' => $quizSessionsInProgressOutput, //gameInProgress
+                'myQuizSessionsInProgress' => $myQuizSessionsInProgressOutput, //gameInProgress
                 'availableQuizzes' => $availableQuizzesOutput,
                 'mostPlayedQuizzes' => $mostPlayedQuizzesOutput,
                 'bestRatedQuizzes' => $bestRatedQuizzesOutput,

@@ -86,9 +86,9 @@
 
     {% endfor %}<br>
 
-{{ 'page.dashboard.quizSessionsInProgress'|trans }}<br><br>
+{{ 'page.dashboard.myQuizSessionsInProgress'|trans }}<br><br>
 
-    {% for quizSession in quizSessionsInProgress %}
+    {% for quizSession in myQuizSessionsInProgress %}
         {% set quiz = quizSession.quiz %}
         {{ quiz.title }}<br>
         - {{ quiz.description }}<br>

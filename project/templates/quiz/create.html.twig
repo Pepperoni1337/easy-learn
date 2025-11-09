@@ -3,39 +3,91 @@
 {% block title %}Create New Quiz{% endblock %}
 
 {% block body %}
-<div class="container py-4">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h2 class="mb-0">Create New Quiz</h2>
-                </div>
-                <div class="card-body">
-                    {{ form_start(form) }}
-                    <div class="mb-3">
-                        {{ form_label(form.name) }}
-                        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.name) }}
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-pencil-square fs-3 me-3"></i>
+                        <h2 class="mb-0">Create New Quiz</h2>
                     </div>
-                    
-                    <div class="mb-3">
-                        {{ form_label(form.prompt) }}
-                        {{ form_widget(form.prompt, {'attr': {'class': 'form-control'}}) }}
-                        {{ form_errors(form.prompt) }}
-                        <small class="form-text text-muted">
-                            Enter a topic or prompt for generating questions.
+                </div>
+                <div class="card-body p-4">
+                    <p class="lead text-muted mb-4">
+                        Create your own quiz by providing a name and topic. Our AI will generate questions based on your input.
+                    </p>
+
+                    {{ form_start(form) }}
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-tag-fill text-primary me-2"></i>
+                            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        </div>
+                        {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Enter a descriptive name for your quiz'}}) }}
+                        {{ form_errors(form.name, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        <small class="form-text text-muted mt-1">
+                            Choose a clear, descriptive name that reflects the quiz content.
                         </small>
                     </div>
-                    
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-plus-circle me-2"></i>Create Quiz
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-lightbulb-fill text-primary me-2"></i>
+                            {{ form_label(form.prompt, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        </div>
+                        {{ form_widget(form.prompt, {'attr': {'class': 'form-control form-control-lg', 'rows': '4', 'placeholder': 'Describe the topic or subject for your quiz questions'}}) }}
+                        {{ form_errors(form.prompt, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        <small class="form-text text-muted mt-2">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Enter a detailed topic or prompt for generating questions. The more specific you are, the better the questions will be.
+                        </small>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bi bi-rulers text-primary me-2"></i>
+                            {{ form_label(form.size, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        </div>
+                        {{ form_widget(form.size, {'attr': {'class': 'form-select form-select-lg'}}) }}
+                        {{ form_errors(form.size, {'attr': {'class': 'text-danger mt-1'}}) }}
+                        <small class="form-text text-muted mt-2">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Select the size of your quiz: Small (3-5 questions), Medium (5-10 questions), or Large (10-20 questions).
+                        </small>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-5">
+                        <button type="submit" class="btn btn-primary btn-lg py-3">
+                            <i class="bi bi-plus-circle-fill me-2"></i>Create Quiz
                         </button>
                     </div>
                     {{ form_end(form) }}
+                </div>
+                <div class="card-footer bg-light p-3">
+                    <div class="d-flex align-items-center text-muted">
+                        <i class="bi bi-info-circle me-2"></i>
+                        <small>After submission, our AI will generate questions based on your topic. This may take a moment.</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .card {
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+    </style>
 {% endblock %}

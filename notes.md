@@ -24,3 +24,8 @@ hodnoceni kvizů
 
 
 zpusob prijimani prachu pres nejaky donate, kdyby byl drahy provoz?
+
+
+osetrit handlovani erroru pri vytvareni kvizu
+
+pridat validace na registracis

@@ -28,8 +28,10 @@ final class QuizSessionLevelManager
         if ($isCorrect) {
             $progress->increaseScore(10);
             $progress->increaseCurrentStreak();
+            $progress->increaseNumberOfCorrectAnswers();
         } else {
             $progress->resetCurrentStreak();
+            $progress->increaseNumberOfWrongAnswers();
         }
 
         return new LevelAnswerResult(

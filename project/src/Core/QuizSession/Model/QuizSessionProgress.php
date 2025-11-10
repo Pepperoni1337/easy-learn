@@ -15,16 +15,24 @@ class QuizSessionProgress implements Entity
 {
     use EntityTrait;
 
-    public const CURRENT_LEVEL = 'current_level';
+    public const CURRENT_LEVEL = 'currentLevel';
     public const SCORE = 'score';
-    public const CURRENT_STREAK = 'current_streak';
-    public const MAX_STREAK = 'max_streak';
+    public const NUMBER_OF_CORRECT_ANSWERS = 'numberOfCorrectAnswers';
+    public const NUMBER_OF_WRONG_ANSWERS = 'numberOfWrongAnswers';
+    public const CURRENT_STREAK = 'currentStreak';
+    public const MAX_STREAK = 'maxStreak';
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $currentLevel;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $score;
+
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $numberOfCorrectAnswers;
+
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
+    private int $numberOfWrongAnswers;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $currentStreak;
@@ -34,18 +42,22 @@ class QuizSessionProgress implements Entity
 
     public static function createEmpty(): self
     {
-        return new self(1, 0, 0, 0);
+        return new self(1);
     }
 
-    public function __construct(
+    private function __construct(
         int $currentLevel,
-        int $score,
-        int $currentStreak,
-        int $maxStreak,
+        int $score = 0,
+        int $numberOfCorrectAnswers = 0,
+        int $numberOfWrongAnswers = 0,
+        int $currentStreak = 0,
+        int $maxStreak = 0,
     ) {
         $this->id = Id::new();
         $this->currentLevel = $currentLevel;
         $this->score = $score;
+        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
+        $this->numberOfWrongAnswers = $numberOfWrongAnswers;
         $this->currentStreak = $currentStreak;
         $this->maxStreak = $maxStreak;
     }
@@ -68,6 +80,26 @@ class QuizSessionProgress implements Entity
     public function increaseScore(int $diff): void
     {
         $this->score += $diff;
+    }
+
+    public function getNumberOfCorrectAnswers(): int
+    {
+        return $this->numberOfCorrectAnswers;
+    }
+
+    public function increaseNumberOfCorrectAnswers(): void
+    {
+        $this->numberOfCorrectAnswers++;
+    }
+
+    public function getNumberOfWrongAnswers(): int
+    {
+        return $this->numberOfWrongAnswers;
+    }
+
+    public function increaseNumberOfWrongAnswers(): void
+    {
+        $this->numberOfWrongAnswers++;
     }
 
     public function getCurrentStreak(): int

@@ -13,6 +13,8 @@ final class QuizSessionProgressOutput
         public readonly Id $id,
         public readonly int $currentLevel,
         public readonly int $score,
+        public readonly int $numberOfCorrectAnswers,
+        public readonly int $numberOfWrongAnswers,
         public readonly int $currentStreak,
         public readonly int $maxStreak,
     ) {
@@ -24,6 +26,8 @@ final class QuizSessionProgressOutput
             id: $progress->getId(),
             currentLevel: $progress->getCurrentLevel(),
             score: $progress->getScore(),
+            numberOfCorrectAnswers: $progress->getNumberOfCorrectAnswers(),
+            numberOfWrongAnswers: $progress->getNumberOfWrongAnswers(),
             currentStreak: $progress->getCurrentStreak(),
             maxStreak: $progress->getMaxStreak(),
         );

@@ -15,10 +15,19 @@
                             {{ 'page.getQuestion.numberOfAnsweredQuestions'|trans }}: {{ level.currentQuestionNumber - 1}} / {{ level.numberOfQuestionsAtStart }}
                         </div>
                         <div>
+                            {{ 'page.getQuestion.numberOfCorrectAnswers'|trans }}: {{ quizSession.progress.numberOfCorrectAnswers }}
+                        </div>
+                        <div>
+                            {{ 'page.getQuestion.numberOfWrongAnswers'|trans }}: {{ quizSession.progress.numberOfWrongAnswers }}
+                        </div>
+                        <div>
                             {{ 'page.getQuestion.score'|trans }}: {{ quizSession.progress.score }}
                         </div>
                         <div>
                             {{ 'page.getQuestion.currentStreak'|trans }}: {{ quizSession.progress.currentStreak }}
+                        </div>
+                        <div>
+                            {{ 'page.getQuestion.maxStreak'|trans }}: {{ quizSession.progress.maxStreak }}
                         </div>
                     </div>
 

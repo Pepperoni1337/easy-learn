@@ -23,8 +23,11 @@ page.quiz.detail.quiz.author: 'Autor'
 
 page.getQuestion.currentLevel: 'Aktuální level'
 page.getQuestion.numberOfAnsweredQuestions: 'Uhodnuto'
+page.getQuestion.numberOfCorrectAnswers: 'Správné odpovědi'
+page.getQuestion.numberOfWrongAnswers: 'Špatné odpovědi'
 page.getQuestion.score: 'Skóre'
-page.getQuestion.currentStreak: 'Nejlepší řada'
+page.getQuestion.currentStreak: 'Aktuální řada'
+page.getQuestion.maxStreak: 'Nejlepší řada'
 
 page.results.title: 'Výsledky'
 

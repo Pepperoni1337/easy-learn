@@ -29,3 +29,10 @@ zpusob prijimani prachu pres nejaky donate, kdyby byl drahy provoz?
 osetrit handlovani erroru pri vytvareni kvizu
 
 pridat validace na registracis
+
+otestovat vyplneni vlastnich otazek
+
+nahlasovani nevhodnych kvizu?
+
+
+kazdej si muze nastavit svuj limit na to, jak dobre kvizy chce videt?

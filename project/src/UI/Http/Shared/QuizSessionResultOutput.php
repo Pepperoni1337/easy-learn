@@ -13,6 +13,7 @@ final class QuizSessionResultOutput
         public readonly float $totalTime,
         public readonly int $numberOfCorrectAnswers,
         public readonly int $numberOfWrongAnswers,
+        public readonly UserOutput $player,
     ) {
     }
 
@@ -23,6 +24,7 @@ final class QuizSessionResultOutput
             $result->getTotalTime(),
             $result->getNumberOfCorrectAnswers(),
             $result->getNumberOfWrongAnswers(),
+            UserOutput::fromUser($result->getSession()->getPlayer()),
         );
     }
 }

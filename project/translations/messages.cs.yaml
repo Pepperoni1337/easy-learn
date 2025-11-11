@@ -28,6 +28,7 @@ page.getQuestion.numberOfWrongAnswers: 'Špatné odpovědi'
 page.getQuestion.score: 'Skóre'
 page.getQuestion.currentStreak: 'Aktuální řada'
 page.getQuestion.maxStreak: 'Nejlepší řada'
+page.getQuestion.time: 'Čas'
 
 page.results.title: 'Výsledky'
 
@@ -42,6 +43,7 @@ message:
   no_finished_sessions: 'Nemáte žádné dokončené kvízové relace.'
   no_questions: 'Tento kvíz nemá žádné otázky.'
   no_sessions: 'Tento kvíz nemá žádné relace.'
+  no_results: 'Zatím žádné výsledky. Buďte první, kdo si zahraje tento kvíz!'
 
 button:
   start_quiz: 'Začít kvíz'
@@ -62,6 +64,7 @@ label:
   answer: 'Odpověď'
   created_at: 'Vytvořeno'
   score: 'Skóre'
+  user: 'Uživatel'
 
 # Test page
 test:

@@ -54,6 +54,7 @@ final class QuizSessionManager
                 totalTime: (float)$session->getFinishedAt()->format('U.u') - (float)$session->getCreatedAt()->format('U.u'),
                 numberOfCorrectAnswers: $progress->getNumberOfCorrectAnswers(),
                 numberOfWrongAnswers: $progress->getNumberOfWrongAnswers(),
+                finishedAt: $session->getFinishedAt(),
             ));
         }
 

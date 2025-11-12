@@ -8,6 +8,7 @@ use App\Core\Quiz\Model\Quiz;
 use App\Core\Shared\Model\Entity;
 use App\Core\Shared\Model\EntityTrait;
 use App\Core\Shared\Model\Id;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,6 +44,9 @@ class QuizSessionResult implements Entity
     #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $numberOfWrongAnswers;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private DateTimeImmutable $finishedAt;
+
     public function __construct(
         Quiz $quiz,
         QuizSession $session,
@@ -50,6 +54,7 @@ class QuizSessionResult implements Entity
         float $totalTime,
         int $numberOfCorrectAnswers,
         int $numberOfWrongAnswers,
+        DateTimeImmutable $finishedAt,
     ) {
         $this->id = Id::new();
         $this->quiz = $quiz;
@@ -58,6 +63,7 @@ class QuizSessionResult implements Entity
         $this->totalTime = $totalTime;
         $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
         $this->numberOfWrongAnswers = $numberOfWrongAnswers;
+        $this->finishedAt = $finishedAt;
     }
 
     public function getQuiz(): Quiz
@@ -88,5 +94,10 @@ class QuizSessionResult implements Entity
     public function getNumberOfWrongAnswers(): int
     {
         return $this->numberOfWrongAnswers;
+    }
+
+    public function getFinishedAt(): DateTimeImmutable
+    {
+        return $this->finishedAt;
     }
 }

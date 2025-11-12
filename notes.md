@@ -36,3 +36,12 @@ nahlasovani nevhodnych kvizu?
 
 
 kazdej si muze nastavit svuj limit na to, jak dobre kvizy chce videt?
+
+
+mozna v outputu casem pridat i jak moc to je vhodne pro deti, pokud ne, tak nebude verejny
+
+
+generovani barev ke kvizu?
+
+
+kazdodenni vygenerovane kvizy, ktere se hodi na facebook

@@ -46,12 +46,12 @@ final class QuizSessionManager
         if ($finished) {
             $session->setStatus(QuizSessionStatus::FINISHED);
             $session->setResult(new QuizSessionResult(
-                $session->getQuiz(),
-                $session,
-                $session->getProgress()->getScore(),
-                1.04,
-                2,
-                4,
+                quiz: $session->getQuiz(),
+                session: $session,
+                totalScore: $session->getProgress()->getScore(),
+                totalTime: 1.04,
+                numberOfCorrectAnswers: $progress->getNumberOfCorrectAnswers(),
+                numberOfWrongAnswers: $progress->getNumberOfWrongAnswers(),
             ));
         }
 

@@ -48,6 +48,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>{{ 'label.user'|trans|default('User') }}</th>
+                                            <th>{{ 'page.getQuestion.finishedAt'|trans|default('Finished At') }}</th>
                                             <th>{{ 'label.score'|trans }}</th>
                                             <th>{{ 'page.getQuestion.time'|trans|default('Time') }}</th>
                                             <th>{{ 'page.getQuestion.numberOfCorrectAnswers'|trans }}</th>
@@ -59,6 +60,7 @@
                                             <tr>
                                                 <td>{{ loop.index }}</td>
                                                 <td>{{ result.player.nickname }}</td>
+                                                <td>{{ result.finishedAt|date('Y-m-d H:i:s') }}</td>
                                                 <td>{{ result.totalScore }}</td>
                                                 <td>{{ result.totalTime|number_format(2) }}s</td>
                                                 <td>{{ result.numberOfCorrectAnswers }}</td>

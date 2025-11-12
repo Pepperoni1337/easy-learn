@@ -29,6 +29,7 @@ page.getQuestion.score: 'Skóre'
 page.getQuestion.currentStreak: 'Aktuální řada'
 page.getQuestion.maxStreak: 'Nejlepší řada'
 page.getQuestion.time: 'Čas'
+page.getQuestion.finishedAt: 'Dokončeno'
 
 page.results.title: 'Výsledky'
 

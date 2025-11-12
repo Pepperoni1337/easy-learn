@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Http\Shared;
 
 use App\Core\QuizSession\Model\QuizSessionResult;
+use DateTimeImmutable;
 
 final class QuizSessionResultOutput
 {
@@ -14,6 +15,7 @@ final class QuizSessionResultOutput
         public readonly int $numberOfCorrectAnswers,
         public readonly int $numberOfWrongAnswers,
         public readonly UserOutput $player,
+        public readonly DateTimeImmutable $finishedAt,
     ) {
     }
 
@@ -25,6 +27,7 @@ final class QuizSessionResultOutput
             $result->getNumberOfCorrectAnswers(),
             $result->getNumberOfWrongAnswers(),
             UserOutput::fromUser($result->getSession()->getPlayer()),
+            $result->getFinishedAt(),
         );
     }
 }

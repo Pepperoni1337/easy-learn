@@ -9,6 +9,7 @@ use App\Core\QuizSession\Model\QuizSessionLevelQuestion;
 use App\Core\QuizSession\Model\QuizSessionResult;
 use App\Core\QuizSession\Model\QuizSessionStatus;
 use App\Core\QuizSession\Model\SessionAnswerResult;
+use DateTimeImmutable;
 use RuntimeException;
 
 final class QuizSessionManager
@@ -39,6 +40,7 @@ final class QuizSessionManager
             $progress->increaseScore(100);
             $progress->increaseCurrentLevel();
             $session->removeRemainingLevel($currentLevel);
+            $session->setFinishedAt(new DateTimeImmutable());
         }
 
         $finished = $session->getCurrentLevel() === null;
@@ -49,7 +51,7 @@ final class QuizSessionManager
                 quiz: $session->getQuiz(),
                 session: $session,
                 totalScore: $session->getProgress()->getScore(),
-                totalTime: 1.04,
+                totalTime: (float)$session->getFinishedAt()->format('U.u') - (float)$session->getCreatedAt()->format('U.u'),
                 numberOfCorrectAnswers: $progress->getNumberOfCorrectAnswers(),
                 numberOfWrongAnswers: $progress->getNumberOfWrongAnswers(),
             ));

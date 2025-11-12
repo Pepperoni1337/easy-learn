@@ -33,6 +33,7 @@ class QuizSession implements Entity
     public const UPDATED_AT = 'updatedAt';
     public const RESULT = 'result';
     public const KEEP_WRONGLY_ANSWERED_QUESTIONS = 'keepWronglyAnsweredQuestions';
+    public const FINISHED_AT = 'finishedAt';
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     private Quiz $quiz;
@@ -57,6 +58,9 @@ class QuizSession implements Entity
 
     #[ORM\OneToOne(targetEntity: QuizSessionProgress::class, cascade: ['persist', 'remove'])]
     private QuizSessionProgress $progress;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => null])]
+    private ?DateTimeImmutable $finishedAt = null;
 
     public function __construct(
         Quiz $quiz,
@@ -180,5 +184,15 @@ class QuizSession implements Entity
     public function setProgress(QuizSessionProgress $progress): void
     {
         $this->progress = $progress;
+    }
+
+    public function getFinishedAt(): ?DateTimeImmutable
+    {
+        return $this->finishedAt;
+    }
+
+    public function setFinishedAt(?DateTimeImmutable $finishedAt): void
+    {
+        $this->finishedAt = $finishedAt;
     }
 }

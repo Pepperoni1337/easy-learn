@@ -11,19 +11,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-final class UserProgress implements Entity
+class UserProgress implements Entity
 {
     use EntityTrait;
 
-    public const USER = 'user';
     public const SCORE = 'score';
     public const LEVEL = 'level';
-    public const NUMBER_OF_FINISHED_SESSIONS = 'number_of_finished_sessions';
-    public const NUMBER_OF_CORRECT_ANSWERS = 'number_of_correct_answers';
-
-    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private User $user;
+    public const NUMBER_OF_FINISHED_SESSIONS = 'numberOfFinishedSessions';
+    public const NUMBER_OF_CREATED_QUIZZES = 'numberOfCreatedQuizzes';
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $score;
@@ -35,31 +30,19 @@ final class UserProgress implements Entity
     private int $numberOfFinishedSessions;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private int $numberOfCorrectAnswers;
+    private int $numberOfCreatedQuizzes;
 
     public function __construct(
-        User $user,
         int $score = 0,
         int $level = 0,
         int $numberOfFinishedSessions = 0,
-        int $numberOfCorrectAnswers = 0,
+        int $numberOfCreatedQuizzes = 0,
     ) {
         $this->id = Id::new();
-        $this->user = $user;
         $this->score = $score;
         $this->level = $level;
         $this->numberOfFinishedSessions = $numberOfFinishedSessions;
-        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
+        $this->numberOfCreatedQuizzes = $numberOfCreatedQuizzes;
     }
 
     public function getScore(): int
@@ -92,13 +75,13 @@ final class UserProgress implements Entity
         $this->numberOfFinishedSessions = $numberOfFinishedSessions;
     }
 
-    public function getNumberOfCorrectAnswers(): int
+    public function getNumberOfCreatedQuizzes(): int
     {
-        return $this->numberOfCorrectAnswers;
+        return $this->numberOfCreatedQuizzes;
     }
 
-    public function setNumberOfCorrectAnswers(int $numberOfCorrectAnswers): void
+    public function setNumberOfCreatedQuizzes(int $numberOfCreatedQuizzes): void
     {
-        $this->numberOfCorrectAnswers = $numberOfCorrectAnswers;
+        $this->numberOfCreatedQuizzes = $numberOfCreatedQuizzes;
     }
 }

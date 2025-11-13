@@ -25,6 +25,10 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private string $password;
 
+    #[ORM\OneToOne(targetEntity: UserProgress::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private UserProgress $progress;
+
     #[ORM\Column(type: 'json')]
     private array $roles;
 
@@ -37,6 +41,7 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
         $this->email = $email;
         $this->nickname = $nickname;
         $this->password = $password;
+        $this->progress = new UserProgress();
         $this->roles = ['ROLE_USER'];
     }
 
@@ -79,6 +84,16 @@ class User implements Entity, UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getProgress(): UserProgress
+    {
+        return $this->progress;
+    }
+
+    public function setProgress(UserProgress $progress): void
+    {
+        $this->progress = $progress;
     }
 
     public function getRoles(): array
